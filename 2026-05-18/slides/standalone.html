@@ -667,9 +667,9 @@
         </div>
       </section>
 
-      <!-- 8: 이번에 만들 변화 (NEW) -->
+      <!-- 8: 예제를 통한 실습 -->
       <section class="slide">
-        <h1>이번에 만들 변화</h1>
+        <h1>예제를 통한 실습</h1>
         <div class="mock-grid">
           <div>
             <div class="page-mock">
@@ -700,60 +700,37 @@
         </div>
       </section>
 
-      <!-- 9: HTML 시연 프롬프트 -->
+      <!-- 9: 실습 과정 -->
       <section class="slide">
-        <h1>HTML 시연: mini-status-harness</h1>
+        <h1>실습 과정: mini-status-harness</h1>
+        <div class="stage-label">AI 요청 문구</div>
         <div class="box"><pre>현재 상태 페이지에 예정 점검 배너를 추가해줘.
 운영 공지, ops audit log, HTML 결과 리포트까지 업데이트하고
 완료 전 npm run maintenance:complete를 실행해줘.</pre></div>
-        <div class="demo-timeline"><span>베이스라인</span><span>요청</span><span>변경</span><span>체크포인트</span><span>완료 게이트</span><span>화면</span><span>리포트</span></div>
       </section>
 
-      <!-- 10: 시연 전 베이스라인 -->
+      <!-- 10: 베이스라인 화면 -->
       <section class="slide">
-        <h1>시연 전: 베이스라인 HTML</h1>
-        <div class="capture-frame"><img src="./assets/status-page-before.png" alt="시연 전 베이스라인 상태 페이지 캡처"></div>
+        <h1>베이스라인 화면</h1>
+        <div class="capture-frame"><img src="./assets/status-page-before.png" alt="베이스라인 상태 페이지 캡처"></div>
         <div class="claim">시작점은 점검 배너가 없는 정상 상태 페이지입니다.</div>
       </section>
 
-      <!-- 11: 시연 요청 -->
+      <!-- 12: 변경 범위 -->
       <section class="slide">
-        <h1>시연 1: 요청</h1>
-        <div class="demo-stage">
-          <div class="stage-label">LLM input</div>
-          <div class="terminal-card"><pre>현재 상태 페이지에 예정 점검 배너를 추가해줘.
-
-조건:
-- 점검 시간은 2026-05-20 19:00-20:00 KST
-- 영향 서비스는 API Gateway
-- 사용자가 첫 화면에서 바로 볼 수 있어야 함
-- 운영 공지 문구도 함께 업데이트해줘
-- ops audit log도 남겨줘
-- 결과 리포트에 통과한 하네스 목록, 로그, 화면 snapshot 근거도 포함해줘
-
-작업 방식:
-- AGENTS.md의 레이어별 checkpoint 규칙을 따라줘.
-- 완료 전 반드시 npm run maintenance:complete를 실행해줘.
-- maintenance:complete가 통과하기 전에는 완료 보고하지 마.</pre></div>
-        </div>
-        <div class="claim">사람은 원하는 운영 상태와 완료 게이트를 요청하고, 세부 검증은 프로젝트 규칙에 맡깁니다.</div>
-      </section>
-
-      <!-- 12: 시연 변경 -->
-      <section class="slide">
-        <h1>시연 2: AI 변경</h1>
+        <h1>AI 수정 범위</h1>
         <div class="change-stack">
           <div class="change-card"><b>config</b><span>maintenance.enabled, 일정, 영향 서비스</span></div>
           <div class="change-card"><b>UI</b><span>배너 DOM, 렌더러, 토큰 기반 스타일</span></div>
           <div class="change-card"><b>ops</b><span>운영 공지, changelog, audit log</span></div>
           <div class="change-card"><b>evidence</b><span>하네스 로그, snapshot, HTML 리포트</span></div>
         </div>
-        <div class="claim">변경은 한 파일이 아니라 config, UI, design, docs, ops, evidence까지 이어집니다.</div>
+        <div class="claim">요청 하나가 여러 layer 변경으로 이어집니다.</div>
       </section>
 
-      <!-- 13: 시연 체크포인트 -->
+      <!-- 13: 체크포인트 로그 -->
       <section class="slide">
-        <h1>시연 3: 레이어별 체크포인트</h1>
+        <h1>Harness 진행 과정</h1>
         <div class="terminal-card pass"><pre>&gt; npm run test:config
 config check passed
 
@@ -765,12 +742,11 @@ design contract check passed
 
 &gt; npm run test:ops-log
 ops log check passed</pre></div>
-        <div class="claim">Codex는 구현 중간에 레이어별 checkpoint를 실행하며 완료 조건을 확인합니다.</div>
       </section>
 
       <!-- 14: 최종 완료 게이트 -->
       <section class="slide">
-        <h1>시연 4: 최종 완료 게이트</h1>
+        <h1>maintenance:complete 결과</h1>
         <div class="terminal-card pass"><pre>&gt; npm run maintenance:complete
 
 lint passed
@@ -782,43 +758,27 @@ docs check passed
 design contract check passed
 ops log check passed
 report check passed</pre></div>
-        <div class="claim">완료 보고는 최종 게이트가 통과한 뒤에만 가능합니다.</div>
       </section>
 
-      <!-- 15: 실패 없이도 남는 증거 -->
+      <!-- 14: 최종 화면 -->
       <section class="slide">
-        <h1>시연 5: 실패 없이도 남는 증거</h1>
-        <div class="demo-stage">
-          <div class="stage-label">Narration</div>
-          <div class="terminal-card"><pre>이번에는 Codex가 한 번에 모든 레이어를 맞췄습니다.
-
-중요한 것은 실패가 났느냐가 아니라,
-완료 전에 모든 하네스를 통과했다는 증거가 남는다는 점입니다.</pre></div>
-        </div>
-        <div class="claim">시연의 결론은 실패 장면이 아니라 검증 가능한 완료 증거입니다.</div>
-      </section>
-
-      <!-- 16: 화면 확인 -->
-      <section class="slide">
-        <h1>시연 6: 화면 확인</h1>
+        <h1>최종 화면</h1>
         <div class="capture-frame"><img src="./assets/status-page-final.png" alt="최종 상태 페이지 캡처"></div>
-        <div class="claim">첫 화면에서 API Gateway 예정 점검 배너가 바로 보입니다.</div>
       </section>
 
       <!-- 17: 결과 리포트 -->
       <section class="slide">
-        <h1>시연 7: HTML 결과 리포트</h1>
+        <h1>HTML 결과 리포트</h1>
         <div class="capture-frame report-capture"><img src="./assets/report-final.png" alt="HTML 결과 리포트 캡처"></div>
-        <div class="claim">마지막 산출물은 코드가 아니라, 요청·검증·화면 증거가 묶인 HTML 리포트입니다.</div>
       </section>
 
       <!-- 18: 역할별 (DARK) -->
       <section class="slide">
-        <h1>역할별 적용 지점</h1>
+        <h1>영역별 적용 예시</h1>
         <div class="role-grid">
-          <div><h3>FE</h3><p>UI smoke<br>접근성<br>화면 회귀</p></div>
+          <div><h3>FE</h3><p>UI smoke<br>접근성<br>화면 regression test</p></div>
           <div><h3>BE</h3><p>API contract<br>migration<br>compatibility</p></div>
-          <div><h3>System Engineer</h3><p>빌드 정책<br>권한/감사<br>배포 게이트</p></div>
+          <div><h3>System Engineer</h3><p>빌드 정책<br>권한/감사<br>deployment gate</p></div>
           <div><h3>운영/문서</h3><p>운영 공지<br>changelog<br>runbook 최신성</p></div>
         </div>
       </section>

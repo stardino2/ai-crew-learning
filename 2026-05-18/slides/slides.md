@@ -212,35 +212,64 @@ AI가 만든 결과를 사람이 매번 손으로 검증하는 대신,
 
 ---
 
-# HTML 시연: mini-status-harness
+# 예제를 통한 실습
 
+<div class="mock-grid">
+  <div>
+    <div class="page-mock">
+      <div class="mock-header">
+        <span class="mock-eyebrow">Internal Platform</span>
+        <span class="mock-title">Service Status</span>
+        <span class="mock-pill">All systems normal</span>
+      </div>
+      <div class="mock-services"><span></span><span></span><span></span><span></span></div>
+    </div>
+    <p class="mock-caption">현재 — 점검 안내 없음</p>
+  </div>
+  <div>
+    <div class="page-mock">
+      <div class="mock-header">
+        <span class="mock-eyebrow">Internal Platform</span>
+        <span class="mock-title">Service Status</span>
+        <span class="mock-pill">All systems normal</span>
+      </div>
+      <div class="mock-banner">
+        <b>Scheduled maintenance</b>
+        <span>API Gateway · 2026-05-20 19:00-20:00 KST</span>
+      </div>
+      <div class="mock-services"><span></span><span></span><span></span><span></span></div>
+    </div>
+    <p class="mock-caption">목표 — 첫 화면에 점검 배너</p>
+  </div>
+</div>
+
+<!--
+3:50-4:25
+작은 예제로 하네스가 어떤 layer를 확인하는지 보겠다고 전환한다.
+-->
+
+---
+
+# 실습 과정: mini-status-harness
+
+<div class="stage-label">AI 요청 문구</div>
 <div class="prompt">
 현재 상태 페이지에 예정 점검 배너를 추가해줘.<br>
 운영 공지, ops audit log, HTML 결과 리포트까지 업데이트하고<br>
 완료 전 npm run maintenance:complete를 실행해줘.
 </div>
 
-<div class="demo-timeline">
-  <span>베이스라인</span>
-  <span>요청</span>
-  <span>변경</span>
-  <span>체크포인트</span>
-  <span>완료 게이트</span>
-  <span>화면</span>
-  <span>리포트</span>
-</div>
-
 <!--
 3:50-4:05
-이제 별도 영상으로 빠지지 않고 슬라이드 안에서 시연 흐름을 그대로 보여준다. 요청문 하나가 코드 변경, 하네스, 최종 증거 리포트로 이어지는 구조를 먼저 고정한다.
+발표장 네트워크에 의존하지 않기 위해 현장 실행 대신 같은 과정을 HTML 슬라이드와 캡처로 재현한다고 전환한다.
 -->
 
 ---
 
-# 시연 전: 베이스라인 HTML
+# 베이스라인 화면
 
 <div class="capture-frame">
-  <img src="./assets/status-page-before.png" alt="시연 전 베이스라인 상태 페이지 캡처">
+  <img src="./assets/status-page-before.png" alt="베이스라인 상태 페이지 캡처">
 </div>
 
 <div class="claim">
@@ -249,45 +278,12 @@ AI가 만든 결과를 사람이 매번 손으로 검증하는 대신,
 
 <!--
 4:05-4:25
-요청을 넣기 전에 베이스라인 HTML을 먼저 보여준다. 변화가 어디에서 출발했는지 고정해야 최종 캡처와 비교가 된다.
+브라우저를 현장에서 띄우는 대신 캡처로 시작 상태를 고정한다. 변화가 어디에서 출발했는지 먼저 보여준다.
 -->
 
 ---
 
-# 시연 1: 요청
-
-<div class="demo-stage">
-  <div class="stage-label">LLM input</div>
-  <div class="terminal-card light">
-<pre>현재 상태 페이지에 예정 점검 배너를 추가해줘.
-
-조건:
-- 점검 시간은 2026-05-20 19:00-20:00 KST
-- 영향 서비스는 API Gateway
-- 사용자가 첫 화면에서 바로 볼 수 있어야 함
-- 운영 공지 문구도 함께 업데이트해줘
-- ops audit log도 남겨줘
-- 결과 리포트에 통과한 하네스 목록, 로그, 화면 snapshot 근거도 포함해줘
-
-작업 방식:
-- AGENTS.md의 레이어별 checkpoint 규칙을 따라줘.
-- 완료 전 반드시 npm run maintenance:complete를 실행해줘.
-- maintenance:complete가 통과하기 전에는 완료 보고하지 마.</pre>
-  </div>
-</div>
-
-<div class="claim">
-사람은 원하는 운영 상태와 완료 게이트를 요청하고, 세부 검증은 프로젝트 규칙에 맡깁니다.
-</div>
-
-<!--
-4:25-4:45
-여기서는 프롬프트가 긴 절차서가 아니라 목표 상태라는 점을 말한다. 절차와 검증 기준은 프로젝트 안에 있다.
--->
-
----
-
-# 시연 2: AI 변경
+# AI 수정 범위
 
 <div class="change-stack">
   <div class="change-card">
@@ -309,17 +305,17 @@ AI가 만든 결과를 사람이 매번 손으로 검증하는 대신,
 </div>
 
 <div class="claim">
-변경은 한 파일이 아니라 config, UI, design, docs, ops, evidence까지 이어집니다.
+요청 하나가 여러 layer 변경으로 이어집니다.
 </div>
 
 <!--
 4:35-5:00
-AI가 UI만 바꾸면 충분하지 않다. 상태 페이지 변경은 운영 공지와 changelog까지 맞아야 운영 가능한 변경이 된다.
+AI가 UI만 바꾸면 충분하지 않다. 상태 페이지 변경은 운영 공지, audit log, 리포트까지 맞아야 운영 가능한 변경이 된다.
 -->
 
 ---
 
-# 시연 3: 레이어별 체크포인트
+# Harness 진행 과정
 
 <div class="terminal-card pass">
 <pre>&gt; npm run test:config
@@ -335,18 +331,14 @@ design contract check passed
 ops log check passed</pre>
 </div>
 
-<div class="claim">
-Codex는 구현 중간에 레이어별 checkpoint를 실행하며 완료 조건을 확인합니다.
-</div>
-
 <!--
 5:00-5:40
-실패를 일부러 만들지 않는다. 중요한 것은 완료 전에 어떤 레이어를 검증했는지 터미널 로그로 남는다는 점이다.
+터미널 실행이 아니라 로그 예시로 설명한다. 완료 기준이 config, UI, design, ops-log로 나뉘어 있음을 짚는다.
 -->
 
 ---
 
-# 시연 4: 최종 완료 게이트
+# maintenance:complete 결과
 
 <div class="terminal-card pass">
 <pre>&gt; npm run maintenance:complete
@@ -362,80 +354,45 @@ ops log check passed
 report check passed</pre>
 </div>
 
-<div class="claim">
-완료 보고는 최종 게이트가 통과한 뒤에만 가능합니다.
-</div>
-
 <!--
 5:40-6:10
-maintenance:complete는 자동 watch가 아니라 Codex 작업 규칙에 포함된 수동 완료 게이트다.
+현장 실행으로 설명하지 않는다. 이미 수행된 최종 완료 게이트 결과로 설명한다.
 -->
 
 ---
 
-# 시연 5: 실패 없이도 남는 증거
-
-<div class="demo-stage">
-  <div class="stage-label">Narration</div>
-  <div class="terminal-card light">
-<pre>이번에는 Codex가 한 번에 모든 레이어를 맞췄습니다.
-
-중요한 것은 실패가 났느냐가 아니라,
-완료 전에 모든 하네스를 통과했다는 증거가 남는다는 점입니다.</pre>
-  </div>
-</div>
-
-<div class="claim">
-시연의 결론은 실패 장면이 아니라 검증 가능한 완료 증거입니다.
-</div>
-
-<!--
-6:10-6:35
-실패 유도 없이 진행한다는 메시지를 고정한다. 실패가 없어도 하네스 시연은 성립한다.
--->
-
----
-
-# 시연 6: 화면 확인
+# 최종 화면
 
 <div class="capture-frame">
   <img src="./assets/status-page-final.png" alt="최종 상태 페이지 캡처">
 </div>
 
-<div class="claim">
-첫 화면에서 API Gateway 예정 점검 배너가 바로 보입니다.
-</div>
-
 <!--
 6:35-7:05
-Playwright 캡처 또는 직접 캡처를 붙인다. 청중에게 최종 화면이 실제로 어떤 상태인지 보여주는 증거다.
+현장 새로고침이 아니라 저장된 화면 캡처로 최종 상태를 보여준다.
 -->
 
 ---
 
-# 시연 7: HTML 결과 리포트
+# HTML 결과 리포트
 
 <div class="capture-frame report-capture">
   <img src="./assets/report-final.png" alt="HTML 결과 리포트 캡처">
 </div>
 
-<div class="claim">
-마지막 산출물은 코드가 아니라, 요청·검증·화면 증거가 묶인 HTML 리포트입니다.
-</div>
-
 <!--
 7:05-7:30
-결과 리포트는 감사 로그 전체가 아니라 증거 중심이다. 사람이 리뷰할 때 필요한 요청, 하네스 결과, 화면, 운영 공지를 한 장으로 묶는다.
+결과 리포트는 사람이 리뷰할 때 필요한 요청, harness 결과, 화면, 운영 공지를 한 장으로 묶는다.
 -->
 
 ---
 
-# 역할별 적용 지점
+# 영역별 적용 예시
 
 <div class="role-grid">
-  <div><h3>FE</h3><p>UI smoke<br>접근성<br>화면 회귀</p></div>
+  <div><h3>FE</h3><p>UI smoke<br>접근성<br>화면 regression test</p></div>
   <div><h3>BE</h3><p>API contract<br>migration<br>compatibility</p></div>
-  <div><h3>System Engineer</h3><p>빌드 정책<br>권한/감사<br>배포 게이트</p></div>
+  <div><h3>System Engineer</h3><p>빌드 정책<br>권한/감사<br>deployment gate</p></div>
   <div><h3>운영/문서</h3><p>운영 공지<br>changelog<br>runbook 최신성</p></div>
 </div>
 
