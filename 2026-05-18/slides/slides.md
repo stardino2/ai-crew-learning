@@ -26,44 +26,31 @@ AI가 만든 결과를 조직이 믿을 수 있는 결과로 바꾸는 일
 </div>
 
 <!--
-0:00-0:15
+0:00-0:25
 오늘은 새로운 거창한 방법론 소개가 아니라, AI가 만든 결과를 기존 엔지니어링 흐름에서 어떻게 믿을 수 있는 결과로 바꿀지 이야기한다.
 -->
 
 ---
 
-# 퀴즈 1
+# Harness
 
-## 이건 무엇일까요?
-
-<div class="quiz-dog">
+<div class="harness-pair">
   <img src="./assets/dog-harness.png" alt="하네스를 착용한 강아지">
+  <img src="./assets/harness_robot_dog1.png" alt="하네스를 착용한 로봇 강아지">
+</div>
+
+<div class="claim">
+강아지의 하네스처럼, AI도 제멋대로 움직이지 않게 도와주는 장치가 필요합니다.
 </div>
 
 <!--
-0:15-0:30
-가볍게 시작한다. 답은 다음 장에서 보여준다.
+0:25-0:55
+하네스는 원래 강아지가 제멋대로 튀어나가지 않게 잡아주는 장치다. 오늘은 이 개념을 AI 작업에 적용해 보겠다고 연결한다.
 -->
 
 ---
 
-# 퀴즈 1: 정답
-
-<div class="quiz-answer-grid">
-  <div class="quiz-dog small">
-    <img src="./assets/dog-harness.png" alt="하네스를 착용한 강아지">
-  </div>
-  <div class="answer big-answer">하네스</div>
-</div>
-
-<!--
-0:30-0:40
-하네스는 원래 무언가가 제멋대로 움직이지 않고 안전하게 연결되도록 잡아주는 장치다. 오늘은 AI 결과를 팀의 검증 기준에 연결하는 의미로 쓴다.
--->
-
----
-
-# 퀴즈 2
+# 퀴즈
 
 ## AI 활용 업무 처리 시 병목은 어디일까요?
 
@@ -86,13 +73,13 @@ AI가 만든 결과를 조직이 믿을 수 있는 결과로 바꾸는 일
 </div>
 
 <!--
-0:40-0:55
+0:55-1:20
 AI가 할 수 있는 일이 많아질수록 가운데에서 막히는 지점이 어디인지 묻는다. 답은 다음 장.
 -->
 
 ---
 
-# 퀴즈 2: 정답
+# 정답
 
 <div class="bottleneck-quiz answered">
   <div class="task-column">
@@ -117,13 +104,13 @@ AI가 할 수 있는 일이 많아질수록 가운데에서 막히는 지점이 
 </div>
 
 <!--
-0:55-1:10
+1:20-1:50
 사람이 빠진다는 이야기가 아니라, 반복 검증을 사람이 계속 들고 있으면 사람이 병목이 된다는 이야기다.
 -->
 
 ---
 
-# 병목을 기준으로 옮기기
+# 수동 확인을 자동 검증으로
 
 <div class="before-after">
   <div class="flow-card">
@@ -133,49 +120,46 @@ AI가 할 수 있는 일이 많아질수록 가운데에서 막히는 지점이 
   </div>
   <div class="flow-card">
     <h3>After</h3>
-    <p>AI 변경 → 팀의 자동 검증 기준 → 사람은 예외 판단</p>
+    <p>AI 변경 → 자동 검증 → 사람은 예외 판단</p>
     <span class="badge ok">흐름 유지</span>
   </div>
 </div>
 
-| 사람이 매번 보는 것 | 팀의 자동 검증 기준 |
+| 사람이 매번 확인 | 자동 검증으로 대체 |
 | --- | --- |
-| 테스트 돌렸나? | CI에서 자동 실행 |
-| 설정 형식 맞나? | schema validation |
-| API 계약 깨졌나? | contract test |
-| 운영 공지 갱신했나? | docs check |
-| 화면에 보이나? | UI smoke check |
+| 테스트 돌렸나? | CI 자동 실행 |
+| 설정 형식 맞나? | 설정 형식 자동 검사 |
+| API 계약 깨졌나? | API 계약 자동 검사 |
+| 운영 공지 갱신했나? | 문서/공지 자동 검사 |
+| 화면에 보이나? | 화면 표시 자동 검사 |
+
+<div class="note-box">
+Harness Engineering은 AI 결과가 팀의 빌드·테스트·리뷰·운영 기준을 지나가게 하는 자동화된 검증 흐름입니다.
+</div>
 
 <!--
-1:10-2:00
-사람은 모든 변경을 손으로 보는 역할이 아니라, 기준을 설계하고 예외를 판단하는 역할로 이동한다.
+1:50-2:50
+사람이 매번 손으로 확인하던 일을 자동화된 검증 흐름으로 옮긴다. 사람은 모든 변경을 손으로 보는 역할이 아니라, 기준을 설계하고 예외를 판단하는 역할로 이동한다. 별도 정의 슬라이드는 두지 않고 이 한 줄로 정의한다.
 -->
 
 ---
 
-# 정의
+# 영역별 적용 예시
 
-## Harness Engineering
-
-AI가 만든 결과를 사람이 매번 손으로 검증하는 대신,
-팀의 자동 검증 기준을 통과하게 만드는 일입니다.
-
-<div class="validation-ring">
-  <div class="ring-item build">build</div>
-  <div class="ring-item test">test</div>
-  <div class="ring-item review">review</div>
-  <div class="ring-item ops">ops</div>
-  <div class="ring-item docs">docs</div>
-  <div class="ring-center">AI 변경</div>
+<div class="role-grid">
+  <div><h3>운영/문서</h3><p>운영 공지<br>감사 흔적<br>변경 증거</p></div>
+  <div><h3>FE</h3><p>UI smoke<br>접근성<br>화면 regression test</p></div>
+  <div><h3>BE</h3><p>API contract<br>migration<br>compatibility</p></div>
+  <div><h3>System Engineer</h3><p>빌드 정책<br>권한/감사<br>AI용 CI 피드백</p></div>
 </div>
 
-<div class="note-box">
-하네스는 AI를 막는 장치가 아니라, AI 결과가 팀의 빌드·테스트·리뷰·운영 기준을 지나가게 하는 실행 환경입니다.
+<div class="claim">
+각자 자기 업무에서 사람이 반복 확인하는 항목 하나를 자동화 후보로 잡는 것이 시작점입니다.
 </div>
 
 <!--
-2:00-2:55
-특정 제품 이름이 아니라 넓은 의미로 쓴다. 오늘은 이 실행 환경과 자동 검증 기준 전체를 하네스라고 부르겠다.
+2:50-3:35
+비개발자와 운영/문서 관점부터 짚는다. 승인 기준, 운영 공지, 감사 흔적, 변경 증거도 하네스의 대상이라고 말한다.
 -->
 
 ---
@@ -206,7 +190,7 @@ AI가 만든 결과를 사람이 매번 손으로 검증하는 대신,
 </div>
 
 <!--
-2:55-3:50
+3:35-4:10
 용어 자체가 완전히 정착됐다고 말하지 않는다. 다만 공개 자료들이 반복해서 보여주는 패턴은 에이전트 + 저장소 규칙 + 자동 검증 루프다.
 -->
 
@@ -244,13 +228,13 @@ AI가 만든 결과를 사람이 매번 손으로 검증하는 대신,
 </div>
 
 <!--
-3:50-4:25
+4:10-4:35
 작은 예제로 하네스가 어떤 layer를 확인하는지 보겠다고 전환한다.
 -->
 
 ---
 
-# 실습 과정: mini-status-harness
+# 요청
 
 <div class="stage-label">AI 요청 문구</div>
 <div class="prompt">
@@ -260,88 +244,64 @@ AI가 만든 결과를 사람이 매번 손으로 검증하는 대신,
 </div>
 
 <!--
-3:50-4:05
+4:35-4:55
 발표장 네트워크에 의존하지 않기 위해 현장 실행 대신 같은 과정을 HTML 슬라이드와 캡처로 재현한다고 전환한다.
 -->
 
 ---
 
-# 베이스라인 화면
-
-<div class="capture-frame">
-  <img src="./assets/status-page-before.png" alt="베이스라인 상태 페이지 캡처">
-</div>
-
-<div class="claim">
-시작점은 점검 배너가 없는 정상 상태 페이지입니다.
-</div>
-
-<!--
-4:05-4:25
-브라우저를 현장에서 띄우는 대신 캡처로 시작 상태를 고정한다. 변화가 어디에서 출발했는지 먼저 보여준다.
--->
-
----
-
-# AI 수정 범위
+# 영향 범위
 
 <div class="change-stack">
   <div class="change-card">
-    <b>config</b>
+    <b>설정</b>
     <span>maintenance.enabled, 일정, 영향 서비스</span>
   </div>
   <div class="change-card">
-    <b>UI</b>
+    <b>화면</b>
     <span>배너 DOM, 렌더러, 토큰 기반 스타일</span>
   </div>
   <div class="change-card">
-    <b>ops</b>
-    <span>운영 공지, changelog, audit log</span>
+    <b>운영</b>
+    <span>운영 공지, changelog, 감사 로그</span>
   </div>
   <div class="change-card">
-    <b>evidence</b>
-    <span>하네스 로그, snapshot, HTML 리포트</span>
+    <b>증거</b>
+    <span>하네스 로그, 화면 snapshot, HTML 리포트</span>
   </div>
 </div>
 
 <div class="claim">
-요청 하나가 여러 layer 변경으로 이어집니다.
+한 요청, 네 곳의 변경 — 하네스가 정합성을 검증합니다.
 </div>
 
 <!--
-4:35-5:00
-AI가 UI만 바꾸면 충분하지 않다. 상태 페이지 변경은 운영 공지, audit log, 리포트까지 맞아야 운영 가능한 변경이 된다.
+4:55-5:35
+AI가 UI만 바꾸면 충분하지 않다. 상태 페이지 변경은 화면, 운영 공지, 감사 로그, 결과 리포트까지 같은 이야기를 해야 한다.
 -->
 
 ---
 
-# Harness 진행 과정
+# 영역별 검증
 
-<div class="terminal-card pass">
-<pre>&gt; npm run test:config
-config check passed
-
-&gt; npm run test:ui
-ui smoke check passed
-
-&gt; npm run test:design
-design contract check passed
-
-&gt; npm run test:ops-log
-ops log check passed</pre>
-</div>
+| 영역 | 체크 | 보장하는 것 |
+| --- | --- | --- |
+| 설정 | unit, config, api contract | 도메인 로직·스키마·응답 계약 |
+| 화면 | ui smoke, design contract | 배너 DOM·렌더러·디자인 토큰·금지 스타일 |
+| 운영 | docs, ops log | 공지·changelog·감사 로그 ↔ config |
+| 증거 | report | 리포트 본문·첨부·로그 정합 |
 
 <!--
-5:00-5:40
-터미널 실행이 아니라 로그 예시로 설명한다. 완료 기준이 config, UI, design, ops-log로 나뉘어 있음을 짚는다.
+5:35-5:55
+4 영역마다 어떤 체크가 어떤 정합성을 보장하는지 한 장으로. 이 표가 곧 다음 슬라이드에서 도는 하네스의 설정이다.
 -->
 
 ---
 
-# maintenance:complete 결과
+# 최종 검증
 
-<div class="terminal-card pass">
-<pre>&gt; npm run maintenance:complete
+```text
+> npm run maintenance:complete
 
 lint passed
 unit tests passed
@@ -351,54 +311,25 @@ ui smoke check passed
 docs check passed
 design contract check passed
 ops log check passed
-report check passed</pre>
-</div>
+report check passed
+```
 
 <!--
-5:40-6:10
-현장 실행으로 설명하지 않는다. 이미 수행된 최종 완료 게이트 결과로 설명한다.
+5:35-6:10
+현장 실행으로 설명하지 않는다. 이미 수행된 최종 검증 결과로 설명한다.
 -->
 
 ---
 
-# 최종 화면
-
-<div class="capture-frame">
-  <img src="./assets/status-page-final.png" alt="최종 상태 페이지 캡처">
-</div>
-
-<!--
-6:35-7:05
-현장 새로고침이 아니라 저장된 화면 캡처로 최종 상태를 보여준다.
--->
-
----
-
-# HTML 결과 리포트
+# 결과 리포트
 
 <div class="capture-frame report-capture">
   <img src="./assets/report-final.png" alt="HTML 결과 리포트 캡처">
 </div>
 
 <!--
-7:05-7:30
+6:10-6:55
 결과 리포트는 사람이 리뷰할 때 필요한 요청, harness 결과, 화면, 운영 공지를 한 장으로 묶는다.
--->
-
----
-
-# 영역별 적용 예시
-
-<div class="role-grid">
-  <div><h3>FE</h3><p>UI smoke<br>접근성<br>화면 regression test</p></div>
-  <div><h3>BE</h3><p>API contract<br>migration<br>compatibility</p></div>
-  <div><h3>System Engineer</h3><p>빌드 정책<br>권한/감사<br>deployment gate</p></div>
-  <div><h3>운영/문서</h3><p>운영 공지<br>changelog<br>runbook 최신성</p></div>
-</div>
-
-<!--
-7:30-8:45
-각자 자기 업무에서 하나씩 떠올릴 수 있어야 한다. 이 슬라이드는 적용 포인트를 넓히는 용도다.
 -->
 
 ---
@@ -413,49 +344,45 @@ report check passed</pre>
   <div class="arrow">→</div>
   <div class="layer thin">
     <h3>이후</h3>
-    <p>테스트와 정책<br>hooks와 skills<br>관측 가능성</p>
+    <p>테스트와 정책<br>hooks와 skills<br>로그·증거</p>
   </div>
 </div>
 
 <div class="claim">
-하네스는 사라지는 것이 아니라 얇고 정교하게 진화합니다.
+하네스는 한 번 만들고 끝이 아닙니다. 모델이 바뀌면 같이 바뀝니다.
 </div>
 
 <!--
-8:45-9:25
-하네스가 영원히 두꺼워져야 한다는 뜻은 아니다. 모델이 좋아질수록 얇아지고 기계적으로 바뀐다.
+6:55-7:45
+질문에 정직하게 답한다. 일부는 정말로 불필요해지지만, 그렇기 때문에 모델 변화에 맞춰 계속 갱신해야 한다고 짚는다. SE 차별점은 slide 6으로 이미 옮겼다.
 -->
 
 ---
 
-# Harness Engineering 한 장 요약
+# Harness가 천장을 받친다
 
 <div class="final-infographic">
-  <div class="hero-band">
-    <b>Vibe Coding</b>
-    <span>→</span>
-    <b>Agentic Engineering</b>
+  <p class="lead-quote">"Vibe Coding이 바닥을 올린다면, Agentic Engineering은 천장을 높인다."<cite>— Andrej Karpathy</cite></p>
+  <div class="info-card accent ceiling-note">
+    천장은 저절로 올라가지 않습니다. AI가 더 많이 만들수록 검증·운영 부담도 같이 늘어나기 때문입니다.
+    Harness Engineering은 그 부담을 사람 손이 아닌 자동 검증이 떠안게 만들어, Agentic Engineering의 천장에 실제로 닿게 합니다.
   </div>
   <div class="info-card">
     <h3>AI가 더 많이 구현할수록</h3>
     <p>사람은 코드 작성자보다 문제 정의자, 기준 설계자, 예외 판단자에 가까워집니다.</p>
-  </div>
-  <div class="info-card accent">
-    <h3>하네스가 위치하는 지점</h3>
-    <p>AI 변경과 머지/배포 사이에서 빌드·테스트·리뷰·운영 기준을 자동으로 실행합니다.</p>
   </div>
   <div class="info-card">
     <h3>사람에게 남는 책임</h3>
     <p>무엇을 만들지, 어떤 기준을 지킬지, 어떤 예외를 허용할지 결정합니다.</p>
   </div>
   <div class="final-message">
-    Agentic Engineering은 AI에게 일을 맡기는 것이 아니라, AI가 한 일을 조직의 검증 흐름에 넣는 것입니다.
+    이번 주에는 같은 질문을 3번 이상 반복한 항목 하나를 자동화 후보로 적어보세요.
   </div>
 </div>
 
 <!--
-9:25-10:00
-첨부 이미지처럼 한 장 요약으로 닫는다. 마지막 문장을 천천히 읽고 끝낸다.
+7:45-9:20
+Karpathy 인용을 천천히 읽고, 천장은 저절로 올라가지 않는다는 점을 짚는다. 하네스가 그 부담을 자동 검증으로 떠안게 만든다고 연결한 뒤 사람에게 남는 책임과 CTA로 닫는다.
 -->
 
 ---
@@ -466,6 +393,7 @@ report check passed</pre>
 - Anthropic, Claude Code best practices: https://code.claude.com/docs/en/best-practices
 - GitHub Docs, Copilot coding agent concepts: https://docs.github.com/en/copilot/concepts/about-copilot-coding-agent
 - DORA capabilities: Continuous Delivery, Test Automation, Deployment Automation: https://dora.dev/capabilities/
+- Andrej Karpathy, Sequoia Ascent 2026 — From Vibe Coding to Agentic Engineering
 
 <!--
 백업 슬라이드. 본문에서는 이름만 언급하고, 질문이 들어오면 출처를 보여준다. Q&A에서는 "용어는 아직 정착 중이지만, 공개 자료들이 가리키는 패턴은 유사하다"라고 말한다.

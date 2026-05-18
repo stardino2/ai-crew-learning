@@ -1,21 +1,26 @@
 # 05/20 Harness Engineering Talk Timeline
 
-Target duration: 9:30 presentation + 0:30 buffer.
+Target duration: 9:30 presentation + 0:30 Q&A/source buffer.
 
 | Time | Section | Speaker intent |
 | --- | --- | --- |
-| 0:00-1:10 | Icebreaker quizzes | Ask "what is this?" with a dog harness, then ask where the AI-workflow bottleneck is. Land on "harness" and "human verification bottleneck." |
-| 1:10-2:00 | Why it matters | Explain that repeated human verification must move into team-owned automated criteria. |
-| 2:00-2:55 | Definition | Define Harness Engineering as a runtime environment where AI output passes build, test, review, and ops criteria. |
-| 2:55-3:50 | Industry pattern | Use OpenAI, Claude Code, GitHub Copilot, and DORA as evidence cards for the shared pattern. |
-| 3:50-7:10 | 예제 실습 흐름 | Show the AI request, AI 수정 범위, Harness 진행 과정, `maintenance:complete` result, final screen, and HTML result report without relying on internet, server, or terminal execution. |
-| 7:10-7:55 | 영역별 적용 예시 | Help FE, BE, System Engineer, and operations/documentation owners map the concept to their own work. |
-| 7:55-9:25 | Agentic Engineering close | Explain that better models make harnesses thinner and more dynamic, not irrelevant. |
-| 9:25-10:00 | Sources + Q&A | Keep source references available and start questions. |
+| 0:00-0:55 | 하네스 비유 | Open with Harness Engineering and explain the dog/robot harness as a metaphor, not a quiz. |
+| 0:55-1:50 | 병목 퀴즈 | Ask one quiz: where the AI-workflow bottleneck is. Land on human repeated verification. |
+| 1:50-2:50 | 수동 확인을 자동 검증으로 | Explain that repeated manual checks should become automated verification. Use the table headers `사람이 매번 확인` / `자동 검증으로 대체`. |
+| 2:50-3:35 | 영역별 적용 예시 | Help operations/docs, FE, BE, and System Engineers map the concept to their own work before the demo. |
+| 3:35-4:10 | Industry pattern | Use OpenAI, Claude Code, GitHub Copilot, and DORA as evidence cards for the shared pattern. |
+| 4:10-7:05 | 예제 실습 흐름 | Show `요청 → 영향 범위 → 영역별 검증 → 최종 검증 → 결과 리포트` without relying on internet, server, or terminal execution. |
+| 7:05-7:55 | 모델이 좋아지면 하네스는? | Explain that better models make harnesses thinner and more precise, not irrelevant. Add the SE point about AI-facing CI feedback. |
+| 7:55-9:30 | One-page close + CTA | Close with the summary and ask everyone to find one repeated review/ops question this week as an automation candidate. |
+| 9:30-10:00 | Sources + Q&A | Keep source references available and start questions. |
 
 ## Closing Line
 
-Agentic Engineering은 AI에게 일을 맡기는 것이 아니라, AI가 한 일을 조직의 검증 흐름에 넣는 것입니다.
+AI에게 더 많이 맡기고 싶다면, 먼저 검증 흐름을 만드세요.
+
+## CTA Line
+
+이번 주에는 PR 리뷰나 운영 점검에서 같은 질문을 3번 이상 반복한 항목 하나를 자동화 후보로 적어보세요.
 
 ## Backup Line for Q&A
 
@@ -23,4 +28,4 @@ Harness Engineering이라는 이름은 아직 정착 중이지만, 자동 테스
 
 ## Offline Practice Note
 
-발표장 인터넷이 없어도 3:50-7:10 구간은 `slides/standalone.html`과 `slides/assets/`의 캡처만으로 진행한다. 외부 링크, 현장 Codex 입력, `npm start`, 현장 `maintenance:complete` 실행은 말하지 않는다.
+발표장 인터넷이 없어도 4:10-7:05 구간은 `slides/standalone.html`과 `slides/assets/`의 캡처만으로 진행한다. 외부 링크, 현장 Codex 입력, `npm start`, 현장 `maintenance:complete` 실행은 말하지 않는다.

@@ -14,6 +14,7 @@ Use these as the source slide and Q&A backup. Avoid claiming that "Harness Engin
 - Anthropic, Claude Code best practices: https://code.claude.com/docs/en/best-practices
 - GitHub Docs, Copilot coding agent/cloud agent concepts: https://docs.github.com/
 - DORA capabilities: https://dora.dev/capabilities/
+- Andrej Karpathy, Sequoia Ascent 2026 — From Vibe Coding to Agentic Engineering (마무리 슬라이드 "Vibe Coding이 바닥을 올린다면, Agentic Engineering은 천장을 높인다." 인용)
 
 ## Recommended Wording
 

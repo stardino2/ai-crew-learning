@@ -40,13 +40,9 @@
       }
       .slide:nth-of-type(5),
       .slide:nth-of-type(7),
-      .slide:nth-of-type(18),
-      .slide:nth-of-type(20) {
+      .slide:nth-of-type(14) {
         background: var(--tile-dark);
         color: #fff;
-      }
-      .slide:nth-of-type(20) {
-        background: var(--tile-dark-2);
       }
       .slide.active {
         display: flex;
@@ -87,12 +83,10 @@
       }
       .slide:nth-of-type(5) .meta,
       .slide:nth-of-type(7) .meta,
-      .slide:nth-of-type(18) .meta,
-      .slide:nth-of-type(20) .meta,
+      .slide:nth-of-type(14) .meta,
       .slide:nth-of-type(5) .small,
       .slide:nth-of-type(7) .small,
-      .slide:nth-of-type(18) .small,
-      .slide:nth-of-type(20) .small {
+      .slide:nth-of-type(14) .small {
         color: #cccccc;
       }
       .box, .note-box, .prompt,
@@ -116,8 +110,37 @@
         background: var(--primary);
         color: #fff;
         font-size: 28px;
-        font-weight: 500;
+        font-weight: 400;
         line-height: 1.15;
+      }
+      .final-message {
+        flex-direction: column;
+        text-align: center;
+      }
+      .lead-quote {
+        grid-column: 1 / -1;
+        margin: 0;
+        padding: 0.6rem 0.2rem 0.2rem;
+        font-size: 38px;
+        font-weight: 600;
+        line-height: 1.24;
+        letter-spacing: -0.22px;
+        color: var(--ink);
+        text-align: center;
+      }
+      .lead-quote cite {
+        display: block;
+        margin-top: 10px;
+        font-size: 22px;
+        font-weight: 400;
+        font-style: normal;
+        color: var(--muted);
+      }
+      .info-card.ceiling-note {
+        grid-column: 1 / -1;
+        font-size: 22px;
+        line-height: 1.45;
+        background: var(--canvas);
       }
       .answer {
         padding: 36px 56px;
@@ -154,12 +177,27 @@
         font-style: normal;
         color: var(--muted);
       }
-      .slide:nth-of-type(17) .lead-quote cite { color: #cccccc; }
+      .slide:nth-of-type(14) .lead-quote cite { color: #cccccc; }
       .quiz-dog { display: flex; justify-content: center; }
       .quiz-dog img {
         width: min(640px, 60%);
         max-height: 380px;
         object-fit: contain;
+        border-radius: var(--radius-lg);
+        background: var(--canvas);
+        box-shadow: var(--product-shadow);
+      }
+      .harness-pair {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        align-items: center;
+        margin-top: 1rem;
+      }
+      .harness-pair img {
+        width: 100%;
+        height: 330px;
+        object-fit: cover;
         border-radius: var(--radius-lg);
         background: var(--canvas);
         box-shadow: var(--product-shadow);
@@ -178,9 +216,7 @@
       }
       .slide:nth-of-type(5) .col-label,
       .slide:nth-of-type(7) .col-label,
-      .slide:nth-of-type(10) .col-label,
-      .slide:nth-of-type(15) .col-label,
-      .slide:nth-of-type(17) .col-label {
+      .slide:nth-of-type(14) .col-label {
         color: #cccccc;
       }
       .flow-arrow {
@@ -237,7 +273,7 @@
         padding: 10px 18px;
         border-radius: var(--pill);
         font-size: 22px;
-        font-weight: 500;
+        font-weight: 400;
       }
       .badge.warn {
         color: var(--ink);
@@ -564,9 +600,7 @@
       }
       .slide:nth-of-type(5) .footer,
       .slide:nth-of-type(7) .footer,
-      .slide:nth-of-type(10) .footer,
-      .slide:nth-of-type(15) .footer,
-      .slide:nth-of-type(17) .footer {
+      .slide:nth-of-type(14) .footer {
         color: #cccccc;
       }
     </style>
@@ -583,9 +617,12 @@
 
       <!-- 2: Harness 도입 -->
       <section class="slide">
-        <h1>이게 하네스입니다.</h1>
-        <div class="quiz-dog"><img src="./assets/dog-harness.png" alt="하네스를 착용한 강아지"></div>
-        <p class="claim">원래는 무언가가 제멋대로 움직이지 않게 잡아주는 장치입니다. 오늘은 AI가 만든 결과가 팀의 검증 기준 안에서만 움직이도록 잡아주는 장치라는 뜻으로 씁니다.</p>
+        <h1>Harness</h1>
+        <div class="harness-pair">
+          <img src="./assets/dog-harness.png" alt="하네스를 착용한 강아지">
+          <img src="./assets/harness_robot_dog1.png" alt="하네스를 착용한 로봇 강아지">
+        </div>
+        <p class="claim">강아지의 하네스처럼, AI도 제멋대로 움직이지 않게 도와주는 장치가 필요합니다.</p>
       </section>
 
       <!-- 3: 퀴즈 -->
@@ -624,35 +661,34 @@
         <div class="claim">반복 검증이 사람에게 몰리면 AI를 써도 흐름은 빨라지지 않습니다.</div>
       </section>
 
-      <!-- 5: 사람 검증을 자동 기준으로 (DARK) -->
+      <!-- 5: 수동 확인을 자동 검증으로 (DARK) -->
       <section class="slide">
-        <h1>사람 검증을 자동 기준으로</h1>
+        <h1>수동 확인을 자동 검증으로</h1>
         <div class="before-after">
           <div class="flow-card"><h3>Before</h3><p>AI 변경 → 사람이 매번 확인 → 머지/배포</p><span class="badge warn">사람 병목</span></div>
-          <div class="flow-card"><h3>After</h3><p>AI 변경 → 팀의 자동 검증 기준 → 사람은 예외 판단</p><span class="badge ok">흐름 유지</span></div>
+          <div class="flow-card"><h3>After</h3><p>AI 변경 → 자동 검증 → 사람은 예외 판단</p><span class="badge ok">흐름 유지</span></div>
         </div>
         <table>
-          <tr><th>사람이 매번 보는 것</th><th>팀의 자동 검증 기준</th></tr>
-          <tr><td>테스트 돌렸나?</td><td>CI에서 자동 실행</td></tr>
-          <tr><td>설정 형식 맞나?</td><td>schema validation</td></tr>
-          <tr><td>API 계약 깨졌나?</td><td>contract test</td></tr>
-          <tr><td>운영 공지 갱신했나?</td><td>docs check</td></tr>
-          <tr><td>화면에 보이나?</td><td>UI smoke check</td></tr>
+          <tr><th>사람이 매번 확인</th><th>자동 검증으로 대체</th></tr>
+          <tr><td>테스트 돌렸나?</td><td>CI 자동 실행</td></tr>
+          <tr><td>설정 형식 맞나?</td><td>설정 형식 자동 검사</td></tr>
+          <tr><td>API 계약 깨졌나?</td><td>API 계약 자동 검사</td></tr>
+          <tr><td>운영 공지 갱신했나?</td><td>문서/공지 자동 검사</td></tr>
+          <tr><td>화면에 보이나?</td><td>화면 표시 자동 검사</td></tr>
         </table>
+        <div class="note-box">Harness Engineering은 AI 결과가 팀의 빌드·테스트·리뷰·운영 기준을 지나가게 하는 자동화된 검증 흐름입니다.</div>
       </section>
 
-      <!-- 6: 정의 -->
+      <!-- 6: 영역별 적용 -->
       <section class="slide">
-        <h1>Harness Engineering</h1>
-        <p class="claim">AI가 만든 결과를 사람이 매번 손으로 검증하는 대신, 팀의 자동 검증 기준을 통과하게 만드는 일입니다.</p>
-        <div class="validation-ring">
-          <div class="ring-item build">build</div>
-          <div class="ring-item test">test</div>
-          <div class="ring-item review">review</div>
-          <div class="ring-item ops">ops</div>
-          <div class="ring-item docs">docs</div>
-          <div class="ring-center">AI 변경</div>
+        <h1>영역별 적용 예시</h1>
+        <div class="role-grid">
+          <div><h3>운영/문서</h3><p>운영 공지<br>감사 흔적<br>변경 증거</p></div>
+          <div><h3>FE</h3><p>UI smoke<br>접근성<br>화면 regression test</p></div>
+          <div><h3>BE</h3><p>API contract<br>migration<br>compatibility</p></div>
+          <div><h3>System Engineer</h3><p>빌드 정책<br>권한/감사<br>AI용 CI 피드백</p></div>
         </div>
+        <div class="claim">각자 자기 업무에서 사람이 반복 확인하는 항목 하나를 자동화 후보로 잡는 것이 시작점입니다.</div>
       </section>
 
       <!-- 7: 공통 패턴 (DARK) -->
@@ -660,7 +696,7 @@
         <h1>공개 자료에서 보이는 공통 패턴</h1>
         <div class="evidence-lead">에이전트에게 지시만 주는 것이 아니라, 저장소 규칙·훅·CI·리뷰 루프를 함께 제공합니다.</div>
         <div class="evidence-grid">
-          <div class="evidence-card"><h3>OpenAI</h3><p>테스팅·검증·리뷰·피드백 처리·복구를 시스템에 박아두는 방식</p></div>
+          <div class="evidence-card"><h3>OpenAI</h3><p>testing, validation, review, feedback handling, recovery를 시스템에 인코딩</p></div>
           <div class="evidence-card"><h3>Claude Code</h3><p><code>CLAUDE.md</code>, hooks, skills로 저장소별 규칙과 반복 작업 제공</p></div>
           <div class="evidence-card"><h3>GitHub Copilot</h3><p>GitHub Actions와 PR 흐름 안에서 agent 작업 수행</p></div>
           <div class="evidence-card"><h3>DORA / DevOps</h3><p>자동 테스트, 배포 자동화, 빠른 피드백, 수동 단계 감소</p></div>
@@ -700,53 +736,46 @@
         </div>
       </section>
 
-      <!-- 9: 실습 과정 -->
+      <!-- 9: 요청 -->
       <section class="slide">
-        <h1>실습 과정: mini-status-harness</h1>
+        <h1>요청</h1>
         <div class="stage-label">AI 요청 문구</div>
         <div class="box"><pre>현재 상태 페이지에 예정 점검 배너를 추가해줘.
 운영 공지, ops audit log, HTML 결과 리포트까지 업데이트하고
 완료 전 npm run maintenance:complete를 실행해줘.</pre></div>
       </section>
 
-      <!-- 10: 베이스라인 화면 -->
+      <!-- 10: 영향 범위 -->
       <section class="slide">
-        <h1>베이스라인 화면</h1>
-        <div class="capture-frame"><img src="./assets/status-page-before.png" alt="베이스라인 상태 페이지 캡처"></div>
-        <div class="claim">시작점은 점검 배너가 없는 정상 상태 페이지입니다.</div>
-      </section>
-
-      <!-- 12: 변경 범위 -->
-      <section class="slide">
-        <h1>AI 수정 범위</h1>
+        <h1>영향 범위</h1>
         <div class="change-stack">
-          <div class="change-card"><b>config</b><span>maintenance.enabled, 일정, 영향 서비스</span></div>
-          <div class="change-card"><b>UI</b><span>배너 DOM, 렌더러, 토큰 기반 스타일</span></div>
-          <div class="change-card"><b>ops</b><span>운영 공지, changelog, audit log</span></div>
-          <div class="change-card"><b>evidence</b><span>하네스 로그, snapshot, HTML 리포트</span></div>
+          <div class="change-card"><b>설정</b><span>maintenance.enabled, 일정, 영향 서비스</span></div>
+          <div class="change-card"><b>화면</b><span>배너 DOM, 렌더러, 토큰 기반 스타일</span></div>
+          <div class="change-card"><b>운영</b><span>운영 공지, changelog, 감사 로그</span></div>
+          <div class="change-card"><b>증거</b><span>하네스 로그, 화면 snapshot, HTML 리포트</span></div>
         </div>
-        <div class="claim">요청 하나가 여러 layer 변경으로 이어집니다.</div>
+        <div class="claim">한 요청, 네 곳의 변경 — 하네스가 정합성을 검증합니다.</div>
       </section>
 
-      <!-- 13: 체크포인트 로그 -->
+      <!-- 11: 영역별 검증 -->
       <section class="slide">
-        <h1>Harness 진행 과정</h1>
-        <div class="terminal-card pass"><pre>&gt; npm run test:config
-config check passed
-
-&gt; npm run test:ui
-ui smoke check passed
-
-&gt; npm run test:design
-design contract check passed
-
-&gt; npm run test:ops-log
-ops log check passed</pre></div>
+        <h1>영역별 검증</h1>
+        <table>
+          <thead>
+            <tr><th>영역</th><th>체크</th><th>보장하는 것</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>설정</td><td>unit, config, api contract</td><td>도메인 로직·스키마·응답 계약</td></tr>
+            <tr><td>화면</td><td>ui smoke, design contract</td><td>배너 DOM·렌더러·디자인 토큰·금지 스타일</td></tr>
+            <tr><td>운영</td><td>docs, ops log</td><td>공지·changelog·감사 로그 ↔ config</td></tr>
+            <tr><td>증거</td><td>report</td><td>리포트 본문·첨부·로그 정합</td></tr>
+          </tbody>
+        </table>
       </section>
 
-      <!-- 14: 최종 완료 게이트 -->
+      <!-- 12: 최종 검증 -->
       <section class="slide">
-        <h1>maintenance:complete 결과</h1>
+        <h1>최종 검증</h1>
         <div class="terminal-card pass"><pre>&gt; npm run maintenance:complete
 
 lint passed
@@ -760,59 +789,38 @@ ops log check passed
 report check passed</pre></div>
       </section>
 
-      <!-- 14: 최종 화면 -->
+      <!-- 13: 결과 리포트 -->
       <section class="slide">
-        <h1>최종 화면</h1>
-        <div class="capture-frame"><img src="./assets/status-page-final.png" alt="최종 상태 페이지 캡처"></div>
-      </section>
-
-      <!-- 17: 결과 리포트 -->
-      <section class="slide">
-        <h1>HTML 결과 리포트</h1>
+        <h1>결과 리포트</h1>
         <div class="capture-frame report-capture"><img src="./assets/report-final.png" alt="HTML 결과 리포트 캡처"></div>
       </section>
 
-      <!-- 18: 역할별 (DARK) -->
-      <section class="slide">
-        <h1>영역별 적용 예시</h1>
-        <div class="role-grid">
-          <div><h3>FE</h3><p>UI smoke<br>접근성<br>화면 regression test</p></div>
-          <div><h3>BE</h3><p>API contract<br>migration<br>compatibility</p></div>
-          <div><h3>System Engineer</h3><p>빌드 정책<br>권한/감사<br>deployment gate</p></div>
-          <div><h3>운영/문서</h3><p>운영 공지<br>changelog<br>runbook 최신성</p></div>
-        </div>
-      </section>
-
-      <!-- 19: 모델 진화 -->
+      <!-- 14: 모델 진화 -->
       <section class="slide">
         <h1>모델이 좋아지면 하네스는?</h1>
         <div class="evolution">
-          <div class="layer thick">
-            <h3>지금</h3>
-            <p>장황한 프롬프트<br>사람 체크리스트<br>반복 설명</p>
-          </div>
+          <div class="layer thick"><h3>지금</h3><p>장황한 프롬프트<br>사람 체크리스트<br>반복 설명</p></div>
           <div class="arrow">→</div>
-          <div class="layer thin">
-            <h3>이후</h3>
-            <p>테스트와 정책<br>hooks와 skills<br>관측 가능성</p>
-          </div>
+          <div class="layer thin"><h3>이후</h3><p>테스트와 정책<br>hooks와 skills<br>로그·증거</p></div>
         </div>
-        <div class="claim">하네스는 사라지는 것이 아니라 얇고 정교하게 진화합니다.</div>
+        <div class="claim">하네스는 한 번 만들고 끝이 아닙니다. 모델이 바뀌면 같이 바뀝니다.</div>
       </section>
 
-      <!-- 20: 한 장 요약 + Karpathy 인용 (DARK) -->
+      <!-- 15: Harness가 천장을 받친다 -->
       <section class="slide">
         <h1>Harness가 천장을 받친다</h1>
-        <p class="lead-quote">"Vibe Coding이 바닥을 올린다면, Agentic Engineering은 천장을 높인다."<cite>— Andrej Karpathy</cite></p>
-        <p class="box">천장은 저절로 올라가지 않습니다. AI가 더 많이 만들수록 검증·운영 부담이 같이 늘어나기 때문입니다. Harness Engineering은 그 부담을 조직이 감당할 수 있게 만들어, Agentic Engineering의 천장을 실제로 도달 가능하게 합니다.</p>
         <div class="final-infographic">
+          <p class="lead-quote">"Vibe Coding이 바닥을 올린다면, Agentic Engineering은 천장을 높인다."<cite>— Andrej Karpathy</cite></p>
+          <div class="info-card accent ceiling-note">천장은 저절로 올라가지 않습니다. AI가 더 많이 만들수록 검증·운영 부담도 같이 늘어나기 때문입니다. Harness Engineering은 그 부담을 사람 손이 아닌 자동 검증이 떠안게 만들어, Agentic Engineering의 천장에 실제로 닿게 합니다.</div>
           <div class="info-card"><h3>AI가 더 많이 구현할수록</h3><p>사람은 문제 정의자, 기준 설계자, 예외 판단자에 가까워집니다.</p></div>
-          <div class="info-card accent"><h3>하네스의 위치</h3><p>AI 변경과 머지/배포 사이에서 빌드·테스트·리뷰·운영 기준을 실행합니다.</p></div>
           <div class="info-card"><h3>사람에게 남는 책임</h3><p>무엇을 만들지, 어떤 기준을 지킬지, 어떤 예외를 허용할지 결정합니다.</p></div>
+          <div class="final-message">
+            <span>이번 주에는 같은 질문을 3번 이상 반복한 항목 하나를 자동화 후보로 적어보세요.</span>
+          </div>
         </div>
       </section>
 
-      <!-- 21: Sources -->
+      <!-- 16: Sources -->
       <section class="slide">
         <h1>Sources</h1>
         <ul>
