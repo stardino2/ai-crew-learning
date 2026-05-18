@@ -1,0 +1,1 @@
+{"type":"maintenance.scheduled","serviceId":"api-gateway","serviceName":"API Gateway","start":"2026-05-20T19:00:00+09:00","end":"2026-05-20T20:00:00+09:00","message":"API Gateway 안정성 개선을 위한 예정 점검이 진행됩니다.","createdAt":"2026-05-15T09:05:00+09:00","source":"codex-demo"}

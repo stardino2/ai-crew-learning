@@ -1,0 +1,884 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Harness Engineering</title>
+    <style>
+      :root {
+        --primary: #0066cc;
+        --canvas: #ffffff;
+        --parchment: #f5f5f7;
+        --tile-dark: #272729;
+        --tile-dark-2: #2a2a2c;
+        --ink: #1d1d1f;
+        --muted: #5a5a5a;
+        --hairline: #e0e0e0;
+        --pearl: #fafafc;
+        --radius-lg: 18px;
+        --pill: 9999px;
+        --product-shadow: rgba(0, 0, 0, 0.22) 3px 5px 30px 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Noto Sans KR", sans-serif;
+        color: var(--ink);
+        background: var(--canvas);
+      }
+
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--canvas); }
+      .deck { height: 100vh; overflow: hidden; }
+      .slide {
+        display: none;
+        width: 100vw;
+        height: 100vh;
+        padding: 64px 80px;
+        background: var(--canvas);
+        color: var(--ink);
+      }
+      .slide:nth-of-type(4n),
+      .slide:nth-of-type(4n + 1) {
+        background: var(--parchment);
+      }
+      .slide:nth-of-type(5),
+      .slide:nth-of-type(7),
+      .slide:nth-of-type(18),
+      .slide:nth-of-type(20) {
+        background: var(--tile-dark);
+        color: #fff;
+      }
+      .slide:nth-of-type(20) {
+        background: var(--tile-dark-2);
+      }
+      .slide.active {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 28px;
+      }
+      h1 {
+        margin: 0;
+        max-width: 1280px;
+        font-size: 72px;
+        font-weight: 600;
+        line-height: 1.07;
+        letter-spacing: -0.32px;
+      }
+      h2 {
+        margin: 0;
+        font-size: 44px;
+        font-weight: 600;
+        line-height: 1.16;
+        letter-spacing: -0.26px;
+      }
+      h3 {
+        margin: 0 0 10px;
+        font-size: 30px;
+        font-weight: 600;
+        letter-spacing: -0.14px;
+      }
+      p, li, td {
+        font-size: 28px;
+        font-weight: 400;
+        line-height: 1.45;
+        letter-spacing: -0.24px;
+      }
+      .meta, .small {
+        color: var(--muted);
+        font-size: 24px;
+      }
+      .slide:nth-of-type(5) .meta,
+      .slide:nth-of-type(7) .meta,
+      .slide:nth-of-type(18) .meta,
+      .slide:nth-of-type(20) .meta,
+      .slide:nth-of-type(5) .small,
+      .slide:nth-of-type(7) .small,
+      .slide:nth-of-type(18) .small,
+      .slide:nth-of-type(20) .small {
+        color: #cccccc;
+      }
+      .box, .note-box, .prompt,
+      .flow-card, .evidence-card, .info-card,
+      .result-grid div, .role-grid div, .change-card {
+        padding: 28px;
+        border: 1px solid var(--hairline);
+        border-radius: var(--radius-lg);
+        background: var(--canvas);
+        color: var(--ink);
+      }
+      .pipeline, .hero-band, .final-message {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        width: fit-content;
+        max-width: 100%;
+        padding: 14px 28px;
+        border-radius: var(--pill);
+        background: var(--primary);
+        color: #fff;
+        font-size: 28px;
+        font-weight: 500;
+        line-height: 1.15;
+      }
+      .answer {
+        padding: 36px 56px;
+        border: 1px solid var(--primary);
+        border-radius: var(--pill);
+        background: var(--primary);
+        color: #fff;
+        font-size: 88px;
+        font-weight: 600;
+        line-height: 1;
+        text-align: center;
+      }
+      .claim {
+        margin: 0;
+        color: inherit;
+        font-size: 36px;
+        font-weight: 600;
+        line-height: 1.32;
+        letter-spacing: -0.22px;
+      }
+      .lead-quote {
+        margin: 0;
+        font-size: 44px;
+        font-weight: 600;
+        line-height: 1.22;
+        letter-spacing: -0.26px;
+        color: inherit;
+      }
+      .lead-quote cite {
+        display: block;
+        margin-top: 10px;
+        font-size: 24px;
+        font-weight: 400;
+        font-style: normal;
+        color: var(--muted);
+      }
+      .slide:nth-of-type(17) .lead-quote cite { color: #cccccc; }
+      .quiz-dog { display: flex; justify-content: center; }
+      .quiz-dog img {
+        width: min(640px, 60%);
+        max-height: 380px;
+        object-fit: contain;
+        border-radius: var(--radius-lg);
+        background: var(--canvas);
+        box-shadow: var(--product-shadow);
+      }
+      .bottleneck-quiz {
+        display: grid;
+        grid-template-columns: 1fr 64px 220px 64px 1fr;
+        gap: 24px;
+        align-items: center;
+      }
+      .col-label {
+        text-align: center;
+        font-size: 24px;
+        font-weight: 600;
+        color: var(--muted);
+      }
+      .slide:nth-of-type(5) .col-label,
+      .slide:nth-of-type(7) .col-label,
+      .slide:nth-of-type(10) .col-label,
+      .slide:nth-of-type(15) .col-label,
+      .slide:nth-of-type(17) .col-label {
+        color: #cccccc;
+      }
+      .flow-arrow {
+        color: var(--primary);
+        font-size: 56px;
+        font-weight: 600;
+        text-align: center;
+        line-height: 1;
+      }
+      .task-column {
+        display: grid;
+        gap: 14px;
+      }
+      .task-column div,
+      .demo-timeline span,
+      .demo-flow div {
+        padding: 16px 18px;
+        border: 1px solid var(--hairline);
+        border-radius: var(--radius-lg);
+        background: var(--canvas);
+        color: var(--ink);
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 1.25;
+        text-align: center;
+      }
+      .unknown-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 220px;
+        border: 2px solid var(--primary);
+        border-radius: var(--pill);
+        background: var(--canvas);
+        color: var(--primary);
+        font-size: 96px;
+        font-weight: 600;
+      }
+      .unknown-box.person {
+        background: var(--primary);
+        color: #fff;
+        font-size: 64px;
+      }
+      .before-after, .evidence-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
+      }
+      .flow-card h3, .evidence-card h3, .info-card h3 {
+        color: var(--ink);
+      }
+      .badge {
+        display: inline-block;
+        padding: 10px 18px;
+        border-radius: var(--pill);
+        font-size: 22px;
+        font-weight: 500;
+      }
+      .badge.warn {
+        color: var(--ink);
+        background: var(--pearl);
+        border: 1px solid var(--hairline);
+      }
+      .badge.ok {
+        color: #fff;
+        background: var(--primary);
+      }
+      .validation-ring {
+        position: relative;
+        width: 760px;
+        height: 440px;
+        margin: 0 auto;
+      }
+      .ring-center, .ring-item {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--pill);
+        font-weight: 600;
+      }
+      .ring-center {
+        left: 50%;
+        top: 50%;
+        width: 280px;
+        height: 140px;
+        transform: translate(-50%, -50%);
+        background: var(--ink);
+        color: #fff;
+        font-size: 32px;
+      }
+      .ring-item {
+        width: 168px;
+        height: 96px;
+        border: 1px solid var(--hairline);
+        background: var(--canvas);
+        color: var(--primary);
+        font-size: 32px;
+      }
+      .build  { left: 296px; top: 6px; }
+      .test   { right: 22px; top: 172px; }
+      .review { right: 130px; bottom: 16px; }
+      .ops    { left: 130px;  bottom: 16px; }
+      .docs   { left: 22px;   top: 172px; }
+      .evidence-lead {
+        padding: 28px;
+        border: 1px solid var(--hairline);
+        border-radius: var(--radius-lg);
+        background: var(--canvas);
+        color: var(--ink);
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 1.32;
+      }
+      .demo-timeline, .demo-flow {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 12px;
+      }
+      .demo-timeline.eight {
+        grid-template-columns: repeat(8, 1fr);
+      }
+      pre, code { font-family: "SF Mono", "Cascadia Code", "D2Coding", monospace; }
+      pre {
+        margin: 0;
+        font-size: 26px;
+        line-height: 1.45;
+        white-space: pre-wrap;
+      }
+      .terminal-card {
+        padding: 28px;
+        border: 1px solid var(--hairline);
+        border-radius: var(--radius-lg);
+        background: var(--canvas);
+        color: var(--ink);
+      }
+      .terminal-card.fail::before,
+      .terminal-card.pass::before {
+        display: inline-block;
+        margin-bottom: 18px;
+        padding: 8px 16px;
+        border: 1px solid var(--hairline);
+        border-radius: var(--pill);
+        color: var(--primary);
+        font: 600 22px/1 system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      }
+      .terminal-card.fail::before {
+        content: "failed check";
+        background: var(--canvas);
+      }
+      .terminal-card.pass::before {
+        content: "passed checks";
+        background: var(--canvas);
+      }
+      .demo-stage {
+        display: grid;
+        gap: 14px;
+      }
+      .stage-label {
+        width: fit-content;
+        padding: 8px 18px;
+        border: 1px solid var(--hairline);
+        border-radius: var(--pill);
+        background: var(--canvas);
+        color: var(--primary);
+        font-size: 22px;
+        font-weight: 600;
+      }
+      .change-stack {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+      }
+      .change-card {
+        min-height: 210px;
+      }
+      .change-card b,
+      .change-card span {
+        display: block;
+      }
+      .change-card b {
+        margin-bottom: 16px;
+        color: var(--primary);
+        font-size: 28px;
+        font-weight: 600;
+      }
+      .change-card span {
+        font-size: 26px;
+        line-height: 1.35;
+      }
+      .request-relay {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 96px minmax(0, 1fr);
+        gap: 20px;
+        align-items: center;
+      }
+      .relay-arrow {
+        color: var(--primary);
+        font-size: 72px;
+        font-weight: 600;
+        text-align: center;
+      }
+      .capture-frame {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 520px;
+        padding: 20px;
+        border: 1px solid var(--hairline);
+        border-radius: var(--radius-lg);
+        background: var(--canvas);
+        overflow: hidden;
+      }
+      .capture-frame img {
+        display: block;
+        width: 100%;
+        max-height: 560px;
+        object-fit: contain;
+        border: 1px solid var(--hairline);
+        border-radius: 8px;
+        background: var(--canvas);
+      }
+      .report-capture img {
+        max-height: 540px;
+      }
+      .result-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+      .result-grid b {
+        display: block;
+        font-size: 28px;
+        margin-bottom: 6px;
+      }
+      .result-grid span {
+        display: block;
+        font-size: 26px;
+        line-height: 1.4;
+      }
+      .role-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 22px;
+      }
+      .role-grid p { margin: 0; font-size: 24px; line-height: 1.45; }
+      .evolution {
+        display: grid;
+        grid-template-columns: 1fr 120px 1fr;
+        gap: 28px;
+        align-items: center;
+      }
+      .layer {
+        min-height: 240px;
+        padding: 28px;
+        border-radius: var(--radius-lg);
+      }
+      .layer.thick {
+        background: #ebebee;
+        border: 3px solid #b8b8bd;
+        color: var(--ink);
+      }
+      .layer.thin {
+        background: var(--canvas);
+        border: 1px solid var(--hairline);
+        color: var(--ink);
+      }
+      .arrow {
+        color: var(--primary);
+        font-size: 88px;
+        font-weight: 600;
+        text-align: center;
+      }
+      .final-infographic {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+      .info-card {
+        min-height: 180px;
+      }
+      .info-card.accent {
+        background: var(--canvas);
+        border-color: var(--primary);
+        border-width: 2px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 26px;
+      }
+      th {
+        font-size: 30px;
+        font-weight: 700;
+        text-align: left;
+        padding: 18px 16px;
+        background: rgba(255, 255, 255, 0.08);
+        border-bottom: 3px solid var(--primary);
+        letter-spacing: -0.2px;
+      }
+      td {
+        padding: 14px 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        text-align: left;
+      }
+      /* Page mockups for slide 8 */
+      .mock-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+      }
+      .page-mock {
+        padding: 22px;
+        border: 1px solid var(--hairline);
+        border-radius: var(--radius-lg);
+        background: #fafafc;
+        box-shadow: var(--product-shadow);
+        display: grid;
+        gap: 14px;
+      }
+      .mock-header {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .mock-eyebrow {
+        font-size: 16px;
+        color: var(--muted);
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
+      }
+      .mock-title {
+        font-size: 28px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .mock-pill {
+        align-self: flex-start;
+        margin-top: 4px;
+        padding: 6px 12px;
+        border-radius: var(--pill);
+        background: #e6f4ea;
+        color: #1b5e20;
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .mock-services {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+      .mock-services span {
+        height: 48px;
+        border-radius: 10px;
+        background: #f0f0f3;
+        border: 1px solid var(--hairline);
+      }
+      .mock-banner {
+        padding: 14px 18px;
+        border-radius: 12px;
+        background: #fff8e1;
+        border: 1px solid #f0c36d;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .mock-banner b { font-size: 18px; color: #6b4f00; }
+      .mock-banner span { font-size: 16px; color: #6b4f00; }
+      .mock-caption {
+        margin: 12px 0 0;
+        font-size: 24px;
+        color: var(--muted);
+        text-align: center;
+      }
+      .footer {
+        position: fixed;
+        right: 28px;
+        bottom: 20px;
+        color: var(--muted);
+        font-size: 18px;
+      }
+      .slide:nth-of-type(5) .footer,
+      .slide:nth-of-type(7) .footer,
+      .slide:nth-of-type(10) .footer,
+      .slide:nth-of-type(15) .footer,
+      .slide:nth-of-type(17) .footer {
+        color: #cccccc;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="deck">
+      <!-- 1: Title -->
+      <section class="slide active">
+        <h1>Harness Engineering</h1>
+        <h2>AI가 만든 결과를 조직이 믿을 수 있는 결과로 바꾸는 일</h2>
+        <div class="pipeline"><span>AI 결과</span><b>→</b><span>검증 기준</span><b>→</b><span>신뢰 가능한 결과</span></div>
+        <p class="meta">05/20 · FE/BE 개발자, System Engineer 대상 · 10분</p>
+      </section>
+
+      <!-- 2: Harness 도입 -->
+      <section class="slide">
+        <h1>이게 하네스입니다.</h1>
+        <div class="quiz-dog"><img src="./assets/dog-harness.png" alt="하네스를 착용한 강아지"></div>
+        <p class="claim">원래는 무언가가 제멋대로 움직이지 않게 잡아주는 장치입니다. 오늘은 AI가 만든 결과가 팀의 검증 기준 안에서만 움직이도록 잡아주는 장치라는 뜻으로 씁니다.</p>
+      </section>
+
+      <!-- 3: 퀴즈 -->
+      <section class="slide">
+        <h1>퀴즈</h1>
+        <h2>AI 활용 업무 처리 시 병목은 어디일까요?</h2>
+        <div class="bottleneck-quiz">
+          <div class="col-label">AI가 빠르게 처리하는 일</div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div class="col-label">AI가 빠르게 처리하는 일</div>
+          <div class="task-column"><div>코드 수정</div><div>테스트 실행</div><div>문서 초안</div><div>설정 변경</div></div>
+          <div class="flow-arrow">→</div>
+          <div class="unknown-box">?</div>
+          <div class="flow-arrow">→</div>
+          <div class="task-column"><div>빌드 결과 확인</div><div>운영 공지</div><div>PR 준비</div><div>배포 전 점검</div></div>
+        </div>
+      </section>
+
+      <!-- 4: 정답 -->
+      <section class="slide">
+        <h1>정답</h1>
+        <div class="bottleneck-quiz">
+          <div class="col-label">AI가 빠르게 처리하는 일</div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div class="col-label">AI가 빠르게 처리하는 일</div>
+          <div class="task-column"><div>코드 수정</div><div>테스트 실행</div><div>문서 초안</div><div>설정 변경</div></div>
+          <div class="flow-arrow">→</div>
+          <div class="unknown-box person">사람</div>
+          <div class="flow-arrow">→</div>
+          <div class="task-column"><div>빌드 결과 확인</div><div>운영 공지</div><div>PR 준비</div><div>배포 전 점검</div></div>
+        </div>
+        <div class="claim">반복 검증이 사람에게 몰리면 AI를 써도 흐름은 빨라지지 않습니다.</div>
+      </section>
+
+      <!-- 5: 사람 검증을 자동 기준으로 (DARK) -->
+      <section class="slide">
+        <h1>사람 검증을 자동 기준으로</h1>
+        <div class="before-after">
+          <div class="flow-card"><h3>Before</h3><p>AI 변경 → 사람이 매번 확인 → 머지/배포</p><span class="badge warn">사람 병목</span></div>
+          <div class="flow-card"><h3>After</h3><p>AI 변경 → 팀의 자동 검증 기준 → 사람은 예외 판단</p><span class="badge ok">흐름 유지</span></div>
+        </div>
+        <table>
+          <tr><th>사람이 매번 보는 것</th><th>팀의 자동 검증 기준</th></tr>
+          <tr><td>테스트 돌렸나?</td><td>CI에서 자동 실행</td></tr>
+          <tr><td>설정 형식 맞나?</td><td>schema validation</td></tr>
+          <tr><td>API 계약 깨졌나?</td><td>contract test</td></tr>
+          <tr><td>운영 공지 갱신했나?</td><td>docs check</td></tr>
+          <tr><td>화면에 보이나?</td><td>UI smoke check</td></tr>
+        </table>
+      </section>
+
+      <!-- 6: 정의 -->
+      <section class="slide">
+        <h1>Harness Engineering</h1>
+        <p class="claim">AI가 만든 결과를 사람이 매번 손으로 검증하는 대신, 팀의 자동 검증 기준을 통과하게 만드는 일입니다.</p>
+        <div class="validation-ring">
+          <div class="ring-item build">build</div>
+          <div class="ring-item test">test</div>
+          <div class="ring-item review">review</div>
+          <div class="ring-item ops">ops</div>
+          <div class="ring-item docs">docs</div>
+          <div class="ring-center">AI 변경</div>
+        </div>
+      </section>
+
+      <!-- 7: 공통 패턴 (DARK) -->
+      <section class="slide">
+        <h1>공개 자료에서 보이는 공통 패턴</h1>
+        <div class="evidence-lead">에이전트에게 지시만 주는 것이 아니라, 저장소 규칙·훅·CI·리뷰 루프를 함께 제공합니다.</div>
+        <div class="evidence-grid">
+          <div class="evidence-card"><h3>OpenAI</h3><p>테스팅·검증·리뷰·피드백 처리·복구를 시스템에 박아두는 방식</p></div>
+          <div class="evidence-card"><h3>Claude Code</h3><p><code>CLAUDE.md</code>, hooks, skills로 저장소별 규칙과 반복 작업 제공</p></div>
+          <div class="evidence-card"><h3>GitHub Copilot</h3><p>GitHub Actions와 PR 흐름 안에서 agent 작업 수행</p></div>
+          <div class="evidence-card"><h3>DORA / DevOps</h3><p>자동 테스트, 배포 자동화, 빠른 피드백, 수동 단계 감소</p></div>
+        </div>
+      </section>
+
+      <!-- 8: 이번에 만들 변화 (NEW) -->
+      <section class="slide">
+        <h1>이번에 만들 변화</h1>
+        <div class="mock-grid">
+          <div>
+            <div class="page-mock">
+              <div class="mock-header">
+                <span class="mock-eyebrow">Internal Platform</span>
+                <span class="mock-title">Service Status</span>
+                <span class="mock-pill">All systems normal</span>
+              </div>
+              <div class="mock-services"><span></span><span></span><span></span><span></span></div>
+            </div>
+            <p class="mock-caption">현재 — 점검 안내 없음</p>
+          </div>
+          <div>
+            <div class="page-mock">
+              <div class="mock-header">
+                <span class="mock-eyebrow">Internal Platform</span>
+                <span class="mock-title">Service Status</span>
+                <span class="mock-pill">All systems normal</span>
+              </div>
+              <div class="mock-banner">
+                <b>Scheduled maintenance</b>
+                <span>API Gateway · 2026-05-20 19:00-20:00 KST</span>
+              </div>
+              <div class="mock-services"><span></span><span></span><span></span><span></span></div>
+            </div>
+            <p class="mock-caption">목표 — 첫 화면에 점검 배너</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9: HTML 시연 프롬프트 -->
+      <section class="slide">
+        <h1>HTML 시연: mini-status-harness</h1>
+        <div class="box"><pre>현재 상태 페이지에 예정 점검 배너를 추가해줘.
+운영 공지, ops audit log, HTML 결과 리포트까지 업데이트하고
+완료 전 npm run maintenance:complete를 실행해줘.</pre></div>
+        <div class="demo-timeline"><span>베이스라인</span><span>요청</span><span>변경</span><span>체크포인트</span><span>완료 게이트</span><span>화면</span><span>리포트</span></div>
+      </section>
+
+      <!-- 10: 시연 전 베이스라인 -->
+      <section class="slide">
+        <h1>시연 전: 베이스라인 HTML</h1>
+        <div class="capture-frame"><img src="./assets/status-page-before.png" alt="시연 전 베이스라인 상태 페이지 캡처"></div>
+        <div class="claim">시작점은 점검 배너가 없는 정상 상태 페이지입니다.</div>
+      </section>
+
+      <!-- 11: 시연 요청 -->
+      <section class="slide">
+        <h1>시연 1: 요청</h1>
+        <div class="demo-stage">
+          <div class="stage-label">LLM input</div>
+          <div class="terminal-card"><pre>현재 상태 페이지에 예정 점검 배너를 추가해줘.
+
+조건:
+- 점검 시간은 2026-05-20 19:00-20:00 KST
+- 영향 서비스는 API Gateway
+- 사용자가 첫 화면에서 바로 볼 수 있어야 함
+- 운영 공지 문구도 함께 업데이트해줘
+- ops audit log도 남겨줘
+- 결과 리포트에 통과한 하네스 목록, 로그, 화면 snapshot 근거도 포함해줘
+
+작업 방식:
+- AGENTS.md의 레이어별 checkpoint 규칙을 따라줘.
+- 완료 전 반드시 npm run maintenance:complete를 실행해줘.
+- maintenance:complete가 통과하기 전에는 완료 보고하지 마.</pre></div>
+        </div>
+        <div class="claim">사람은 원하는 운영 상태와 완료 게이트를 요청하고, 세부 검증은 프로젝트 규칙에 맡깁니다.</div>
+      </section>
+
+      <!-- 12: 시연 변경 -->
+      <section class="slide">
+        <h1>시연 2: AI 변경</h1>
+        <div class="change-stack">
+          <div class="change-card"><b>config</b><span>maintenance.enabled, 일정, 영향 서비스</span></div>
+          <div class="change-card"><b>UI</b><span>배너 DOM, 렌더러, 토큰 기반 스타일</span></div>
+          <div class="change-card"><b>ops</b><span>운영 공지, changelog, audit log</span></div>
+          <div class="change-card"><b>evidence</b><span>하네스 로그, snapshot, HTML 리포트</span></div>
+        </div>
+        <div class="claim">변경은 한 파일이 아니라 config, UI, design, docs, ops, evidence까지 이어집니다.</div>
+      </section>
+
+      <!-- 13: 시연 체크포인트 -->
+      <section class="slide">
+        <h1>시연 3: 레이어별 체크포인트</h1>
+        <div class="terminal-card pass"><pre>&gt; npm run test:config
+config check passed
+
+&gt; npm run test:ui
+ui smoke check passed
+
+&gt; npm run test:design
+design contract check passed
+
+&gt; npm run test:ops-log
+ops log check passed</pre></div>
+        <div class="claim">Codex는 구현 중간에 레이어별 checkpoint를 실행하며 완료 조건을 확인합니다.</div>
+      </section>
+
+      <!-- 14: 최종 완료 게이트 -->
+      <section class="slide">
+        <h1>시연 4: 최종 완료 게이트</h1>
+        <div class="terminal-card pass"><pre>&gt; npm run maintenance:complete
+
+lint passed
+unit tests passed
+config check passed
+api contract check passed
+ui smoke check passed
+docs check passed
+design contract check passed
+ops log check passed
+report check passed</pre></div>
+        <div class="claim">완료 보고는 최종 게이트가 통과한 뒤에만 가능합니다.</div>
+      </section>
+
+      <!-- 15: 실패 없이도 남는 증거 -->
+      <section class="slide">
+        <h1>시연 5: 실패 없이도 남는 증거</h1>
+        <div class="demo-stage">
+          <div class="stage-label">Narration</div>
+          <div class="terminal-card"><pre>이번에는 Codex가 한 번에 모든 레이어를 맞췄습니다.
+
+중요한 것은 실패가 났느냐가 아니라,
+완료 전에 모든 하네스를 통과했다는 증거가 남는다는 점입니다.</pre></div>
+        </div>
+        <div class="claim">시연의 결론은 실패 장면이 아니라 검증 가능한 완료 증거입니다.</div>
+      </section>
+
+      <!-- 16: 화면 확인 -->
+      <section class="slide">
+        <h1>시연 6: 화면 확인</h1>
+        <div class="capture-frame"><img src="./assets/status-page-final.png" alt="최종 상태 페이지 캡처"></div>
+        <div class="claim">첫 화면에서 API Gateway 예정 점검 배너가 바로 보입니다.</div>
+      </section>
+
+      <!-- 17: 결과 리포트 -->
+      <section class="slide">
+        <h1>시연 7: HTML 결과 리포트</h1>
+        <div class="capture-frame report-capture"><img src="./assets/report-final.png" alt="HTML 결과 리포트 캡처"></div>
+        <div class="claim">마지막 산출물은 코드가 아니라, 요청·검증·화면 증거가 묶인 HTML 리포트입니다.</div>
+      </section>
+
+      <!-- 18: 역할별 (DARK) -->
+      <section class="slide">
+        <h1>역할별 적용 지점</h1>
+        <div class="role-grid">
+          <div><h3>FE</h3><p>UI smoke<br>접근성<br>화면 회귀</p></div>
+          <div><h3>BE</h3><p>API contract<br>migration<br>compatibility</p></div>
+          <div><h3>System Engineer</h3><p>빌드 정책<br>권한/감사<br>배포 게이트</p></div>
+          <div><h3>운영/문서</h3><p>운영 공지<br>changelog<br>runbook 최신성</p></div>
+        </div>
+      </section>
+
+      <!-- 19: 모델 진화 -->
+      <section class="slide">
+        <h1>모델이 좋아지면 하네스는?</h1>
+        <div class="evolution">
+          <div class="layer thick">
+            <h3>지금</h3>
+            <p>장황한 프롬프트<br>사람 체크리스트<br>반복 설명</p>
+          </div>
+          <div class="arrow">→</div>
+          <div class="layer thin">
+            <h3>이후</h3>
+            <p>테스트와 정책<br>hooks와 skills<br>관측 가능성</p>
+          </div>
+        </div>
+        <div class="claim">하네스는 사라지는 것이 아니라 얇고 정교하게 진화합니다.</div>
+      </section>
+
+      <!-- 20: 한 장 요약 + Karpathy 인용 (DARK) -->
+      <section class="slide">
+        <h1>Harness가 천장을 받친다</h1>
+        <p class="lead-quote">"Vibe Coding이 바닥을 올린다면, Agentic Engineering은 천장을 높인다."<cite>— Andrej Karpathy</cite></p>
+        <p class="box">천장은 저절로 올라가지 않습니다. AI가 더 많이 만들수록 검증·운영 부담이 같이 늘어나기 때문입니다. Harness Engineering은 그 부담을 조직이 감당할 수 있게 만들어, Agentic Engineering의 천장을 실제로 도달 가능하게 합니다.</p>
+        <div class="final-infographic">
+          <div class="info-card"><h3>AI가 더 많이 구현할수록</h3><p>사람은 문제 정의자, 기준 설계자, 예외 판단자에 가까워집니다.</p></div>
+          <div class="info-card accent"><h3>하네스의 위치</h3><p>AI 변경과 머지/배포 사이에서 빌드·테스트·리뷰·운영 기준을 실행합니다.</p></div>
+          <div class="info-card"><h3>사람에게 남는 책임</h3><p>무엇을 만들지, 어떤 기준을 지킬지, 어떤 예외를 허용할지 결정합니다.</p></div>
+        </div>
+      </section>
+
+      <!-- 21: Sources -->
+      <section class="slide">
+        <h1>Sources</h1>
+        <ul>
+          <li>OpenAI, Harness Engineering: https://openai.com/index/harness-engineering/</li>
+          <li>Anthropic, Claude Code best practices: https://code.claude.com/docs/en/best-practices</li>
+          <li>GitHub Docs, Copilot coding agent concepts: https://docs.github.com/en/copilot/concepts/about-copilot-coding-agent</li>
+          <li>DORA capabilities: https://dora.dev/capabilities/</li>
+          <li>Andrej Karpathy, Sequoia Ascent 2026 — From Vibe Coding to Agentic Engineering</li>
+        </ul>
+      </section>
+    </main>
+    <div class="footer"><span id="page">1</span> / <span id="total">1</span> · ← →</div>
+    <script>
+      const slides = [...document.querySelectorAll(".slide")];
+      let index = 0;
+      document.querySelector("#total").textContent = String(slides.length);
+      function show(next) {
+        slides[index].classList.remove("active");
+        index = Math.max(0, Math.min(slides.length - 1, next));
+        slides[index].classList.add("active");
+        document.querySelector("#page").textContent = String(index + 1);
+      }
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowRight" || event.key === " ") show(index + 1);
+        if (event.key === "ArrowLeft") show(index - 1);
+      });
+    </script>
+  </body>
+</html>

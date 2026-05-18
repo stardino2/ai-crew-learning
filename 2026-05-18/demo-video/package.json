@@ -1,0 +1,14 @@
+{
+  "name": "mini-status-harness-demo-video",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "hyperframes lint",
+    "inspect": "hyperframes inspect",
+    "render": "hyperframes render --output renders/mini-status-harness-demo.mp4 --quality standard"
+  },
+  "devDependencies": {
+    "hyperframes": "^0.15.0"
+  }
+}
+

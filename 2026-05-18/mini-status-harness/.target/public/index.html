@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mini Status Harness</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Internal Platform</p>
+          <h1>Service Status</h1>
+        </div>
+        <span id="overall-status" class="status-pill">Loading</span>
+      </header>
+
+      <section id="maintenance-banner" class="maintenance-banner" hidden>
+        <p class="banner-label">Scheduled maintenance</p>
+        <h2 id="maintenance-title">Maintenance scheduled</h2>
+        <p id="maintenance-message"></p>
+        <p id="maintenance-window" class="banner-window"></p>
+      </section>
+
+      <section class="grid" id="service-grid" aria-label="Service list"></section>
+
+      <footer>
+        <span id="generated-at"></span>
+      </footer>
+    </main>
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
+

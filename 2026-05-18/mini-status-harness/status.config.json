@@ -1,0 +1,27 @@
+{
+  "generatedAt": "2026-05-15T09:00:00+09:00",
+  "overallStatus": "operational",
+  "services": [
+    {
+      "id": "web",
+      "name": "Web Frontend",
+      "status": "operational",
+      "latencyMs": 42
+    },
+    {
+      "id": "api-gateway",
+      "name": "API Gateway",
+      "status": "operational",
+      "latencyMs": 58
+    },
+    {
+      "id": "worker",
+      "name": "Background Worker",
+      "status": "operational",
+      "latencyMs": 91
+    }
+  ],
+  "maintenance": {
+    "enabled": false
+  }
+}

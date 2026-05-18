@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mini Status Harness Evidence Report</title>
+  </head>
+  <body>
+    <main>
+      <h1>Harness passed: API Gateway 예정 점검</h1>
+      <p>점검 시간: 2026-05-20 19:00-20:00 KST</p>
+      <p>영향 서비스: API Gateway</p>
+
+      <h2>Harness Results</h2>
+      <ul>
+        <li>lint passed</li>
+        <li>unit tests passed</li>
+        <li>config check passed</li>
+        <li>api contract check passed</li>
+        <li>ui smoke check passed</li>
+        <li>docs check passed</li>
+        <li>design contract check passed</li>
+        <li>ops log check passed</li>
+      </ul>
+
+      <h2>Evidence</h2>
+      <p>Harness log: <a href="./harness.log">harness.log</a></p>
+      <p>HTML snapshot: <a href="./snapshots/before.html">before.html</a> / <a href="./snapshots/after.html">after.html</a></p>
+      <figure>
+        <img src="./assets/status-page-before.png" alt="Status page before maintenance banner">
+        <figcaption>status-page-before.png</figcaption>
+      </figure>
+      <figure>
+        <img src="./assets/status-page-final.png" alt="Status page after maintenance banner">
+        <figcaption>status-page-final.png</figcaption>
+      </figure>
+
+      <h2>Ops Log Summary</h2>
+      <p>maintenance.scheduled event recorded for API Gateway from 2026-05-20T19:00:00+09:00 to 2026-05-20T20:00:00+09:00.</p>
+    </main>
+  </body>
+</html>
