@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>로또 번호 추출기 — Harness Engineering Demo</title>
+  <style>
+    :root {
+      --brand: #0d6b64;
+      --accent: #c97a17;
+      --bg: #f5f1e8;
+      --surface: rgba(255,255,255,0.9);
+      --ink: #1a2332;
+      --muted: #4a5568;
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Pretendard", "Noto Sans KR", "Segoe UI", sans-serif;
+      background: radial-gradient(circle at 15% 10%, rgba(13,107,100,.12), transparent 28%),
+                  radial-gradient(circle at 85% 12%, rgba(201,122,23,.10), transparent 28%),
+                  linear-gradient(180deg, #f6f4f0 0%, #f8f9f7 100%);
+      min-height: 100vh;
+      color: var(--ink);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 16px;
+    }
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 32px -12px rgba(16,32,51,.18);
+      padding: 36px 32px;
+      width: min(480px, 100%);
+    }
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--brand);
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+    .field { margin-bottom: 16px; }
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    select, input[type="date"] {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid rgba(16,32,51,.15);
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: inherit;
+      background: #fff;
+      color: var(--ink);
+      outline: none;
+      transition: border-color .15s;
+    }
+    select:focus, input[type="date"]:focus {
+      border-color: var(--brand);
+    }
+    .btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--brand), #134e4a);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 4px;
+      transition: opacity .15s;
+    }
+    .btn:hover { opacity: .9; }
+    .hint {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 10px;
+    }
+    #output {
+      margin-top: 28px;
+      min-height: 40px;
+    }
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      background: rgba(13,107,100,.1);
+      color: var(--brand);
+      border-radius: 6px;
+      padding: 2px 8px;
+      margin-top: 24px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="eyebrow">Harness Engineering Demo</div>
+    <h1>로또 번호 추출기</h1>
+    <p class="subtitle">Before state — 기본 random 추출</p>
+
+    <div class="field">
+      <label for="birthday">생년월일</label>
+      <input type="date" id="birthday" />
+    </div>
+
+    <div class="field">
+      <label for="count">게임 수</label>
+      <select id="count">
+        <option value="1">1 게임</option>
+        <option value="2">2 게임</option>
+        <option value="3" selected>3 게임</option>
+        <option value="4">4 게임</option>
+        <option value="5">5 게임</option>
+      </select>
+    </div>
+
+    <button class="btn" id="draw">번호 뽑기</button>
+    <p class="hint" id="hint">버튼을 눌러 번호를 뽑으세요</p>
+
+    <div id="output"></div>
+
+    <span class="tag">Before — plans/active 없이도 실행 가능한 UI</span>
+  </div>
+
+  <script>
+    // 동기화 대상: demo/src/engine/*, demo/src/ui/* — vitest 테스트는 모듈 버전을 검증한다.
+
+    function seededRandom(seed) {
+      let t = seed >>> 0;
+      return function () {
+        t = (t + 0x6d2b79f5) >>> 0;
+        let r = t;
+        r = Math.imul(r ^ (r >>> 15), r | 1);
+        r ^= r + Math.imul(r ^ (r >>> 7), r | 61);
+        return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+
+    function generateLotto(rng) {
+      rng = rng || Math.random;
+      const picked = new Set();
+      while (picked.size < 6) {
+        picked.add(Math.floor(rng() * 45) + 1);
+      }
+      return [...picked].sort((a, b) => a - b);
+    }
+
+    const BALL_COLORS = [
+      { max: 10, bg: "#fbc400", text: "#000" },
+      { max: 20, bg: "#69c8f2", text: "#000" },
+      { max: 30, bg: "#ff7272", text: "#fff" },
+      { max: 40, bg: "#aaa", text: "#fff" },
+      { max: 45, bg: "#b0d840", text: "#000" },
+    ];
+
+    function makeBall(n) {
+      const { bg, text } = BALL_COLORS.find((c) => n <= c.max);
+      const span = document.createElement("span");
+      span.className = "ball";
+      span.textContent = n;
+      span.style.cssText = `
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 44px; height: 44px; border-radius: 50%;
+        background: ${bg}; color: ${text};
+        font-weight: 700; font-size: 15px; margin: 4px;
+        box-shadow: 0 2px 6px rgba(0,0,0,.25);
+      `;
+      return span;
+    }
+
+    function renderGames(numbers2d, container) {
+      container.innerHTML = "";
+      numbers2d.forEach((numbers, i) => {
+        const row = document.createElement("div");
+        row.style.cssText = "display:flex; align-items:center; margin: 6px 0;";
+        const label = document.createElement("span");
+        label.textContent = `게임 ${i + 1}`;
+        label.style.cssText = "min-width:52px; font-size:13px; color:#666; margin-right:8px;";
+        row.appendChild(label);
+        numbers.forEach((n) => row.appendChild(makeBall(n)));
+        container.appendChild(row);
+      });
+    }
+
+    document.getElementById("draw").addEventListener("click", () => {
+      const count = parseInt(document.getElementById("count").value, 10);
+      const birthdayVal = document.getElementById("birthday").value;
+
+      let rng;
+      if (birthdayVal) {
+        const [y, m, d] = birthdayVal.split("-").map(Number);
+        const t = new Date();
+        const birthdayInt = y * 10000 + m * 100 + d;
+        const todayInt = t.getFullYear() * 10000 + (t.getMonth() + 1) * 100 + t.getDate();
+        const seed = (birthdayInt * 100000000 + todayInt) >>> 0;
+        rng = seededRandom(seed);
+      }
+
+      const games = [];
+      for (let i = 0; i < count; i++) {
+        games.push(generateLotto(rng));
+      }
+      renderGames(games, document.getElementById("output"));
+    });
+  </script>
+</body>
+</html>

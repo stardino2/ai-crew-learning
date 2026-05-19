@@ -1,0 +1,16 @@
+{
+  "name": "lecture0419",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "saoudrizwan.claude-dev",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "vitest.explorer"
+      ]
+    }
+  },
+  "postCreateCommand": "npm install && npx husky",
+  "forwardPorts": []
+}

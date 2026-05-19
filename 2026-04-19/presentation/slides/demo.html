@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Harness Demo — Live</title>
+  <style>
+    :root {
+      --brand: #0d6b64;
+      --accent: #c97a17;
+      --bg: #f5f1e8;
+      --surface: rgba(255,255,255,0.96);
+      --ink: #1a2332;
+      --muted: #4a5568;
+      --radius: 12px;
+      --ctx: #0d6b64;
+      --con: #c97a17;
+      --gc:  #5b4bbf;
+      --code-bg: rgba(13,107,100,.08);
+      --code-ink: #0d6b64;
+      --card-shadow: 0 4px 18px -6px rgba(16,32,51,.14);
+    }
+
+    body[data-theme="dark"] {
+      --bg: #121821;
+      --surface: rgba(30,40,55,0.95);
+      --ink: #e8eef5;
+      --muted: #8fa0b3;
+      --code-bg: rgba(13,107,100,.22);
+      --code-ink: #4dd4cb;
+      --card-shadow: 0 4px 18px -6px rgba(0,0,0,.5);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Pretendard", "Noto Sans KR", "Segoe UI", sans-serif;
+      background: radial-gradient(circle at 20% 8%, rgba(13,107,100,.10), transparent 30%),
+                  linear-gradient(180deg, #f6f4f0 0%, #f8f9f7 100%);
+      min-height: 100vh;
+      overflow-y: auto;
+      color: var(--ink);
+    }
+    body[data-theme="dark"] {
+      background: radial-gradient(circle at 20% 8%, rgba(13,107,100,.18), transparent 30%),
+                  linear-gradient(180deg, #131c28 0%, #0d1117 100%);
+    }
+
+    code {
+      font-family: "Consolas", "D2Coding", monospace;
+      font-size: 0.9em;
+      background: var(--code-bg);
+      color: var(--code-ink);
+      border-radius: 4px;
+      padding: 2px 6px;
+    }
+
+    /* ── Sticky header ── */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: var(--surface);
+      border-bottom: 2px solid var(--brand);
+      padding: 14px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 12px rgba(0,0,0,.08);
+    }
+    .header-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--brand);
+      letter-spacing: -.01em;
+    }
+    .header-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    #themeToggle {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid rgba(16,32,51,.12);
+      background: var(--bg);
+      box-shadow: 0 2px 8px rgba(0,0,0,.10);
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    body[data-theme="dark"] #themeToggle { border-color: rgba(255,255,255,.15); }
+
+    /* ── Main content column ── */
+    .main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 32px 40px 64px;
+    }
+
+    /* ── Section cards ── */
+    .section-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--card-shadow);
+      padding: 28px 32px;
+      margin-bottom: 0;
+    }
+
+    /* ── Section labels ── */
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--brand);
+      margin-bottom: 12px;
+    }
+
+    /* ── Step tags ── */
+    .step-tag {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      border-radius: 5px;
+      padding: 2px 8px;
+    }
+    .tag--ctx  { background: rgba(13,107,100,.12); color: var(--ctx); }
+    .tag--con  { background: rgba(201,122,23,.14); color: var(--con); }
+    .tag--gc   { background: rgba(91,75,191,.12);  color: var(--gc); }
+    .tag--comp { background: rgba(16,32,51,.08);   color: var(--muted); }
+    body[data-theme="dark"] .tag--comp { background: rgba(255,255,255,.10); }
+
+    /* ── Prompt A ── */
+    .prompt-a-box {
+      background: rgba(201,122,23,.10);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      padding: 18px 22px;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+    body[data-theme="dark"] .prompt-a-box { background: rgba(201,122,23,.18); }
+    .prompt-pill {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--con);
+      background: rgba(201,122,23,.14);
+      border-radius: 5px;
+      padding: 2px 8px;
+      margin-bottom: 10px;
+    }
+
+    /* ── Vertical pipeline ── */
+    .pipeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .pipeline-stage {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      background: rgba(16,32,51,.04);
+      border-radius: 10px;
+      padding: 18px 22px;
+    }
+    body[data-theme="dark"] .pipeline-stage { background: rgba(255,255,255,.07); }
+    .pipeline-stage--gate {
+      outline: 2px solid var(--con);
+      outline-offset: 2px;
+    }
+    .pipeline-step-num {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--brand);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pipeline-stage--gate .pipeline-step-num { background: var(--con); }
+    .pipeline-stage-body { flex: 1; }
+    .pipeline-stage-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .pipeline-stage-desc {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .pipeline-arrow {
+      text-align: center;
+      font-size: 26px;
+      color: var(--brand);
+      font-weight: 700;
+      padding: 4px 0;
+      line-height: 1;
+    }
+
+    /* ── Prompt B ── */
+    .prompt-b-label {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--con);
+      margin-bottom: 10px;
+    }
+    .prompt-b-box {
+      background: rgba(201,122,23,.08);
+      border-left: 4px solid var(--con);
+      border-radius: 0 10px 10px 0;
+      padding: 16px 20px;
+      font-family: "Consolas", "D2Coding", monospace;
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--ink);
+    }
+    body[data-theme="dark"] .prompt-b-box { background: rgba(201,122,23,.16); }
+
+    /* ── Hook badges (vertical) ── */
+    .hook-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .hook-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .hook-item.red   { background: rgba(220,38,38,.10);  color: #dc2626; }
+    .hook-item.green { background: rgba(22,163,74,.10);  color: #16a34a; }
+    body[data-theme="dark"] .hook-item.red   { background: rgba(220,38,38,.20); }
+    body[data-theme="dark"] .hook-item.green { background: rgba(22,163,74,.20); }
+    .hook-icon { font-size: 26px; flex-shrink: 0; }
+    .hook-arrow {
+      text-align: center;
+      font-size: 22px;
+      color: var(--muted);
+      padding: 2px 0;
+    }
+
+    /* ── Steps 7-8 ── */
+    .steps-list {
+      list-style: none;
+      padding: 0;
+    }
+    .steps-list li {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 0;
+      font-size: 18px;
+      border-bottom: 1px solid rgba(16,32,51,.07);
+    }
+    body[data-theme="dark"] .steps-list li { border-bottom-color: rgba(255,255,255,.08); }
+    .steps-list li:last-child { border-bottom: none; }
+    .step-num {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      background: var(--brand);
+      color: #fff;
+      border-radius: 50%;
+      font-size: 15px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── Fallback ── */
+    .fallback-box {
+      background: rgba(91,75,191,.07);
+      border: 1px dashed var(--gc);
+      border-radius: 10px;
+      padding: 16px 20px;
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    body[data-theme="dark"] .fallback-box { background: rgba(91,75,191,.14); }
+
+    /* ── Dividers between sections ── */
+    .section-gap { height: 20px; }
+    .section-gap--lg { height: 28px; }
+
+    h2 {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--brand);
+      margin-bottom: 16px;
+    }
+  </style>
+</head>
+<body data-theme="light">
+
+  <!-- ── Sticky header ── -->
+  <header class="header">
+    <div>
+      <div class="header-title">Harness Demo — Live</div>
+      <div class="header-sub">Slide 6 · 5:00 – 9:00 · Cline 옆 창에 띄우기</div>
+    </div>
+    <button id="themeToggle" aria-label="다크/라이트 전환">🌗</button>
+  </header>
+
+  <div class="main">
+
+    <!-- ── Section 1: Prompt A ── -->
+    <div class="section-card">
+      <div class="section-label">Step 1–5 자동 수행 — Cline에 붙여넣기</div>
+      <div class="prompt-a-box">
+        <div class="prompt-pill">Prompt A</div><br>
+        생일을 넣으면 로또번호를 추출해주는 기능을 넣어줘.<br>
+        같은 날짜에 생성하면 같은 번호가 나와야 함.
+      </div>
+    </div>
+
+    <div class="section-gap--lg"></div>
+
+    <!-- ── Section 2: Vertical pipeline ── -->
+    <div class="section-card">
+      <div class="section-label">Harness 자동 흐름 — 5단계</div>
+      <div class="pipeline">
+
+        <div class="pipeline-stage">
+          <div class="pipeline-step-num">1</div>
+          <div class="pipeline-stage-body">
+            <div class="pipeline-stage-title">Worktree 분리</div>
+            <div class="pipeline-stage-desc">
+              <code>git worktree add ../lecture0419-wt/&lt;feature-branch&gt;</code><br>
+              main 건드리지 않고 격리된 작업 공간 생성
+            </div>
+            <div style="margin-top:8px"><span class="step-tag tag--ctx">① Context</span></div>
+          </div>
+        </div>
+
+        <div class="pipeline-arrow">↓</div>
+
+        <div class="pipeline-stage">
+          <div class="pipeline-step-num">2</div>
+          <div class="pipeline-stage-body">
+            <div class="pipeline-stage-title">Plan 작성</div>
+            <div class="pipeline-stage-desc">
+              <code>plans/active/&lt;feature&gt;.md</code> 생성<br>
+              코드보다 계획 먼저 — Context engineering
+            </div>
+            <div style="margin-top:8px"><span class="step-tag tag--ctx">① Context</span></div>
+          </div>
+        </div>
+
+        <div class="pipeline-arrow">↓</div>
+
+        <div class="pipeline-stage">
+          <div class="pipeline-step-num">3</div>
+          <div class="pipeline-stage-body">
+            <div class="pipeline-stage-title">Engine / UI 구현</div>
+            <div class="pipeline-stage-desc">
+              <code>demo/src/engine/&lt;feature&gt;.js</code> — 순수 함수만<br>
+              DOM 호출 금지 · <code>demo/src/ui/input.js</code> 업데이트
+            </div>
+            <div style="margin-top:8px"><span class="step-tag tag--con">② Constraints</span></div>
+          </div>
+        </div>
+
+        <div class="pipeline-arrow">↓</div>
+
+        <div class="pipeline-stage">
+          <div class="pipeline-step-num">4</div>
+          <div class="pipeline-stage-body">
+            <div class="pipeline-stage-title">Test 검증</div>
+            <div class="pipeline-stage-desc">
+              <code>npx vitest run</code> → green ✅<br>
+              Computational feedback — 결정적 검증
+            </div>
+            <div style="margin-top:8px"><span class="step-tag tag--comp">Computational</span></div>
+          </div>
+        </div>
+
+        <div class="pipeline-arrow">↓</div>
+
+        <div class="pipeline-stage">
+          <div class="pipeline-step-num">5</div>
+          <div class="pipeline-stage-body">
+            <div class="pipeline-stage-title">스크린샷 → logs/</div>
+            <div class="pipeline-stage-desc">
+              Win+Shift+S 로 화면 캡처<br>
+              <code>logs/ui-check-*.md</code> 에 증거 저장
+            </div>
+            <div style="margin-top:8px"><span class="step-tag tag--gc">③ Collection</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-gap--lg"></div>
+
+    <!-- ── Section 3: Prompt B ── -->
+    <div class="section-card">
+      <div class="section-label">Step 6 — Hook 차단 시연</div>
+      <div class="prompt-b-label">Prompt B — Cline에 붙여넣기</div>
+      <div class="prompt-b-box">
+        이제 harness 훅이 실제로 나쁜 커밋을 막는지 3종으로 보여줘.<br>
+        1) main 직접 커밋<br>
+        2) plan 없는 커밋<br>
+        3) 깨진 테스트 커밋<br>
+        모두 실패한 뒤, 정상 상태로 복구해서 성공 커밋까지 보여줘.
+      </div>
+    </div>
+
+    <div class="section-gap"></div>
+
+    <!-- ── Section 4: Hook badges ── -->
+    <div class="section-card">
+      <div class="section-label">Hook 차단 결과</div>
+      <div class="hook-list">
+        <div class="hook-item red">
+          <span class="hook-icon">❌</span>
+          <div>
+            <strong>main 직접 커밋 차단</strong><br>
+            <span style="font-size:15px;font-weight:400">Direct commits to main branch are not allowed.</span>
+          </div>
+        </div>
+        <div class="hook-arrow">↓</div>
+        <div class="hook-item red">
+          <span class="hook-icon">❌</span>
+          <div>
+            <strong>plan 없는 커밋 차단</strong><br>
+            <span style="font-size:15px;font-weight:400">No plan file found in plans/active/</span>
+          </div>
+        </div>
+        <div class="hook-arrow">↓</div>
+        <div class="hook-item red">
+          <span class="hook-icon">❌</span>
+          <div>
+            <strong>깨진 테스트 커밋 차단</strong><br>
+            <span style="font-size:15px;font-weight:400">verify-tasks 실패 — 테스트 먼저 고치세요.</span>
+          </div>
+        </div>
+        <div class="hook-arrow">↓</div>
+        <div class="hook-item green">
+          <span class="hook-icon">✅</span>
+          <div>
+            <strong>정상 커밋 통과</strong><br>
+            <span style="font-size:15px;font-weight:400">pre-commit checks passed</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-gap--lg"></div>
+
+    <!-- ── Section 5: Steps 7-8 ── -->
+    <div class="section-card">
+      <div class="section-label">Step 7–8 마무리</div>
+      <ul class="steps-list">
+        <li>
+          <span class="step-num">7</span>
+          <div>
+            <code>git push origin &lt;feature-branch&gt;</code> + merge to main
+          </div>
+        </li>
+        <li>
+          <span class="step-num">8</span>
+          <div>
+            <code>plans/active → completed</code> 이동 &nbsp;
+            <span class="step-tag tag--gc">③ Collection</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="section-gap--lg"></div>
+
+    <!-- ── Fallback ── -->
+    <div class="fallback-box">
+      <strong>⚠️ Fallback — Cline이 응답하지 않을 때</strong><br>
+      터미널에서 <code>git checkout after-complete</code> → 브라우저에서
+      <code>demo/index.html?after</code> 새로고침<br>
+      슬라이드로 복귀해서 Step 6 내레이션으로 전환.
+    </div>
+
+  </div><!-- /.main -->
+
+<script>
+  const themeToggle = document.getElementById('themeToggle');
+  const THEME_KEY = 'harness-theme';
+  const saved = localStorage.getItem(THEME_KEY);
+  if (saved) document.body.dataset.theme = saved;
+
+  themeToggle.addEventListener('click', function() {
+    const next = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+    document.body.dataset.theme = next;
+    localStorage.setItem(THEME_KEY, next);
+  });
+</script>
+</body>
+</html>

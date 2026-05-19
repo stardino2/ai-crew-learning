@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Harness Engineering — 10분 강의</title>
+  <style>
+    :root {
+      --brand: #0d6b64;
+      --accent: #c97a17;
+      --bg: #f5f1e8;
+      --surface: rgba(255,255,255,0.93);
+      --ink: #1a2332;
+      --muted: #4a5568;
+      --radius: 14px;
+      --ctx: #0d6b64;
+      --con: #c97a17;
+      --gc:  #5b4bbf;
+      --code-bg: rgba(13,107,100,.08);
+      --code-ink: #0d6b64;
+      --card-shadow: 0 8px 32px -12px rgba(16,32,51,.16);
+    }
+
+    /* Dark theme */
+    body[data-theme="dark"] {
+      --bg: #121821;
+      --surface: rgba(30,40,55,0.95);
+      --ink: #e8eef5;
+      --muted: #8fa0b3;
+      --code-bg: rgba(13,107,100,.22);
+      --code-ink: #4dd4cb;
+      --card-shadow: 0 8px 32px -12px rgba(0,0,0,.5);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Pretendard", "Noto Sans KR", "Segoe UI", sans-serif;
+      background: radial-gradient(circle at 15% 10%, rgba(13,107,100,.12), transparent 30%),
+                  radial-gradient(circle at 85% 12%, rgba(201,122,23,.10), transparent 30%),
+                  linear-gradient(180deg, #f6f4f0 0%, #f8f9f7 100%);
+      height: 100vh;
+      overflow: hidden;
+      color: var(--ink);
+      display: flex;
+      flex-direction: column;
+      transition: color .2s;
+    }
+    body[data-theme="dark"] {
+      background: radial-gradient(circle at 15% 10%, rgba(13,107,100,.20), transparent 30%),
+                  radial-gradient(circle at 85% 12%, rgba(201,122,23,.12), transparent 30%),
+                  linear-gradient(180deg, #131c28 0%, #0d1117 100%);
+    }
+
+    /* ── Slide deck ── */
+    #deck {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+    .slide {
+      display: none;
+      position: absolute;
+      inset: 0;
+      padding: 40px 56px 72px;
+      flex-direction: column;
+      justify-content: center;
+      gap: 24px;
+    }
+    .slide.active { display: flex; }
+
+    /* ── Card surface ── */
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--card-shadow);
+      padding: 48px 56px;
+      max-width: 900px;
+      width: 100%;
+      align-self: center;
+    }
+
+    /* ── Code (global) ── */
+    code {
+      font-family: "Consolas", "D2Coding", monospace;
+      font-size: 0.85em;
+      background: var(--code-bg);
+      color: var(--code-ink);
+      border-radius: 4px;
+      padding: 1px 5px;
+    }
+
+    /* ── Typography ── */
+    .eyebrow {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--brand);
+      margin-bottom: 10px;
+    }
+    h1 {
+      font-size: 52px;
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 8px;
+    }
+    h2 {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 16px;
+      color: var(--brand);
+    }
+    h3 {
+      font-weight: 700;
+      color: var(--brand);
+      margin: 20px 0 8px;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      font-size: 16px;
+    }
+    p { font-size: 19px; line-height: 1.7; color: var(--ink); }
+    blockquote {
+      border-left: 3px solid var(--brand);
+      padding: 10px 18px;
+      background: rgba(13,107,100,.06);
+      border-radius: 0 8px 8px 0;
+      font-size: 19px;
+      line-height: 1.7;
+      color: var(--ink);
+      margin: 8px 0;
+    }
+    body[data-theme="dark"] blockquote { background: rgba(13,107,100,.16); }
+    blockquote.accent {
+      border-left-color: var(--accent);
+      background: rgba(201,122,23,.07);
+    }
+    .quote-en {
+      font-style: italic;
+      font-size: 18px;
+      color: var(--muted);
+      border-left: 3px solid var(--muted);
+      background: rgba(74,85,104,.06);
+    }
+    body[data-theme="dark"] .quote-en { background: rgba(255,255,255,.05); }
+
+    /* ── Lists ── */
+    ul, ol { padding-left: 20px; }
+    li { font-size: 19px; line-height: 1.75; }
+    li + li { margin-top: 4px; }
+
+    /* ── Images ── */
+    .card img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    }
+    .card figure { margin: 16px auto; text-align: center; }
+    .card figcaption {
+      font-size: 15px;
+      color: var(--muted);
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+    .image-row {
+      display: flex;
+      gap: 20px;
+      margin: 20px auto;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .image-row figure {
+      flex: 1 1 0;
+      min-width: 240px;
+      max-width: 380px;
+      margin: 0;
+    }
+
+    /* ── Two-column checklist (Slide 1) ── */
+    .check-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 32px;
+      margin-top: 16px;
+    }
+    .check-col h3 { margin-top: 0; }
+    .check-col li { list-style: none; padding-left: 0; font-size: 17px; }
+
+    /* ── Evolution ladder (Slide 3) ── */
+    .ladder {
+      font-family: "Consolas", "D2Coding", monospace;
+      font-size: 20px;
+      background: rgba(13,107,100,.07);
+      border-radius: 10px;
+      padding: 20px 24px;
+      line-height: 2;
+      color: var(--ink);
+    }
+    body[data-theme="dark"] .ladder { background: rgba(13,107,100,.18); }
+    .ladder span.arrow { color: var(--brand); font-weight: 700; }
+    .ladder span.label { color: var(--muted); font-size: 17px; }
+
+    /* ── Big quote (Slide 7) ── */
+    .big-quote {
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--brand);
+      line-height: 1.4;
+      padding: 16px 0;
+    }
+
+    /* ── Pillar table (Slide 5) ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 17px;
+      margin: 4px 0 16px;
+    }
+    th {
+      background: rgba(13,107,100,.1);
+      color: var(--brand);
+      font-weight: 700;
+      text-align: left;
+      padding: 8px 12px;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    body[data-theme="dark"] th { background: rgba(13,107,100,.22); }
+    td {
+      padding: 9px 12px;
+      border-bottom: 1px solid rgba(16,32,51,.08);
+      vertical-align: top;
+      line-height: 1.5;
+    }
+    body[data-theme="dark"] td { border-bottom-color: rgba(255,255,255,.08); }
+    tr:last-child td { border-bottom: none; }
+
+    /* ── Fowler 2-axis grid (Slide 5) ── */
+    .matrix-wrap { margin-top: 6px; }
+    .matrix-header {
+      display: grid;
+      grid-template-columns: 100px 1fr 1fr;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+    .matrix-header > div {
+      text-align: center;
+      font-weight: 700;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--muted);
+      padding: 3px 6px;
+    }
+    .matrix-row {
+      display: grid;
+      grid-template-columns: 100px 1fr 1fr;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+    .matrix-row-label {
+      font-weight: 700;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      text-align: right;
+      padding-right: 8px;
+      line-height: 1.3;
+    }
+    .matrix-cell {
+      background: rgba(16,32,51,.04);
+      border-radius: 6px;
+      padding: 9px 12px;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    body[data-theme="dark"] .matrix-cell { background: rgba(255,255,255,.06); }
+    .matrix-cell.hl { background: rgba(13,107,100,.09); }
+    body[data-theme="dark"] .matrix-cell.hl { background: rgba(13,107,100,.22); }
+
+    /* ── Step tags (Slide 6) ── */
+    .step-tag {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      border-radius: 4px;
+      padding: 1px 6px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .tag--ctx  { background: rgba(13,107,100,.12);  color: var(--ctx); }
+    .tag--con  { background: rgba(201,122,23,.14);  color: var(--con); }
+    .tag--gc   { background: rgba(91,75,191,.12);   color: var(--gc); }
+    .tag--comp { background: rgba(16,32,51,.08);    color: var(--muted); }
+    body[data-theme="dark"] .tag--comp { background: rgba(255,255,255,.1); }
+
+    /* ── Demo request box (Slide 6) ── */
+    .demo-request {
+      background: rgba(201,122,23,.10);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 12px 18px;
+      font-size: 19px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 16px;
+    }
+    body[data-theme="dark"] .demo-request { background: rgba(201,122,23,.18); }
+
+    /* ── Next steps list (Slide 7) ── */
+    .next-steps { margin: 12px 0; }
+    .next-steps li {
+      font-size: 18px;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(16,32,51,.07);
+    }
+    body[data-theme="dark"] .next-steps li { border-bottom-color: rgba(255,255,255,.08); }
+    .next-steps li:last-child { border-bottom: none; }
+    .step-num {
+      display: inline-block;
+      width: 26px;
+      height: 26px;
+      background: var(--brand);
+      color: #fff;
+      border-radius: 50%;
+      font-size: 14px;
+      font-weight: 700;
+      text-align: center;
+      line-height: 26px;
+      margin-right: 8px;
+    }
+
+    /* ── Pillar chips (persistent, Slides 3·5·7) ── */
+    .pillars {
+      position: fixed;
+      top: 18px;
+      right: 24px;
+      display: flex;
+      gap: 6px;
+      z-index: 10;
+      transition: opacity .2s;
+    }
+    .pillars[data-visible="false"] { opacity: 0; pointer-events: none; }
+    .pillars[data-visible="true"]  { opacity: 1; }
+    .chip {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      border-radius: 20px;
+      padding: 4px 11px;
+    }
+    .chip--ctx { background: rgba(13,107,100,.15);  color: var(--ctx); }
+    .chip--con { background: rgba(201,122,23,.18);  color: var(--con); }
+    .chip--gc  { background: rgba(91,75,191,.14);   color: var(--gc);  }
+
+    /* ── Theme toggle button ── */
+    #themeToggle {
+      position: fixed;
+      top: 14px;
+      left: 18px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(16,32,51,.12);
+      background: var(--surface);
+      box-shadow: 0 2px 8px rgba(0,0,0,.12);
+      cursor: pointer;
+      font-size: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 11;
+      transition: background .2s, box-shadow .2s;
+      line-height: 1;
+    }
+    #themeToggle:hover { box-shadow: 0 4px 14px rgba(0,0,0,.22); }
+    body[data-theme="dark"] #themeToggle { border-color: rgba(255,255,255,.15); }
+
+    /* ── HUD (bottom bar) ── */
+    .hud {
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      background: var(--surface);
+      border-top: 1px solid rgba(16,32,51,.07);
+      font-size: 12px;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+    body[data-theme="dark"] .hud { border-top-color: rgba(255,255,255,.08); }
+    .hud-counter { font-weight: 700; color: var(--brand); }
+    .hud-hint { font-size: 11px; }
+
+    /* ── Slide 1 subtitle ── */
+    .subtitle {
+      font-size: 16px;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    /* ── Compact card (Slide 6) ── */
+    .slide[data-compact] .card { padding: 24px 32px; }
+
+    /* ── Stat cards (Slide 4) ── */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 14px 0 18px;
+    }
+    .stat-card {
+      background: rgba(13,107,100,.06);
+      border: 1px solid rgba(13,107,100,.14);
+      border-radius: 10px;
+      padding: 18px 12px;
+      text-align: center;
+    }
+    body[data-theme="dark"] .stat-card { background: rgba(13,107,100,.14); border-color: rgba(13,107,100,.28); }
+    .stat-card--accent {
+      background: rgba(201,122,23,.08);
+      border-color: rgba(201,122,23,.2);
+    }
+    body[data-theme="dark"] .stat-card--accent { background: rgba(201,122,23,.18); border-color: rgba(201,122,23,.35); }
+    .stat-num {
+      font-size: 64px;
+      font-weight: 900;
+      color: var(--brand);
+      line-height: 1;
+    }
+    .stat-card--accent .stat-num { color: var(--accent); }
+    .stat-unit { font-size: 22px; font-weight: 700; }
+    .stat-label { font-size: 15px; color: var(--muted); margin-top: 5px; }
+
+    /* ── Fowler 2×2 matrix (Slide 5) ── */
+    .matrix-wrap { margin-top: 6px; }
+
+    /* ── Prompt label pill ── */
+    .prompt-label {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--con);
+      background: rgba(201,122,23,.12);
+      border-radius: 4px;
+      padding: 1px 6px;
+      margin-bottom: 5px;
+    }
+
+    /* ── Prompt B section (Slide 6) ── */
+    .prompt-b-section {
+      margin-top: 10px;
+      border-top: 1px dashed rgba(16,32,51,.15);
+      padding-top: 10px;
+    }
+    body[data-theme="dark"] .prompt-b-section { border-top-color: rgba(255,255,255,.12); }
+    .prompt-b-label {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--con);
+      margin-bottom: 5px;
+    }
+    .prompt-b-box {
+      background: rgba(201,122,23,.08);
+      border-left: 3px solid var(--con);
+      border-radius: 0 8px 8px 0;
+      padding: 9px 14px;
+      font-family: "Consolas", "D2Coding", monospace;
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--ink);
+      margin-bottom: 9px;
+    }
+    body[data-theme="dark"] .prompt-b-box { background: rgba(201,122,23,.16); }
+
+    /* ── Hook demo result row (Slide 6) ── */
+    .hook-demo {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hook-badge {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      border-radius: 8px;
+      padding: 8px 6px;
+      font-size: 15px;
+      font-weight: 700;
+      text-align: center;
+    }
+    .hook-badge.red  { background: rgba(220,38,38,.10);  color: #dc2626; }
+    .hook-badge.green{ background: rgba(22,163,74,.10);  color: #16a34a; }
+    body[data-theme="dark"] .hook-badge.red  { background: rgba(220,38,38,.20); }
+    body[data-theme="dark"] .hook-badge.green{ background: rgba(22,163,74,.20); }
+    .hook-badge-icon { font-size: 20px; }
+    .hook-sep { font-size: 20px; color: var(--muted); flex-shrink: 0; }
+
+    /* ── Harness flow pipeline (Slide 6) ── */
+    .flow-pipeline {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin: 0 0 14px;
+      flex-wrap: nowrap;
+    }
+    .flow-stage {
+      flex: 1;
+      text-align: center;
+      background: rgba(16,32,51,.04);
+      border-radius: 8px;
+      padding: 8px 4px;
+    }
+    body[data-theme="dark"] .flow-stage { background: rgba(255,255,255,.07); }
+    .flow-stage > span:first-child {
+      display: block;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.3;
+      margin-bottom: 5px;
+    }
+    .flow-stage .step-tag {
+      display: inline-block;
+      margin: 0;
+      font-size: 11px;
+      padding: 1px 5px;
+    }
+    .flow-arrow {
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .flow-stage--gate {
+      outline: 2px solid var(--con);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body data-theme="light">
+
+<!--
+  이미지 삽입 방법:
+  1) presentation/slides/assets/images/ 에 파일을 둔다 (예: harness-diagram.png)
+  2) 원하는 .slide 엘리먼트 안에 아래처럼 삽입:
+
+     <img src="assets/images/harness-diagram.png" alt="Harness 3축 다이어그램">
+
+  권장 해상도: 가로 1200~1600px PNG (표시폭 ~790px, Retina 대응).
+-->
+
+<button id="themeToggle" aria-label="다크/라이트 모드 전환">🌗</button>
+
+<aside class="pillars" data-visible="false">
+  <span class="chip chip--ctx">① Context</span>
+  <span class="chip chip--con">② Constraints</span>
+  <span class="chip chip--gc">③ Collection</span>
+</aside>
+
+<main id="deck">
+
+  <!-- ── Slide 1: Opening ── -->
+  <section class="slide" data-slide="1">
+    <div class="card">
+      <div class="eyebrow">Harness Engineering — 삼성전자 월례회</div>
+      <h1>어려워 하지 마세요</h1>
+      <p class="subtitle">10분 안에 Harness Engineering의 무엇·왜·어떻게를 정리합니다</p>
+      <blockquote>
+        Prompt engineering, Context engineering, 이젠 Harness engineering.<br>
+        10분동안 간략히 정리합니다.<br>
+        마지막 4분은 하네스 사용법을 라이브로 보여드립니다.
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- ── Slide 2: 비유 — 강아지와 하네스 ── -->
+  <section class="slide" data-slide="2">
+    <div class="card">
+      <div class="eyebrow">시작</div>
+      <h2>Agent는 잘 달리는 강아지 같아서</h2>
+      <div class="image-row">
+        <figure>
+          <img src="assets/images/harness_dog1.jpg" alt="하네스를 찬 강아지 1">
+        </figure>
+        <figure>
+          <img src="assets/images/harness_dog2.jpg" alt="하네스를 찬 강아지 2">
+        </figure>
+      </div>
+      <blockquote style="margin-top:12px">
+        똑똑하고 활발할수록 — 방향을 잡아줄 <strong>하네스(harness)</strong>가 필요합니다.<br>
+        그래야 같이 멀리, 원하는 곳까지 갈 수 있습니다.
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- ── Slide 3: 비유 — 로봇 강아지 ── -->
+  <section class="slide" data-slide="3">
+    <div class="card">
+      <div class="eyebrow">(계속)</div>
+      <h2>AI Agent = 로봇 강아지</h2>
+      <figure style="max-width:520px">
+        <img src="assets/images/harness_robot_dog1.png" alt="하네스를 찬 로봇 강아지">
+        <figcaption>아무리 똑똑해지고 힘이 세져도 — 하네스는 여전히 필요합니다.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ── Slide 4: AI 환경 설계 + 역사 맥락 ── -->
+  <section class="slide" data-slide="4">
+    <div class="card">
+      <div class="eyebrow">1. 배경</div>
+      <h2>AI로 결국 하고 싶은 것</h2>
+      <blockquote>
+        AI가 내 대신 결과물을 만들어 주려면 —<br>
+        우리가 AI가 움직이는 <strong>환경</strong>을 잘 설계해야 합니다.
+      </blockquote>
+      <figure style="max-width:480px; margin:16px auto">
+        <img src="assets/images/ai_env01.png" alt="AI 환경 설계 개념도">
+      </figure>
+      <h3>역사 맥락</h3>
+      <blockquote>
+        Harness라는 단어는 제어 시스템, DevOps, 테스트 인프라에서 오래전부터 쓰인 용어입니다.<br>
+        OpenAI가 2026년 초 5개월 실험을 정리하면서 AI agent 맥락에서 다시 주목받고 있습니다.
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- ── Slide 5: 진화 3단 ── (pillar chips on) -->
+  <section class="slide" data-slide="5" data-pillars="all">
+    <div class="card">
+      <div class="eyebrow">2. 진화</div>
+      <h2>3단 진화</h2>
+      <div class="ladder">
+        Prompt engineering &nbsp;&nbsp;<span class="arrow">→</span>&nbsp;&nbsp;말 잘하기 <span class="label">(무엇을 원하는지 설명)</span><br>
+        Context engineering &nbsp;<span class="arrow">→</span>&nbsp;&nbsp;히스토리·맥락 주기 <span class="label">(어떤 상황인지 알려주기)</span><br>
+        Harness engineering <span class="arrow">→</span>&nbsp;&nbsp;agent가 사는 환경 설계
+      </div>
+      <blockquote style="margin-top:20px">
+        Agent가 똑똑해질수록 환경이 없으면 엉뚱한 방향으로 달립니다.<br>
+        Harness는 말(馬) 마구에서 온 단어 — 에너지를 원하는 방향으로 채널링하는 장치입니다.
+      </blockquote>
+      <figure style="max-width:460px; margin-top:16px">
+        <img src="assets/images/harness_horse1.png" alt="마구(harness)를 찬 말">
+        <figcaption>Harness의 어원 — 말이 가진 에너지를 원하는 방향으로 채널링.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ── Slide 6: OpenAI 5-Month Experiment ── -->
+  <section class="slide" data-slide="6">
+    <div class="card">
+      <div class="eyebrow">3. 실험</div>
+      <h2>OpenAI 5개월 실험</h2>
+      <div class="image-row" style="max-width:640px; margin:4px auto 16px">
+        <figure style="max-width:640px">
+          <img src="assets/images/openai1.jpeg" alt="OpenAI 5개월 실험">
+        </figure>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-num">100<span class="stat-unit">만 줄</span></div>
+          <div class="stat-label">베타 제품 규모</div>
+        </div>
+        <div class="stat-card stat-card--accent">
+          <div class="stat-num">0<span class="stat-unit">줄</span></div>
+          <div class="stat-label">사람이 직접 쓴 코드</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">5<span class="stat-unit">개월</span></div>
+          <div class="stat-label">소규모 엔지니어 팀</div>
+        </div>
+      </div>
+      <blockquote>
+        비밀: <strong>"Agent를 바꾸지 않았다. Agent가 사는 집(Harness)을 바꿨다."</strong>
+      </blockquote>
+      <blockquote class="quote-en" style="margin-top:14px">
+        "Most difficult challenges center on designing environments, feedback loops,
+        and control systems."<br>
+        <span style="font-size:15px;color:var(--muted)">— OpenAI, Harness Engineering (2026)</span>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- ── Slide 7: 3 Pillar × 2 Axis ── (pillar chips on) -->
+  <section class="slide" data-slide="7" data-pillars="all">
+    <div class="card">
+      <div class="eyebrow">4. 구조</div>
+      <h2>3 Pillar × 2 Axis</h2>
+      <table>
+        <thead>
+          <tr><th>Pillar</th><th>한 줄 설명</th><th>이 repo 실체</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong style="color:var(--ctx)">① Context engineering</strong></td>
+            <td>Agent가 무엇을, 어디서, 왜 읽을지 구조화</td>
+            <td><code>AGENTS.md</code> + <code>docs/</code> + <code>plans/active/</code></td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--con)">② Architectural constraints</strong></td>
+            <td>Agent가 벗어나면 안 되는 경계</td>
+            <td><code>engine</code>(pure) ↔ <code>ui</code> 분리, <code>.husky/pre-commit</code></td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--gc)">③ Garbage collection</strong></td>
+            <td>누적 노이즈를 주기적으로 정리</td>
+            <td><code>plans/active → completed</code>, <code>logs/</code> 순환</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3>Martin Fowler 2 Axis — 내 repo 어디가 비어 있나?</h3>
+      <div class="matrix-wrap">
+        <div class="matrix-header">
+          <div></div>
+          <div>Feedforward (사전 제약)</div>
+          <div>Feedback (사후 검증)</div>
+        </div>
+        <div class="matrix-row">
+          <div class="matrix-row-label">Computational<br>(결정적)</div>
+          <div class="matrix-cell hl">hook, lint rule<br><code>.husky/pre-commit</code> ★</div>
+          <div class="matrix-cell hl">test, type check<br><code>npx vitest run</code> ★</div>
+        </div>
+        <div class="matrix-row">
+          <div class="matrix-row-label">Inferential<br>(의미적)</div>
+          <div class="matrix-cell">prompt 규칙<br><code>AGENTS.md</code></div>
+          <div class="matrix-cell">LLM 코드 리뷰<br>PR review</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Slide 8: Live Demo ── -->
+  <section class="slide" data-slide="8" data-compact>
+    <div class="card">
+      <div class="eyebrow">5. 라이브 시연</div>
+      <h2>라이브 시연</h2>
+
+      <!-- Prompt A -->
+      <div class="demo-request">
+        <span class="prompt-label">Prompt A</span>
+        "생일을 넣으면 로또번호를 추출해주는 기능을 넣어줘. 같은 날짜에 생성하면 같은 번호가 나와야 함."
+      </div>
+
+      <!-- Auto-step flow -->
+      <div class="flow-pipeline">
+        <div class="flow-stage">
+          <span>Worktree<br>분리</span>
+          <span class="step-tag tag--ctx">① Context</span>
+        </div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-stage">
+          <span>Plan<br>작성</span>
+          <span class="step-tag tag--ctx">① Context</span>
+        </div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-stage">
+          <span>Engine/UI<br>구현</span>
+          <span class="step-tag tag--con">② Constraints</span>
+        </div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-stage">
+          <span>Test<br>검증</span>
+          <span class="step-tag tag--comp">Computational</span>
+        </div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-stage">
+          <span>스크린샷<br>logs/</span>
+          <span class="step-tag tag--gc">③ Collection</span>
+        </div>
+      </div>
+      <p style="font-size:14px;color:var(--muted);margin:-6px 0 10px;text-align:center">
+        ↑ Cline이 AGENTS.md §Autonomous Feature Workflow를 읽고 Step 1–5 자동 수행
+      </p>
+
+      <!-- Prompt B -->
+      <div class="prompt-b-section">
+        <div class="prompt-b-label">Prompt B — Hook 차단 시연</div>
+        <div class="prompt-b-box">이제 harness 훅이 실제로 나쁜 커밋을 막는지 3종으로 보여줘.<br>
+          1) main 직접 커밋 &nbsp; 2) plan 없는 커밋 &nbsp; 3) 깨진 테스트 커밋<br>
+          모두 실패한 뒤, 정상 상태로 복구해서 성공 커밋까지 보여줘.
+        </div>
+        <div class="hook-demo">
+          <div class="hook-badge red"><span class="hook-badge-icon">❌</span>main 직접</div>
+          <span class="hook-sep">→</span>
+          <div class="hook-badge red"><span class="hook-badge-icon">❌</span>plan 없음</div>
+          <span class="hook-sep">→</span>
+          <div class="hook-badge red"><span class="hook-badge-icon">❌</span>깨진 테스트</div>
+          <span class="hook-sep">→</span>
+          <div class="hook-badge green"><span class="hook-badge-icon">✅</span>정상 커밋</div>
+        </div>
+      </div>
+
+      <!-- Steps 7-8 -->
+      <div style="margin-top:10px;border-top:1px solid rgba(16,32,51,.07);padding-top:8px">
+        <ol start="7" style="font-size:15px;line-height:1.75;color:var(--muted)">
+          <li><code>git push origin &lt;feature-branch&gt;</code> + merge to main</li>
+          <li><code>plans/active → completed</code> 이동 <span class="step-tag tag--gc">③ Collection</span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Slide 9: Closing ── (pillar chips on) -->
+  <section class="slide" data-slide="9" data-pillars="all">
+    <div class="card">
+      <div class="eyebrow">6. 마무리</div>
+      <p class="big-quote">"Agent를 바꾸지 말고,<br>agent가 사는 집을 바꾸세요."</p>
+      <figure style="max-width:750px; margin:4px auto 12px">
+        <img src="assets/images/harness-house1.png" alt="Agent가 사는 집 — Harness">
+      </figure>
+      <p style="font-size:16px;color:var(--muted);margin-bottom:16px">
+        ① Context engineering &nbsp;/&nbsp; ② Architectural constraints &nbsp;/&nbsp; ③ Garbage collection
+      </p>
+      <h3>다음 걸음 — 이번 주 딱 하나</h3>
+      <ol class="next-steps">
+        <li><span class="step-num">1</span><code>AGENTS.md</code> 한 장 → 반복 설명 반으로 줄기</li>
+        <li><span class="step-num">2</span><code>.husky/pre-commit</code> 훅 하나 → 말이 아닌 장치로</li>
+        <li><span class="step-num">3</span>사내 가이드: week3 → week5 → week8 → week7</li>
+      </ol>
+      <blockquote style="margin-top:16px;font-size:17px">
+        팀 문화와 프로젝트 성격에 맞게 — 뷔페처럼 필요한 파트만 골라 도입하세요.<br>
+        기업 AX(AI Transformation) 도입엔 끊임없는 공부가 필요합니다.<br>
+      </blockquote>
+    </div>
+  </section>
+
+</main>
+
+<nav class="hud">
+  <span class="hud-counter" id="counter">1 / 9</span>
+  <span class="hud-hint">← → · 1–9 · Home · End</span>
+</nav>
+
+<script>
+  const slides = [...document.querySelectorAll('.slide')];
+  const pillars = document.querySelector('.pillars');
+  let idx = 0;
+
+  function show(i) {
+    idx = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach((s, k) => s.classList.toggle('active', k === idx));
+    document.getElementById('counter').textContent = (idx + 1) + ' / ' + slides.length;
+    pillars.dataset.visible = slides[idx].dataset.pillars ? 'true' : 'false';
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); show(idx + 1); }
+    else if (['ArrowLeft', 'PageUp'].includes(e.key))    { e.preventDefault(); show(idx - 1); }
+    else if (e.key === 'Home') { e.preventDefault(); show(0); }
+    else if (e.key === 'End')  { e.preventDefault(); show(slides.length - 1); }
+    else if (/^[1-9]$/.test(e.key)) show(parseInt(e.key, 10) - 1);
+  });
+
+  show(0);
+
+  // Theme toggle — persists via localStorage
+  const themeToggle = document.getElementById('themeToggle');
+  const THEME_KEY = 'harness-theme';
+  const saved = localStorage.getItem(THEME_KEY);
+  if (saved) document.body.dataset.theme = saved;
+
+  themeToggle.addEventListener('click', function() {
+    const next = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+    document.body.dataset.theme = next;
+    localStorage.setItem(THEME_KEY, next);
+  });
+</script>
+</body>
+</html>

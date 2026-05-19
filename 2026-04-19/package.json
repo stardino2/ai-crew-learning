@@ -1,0 +1,23 @@
+{
+  "name": "lecture0419",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint demo/src/ demo/tests/",
+    "verify": "bash scripts/verify-tasks.sh",
+    "prepare": "husky",
+    "posttest": "node scripts/screenshots.mjs",
+    "screenshots": "node scripts/screenshots.mjs",
+    "screenshots:install": "playwright install chromium"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "eslint": "^9.0.0",
+    "globals": "^15.0.0",
+    "husky": "^9.0.0",
+    "playwright": "^1.0.0",
+    "vitest": "^2.0.0"
+  }
+}

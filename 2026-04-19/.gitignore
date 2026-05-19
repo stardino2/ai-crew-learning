@@ -1,0 +1,9 @@
+node_modules/
+.DS_Store
+Thumbs.db
+logs/*.png
+logs/*.jpg
+logs/screenshots/**/*.png
+logs/commit-message-draft.md
+*.log
+.claude/settings.local.json

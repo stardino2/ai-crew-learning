@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Skip harness checks for presentation-only commits.
+# Harness scope = demo code + its supporting infra.
+STAGED=$(git diff --cached --name-only --diff-filter=ACMR)
+if [ -n "$STAGED" ] && ! echo "$STAGED" | grep -qE '^(demo/|docs/|plans/|scripts/|\.husky/|AGENTS\.md|package\.json|vitest\.config\.js|eslint\.config\.js)'; then
+  echo "📄 presentation-only commit — skipping harness checks"
+  exit 0
+fi
+
+# 1. Block direct commits to main branch (demo scope)
+if [ "$(git branch --show-current)" = "main" ]; then
+  echo "❌ Direct commits to main branch are not allowed for demo changes. Use git worktree."
+  exit 1
+fi
+
+# 2. Require an active plan file
+if ! ls plans/active/*.md >/dev/null 2>&1; then
+  echo "❌ No plan file found in plans/active/. Write a plan before committing."
+  exit 1
+fi
+
+# 3. Run verify-tasks (lint + test + build + size)
+sh scripts/verify-tasks.sh || exit 1
+
+echo "✅ pre-commit checks passed"
