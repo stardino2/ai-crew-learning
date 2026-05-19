@@ -14,15 +14,15 @@ mdc: true
 AI가 만든 결과를 조직이 믿을 수 있는 결과로 바꾸는 일
 
 <div class="pipeline">
-  <span>AI output</span>
+  <span>AI 결과</span>
   <b>→</b>
-  <span>검증 기준</span>
+  <span>자동 검증</span>
   <b>→</b>
-  <span>trusted engineering result</span>
+  <span>믿고 쓸 수 있는 결과</span>
 </div>
 
 <div class="meta">
-05/20 · FE/BE 개발자, System Engineer 대상 · 10분
+발표자 · SE 그룹 이건욱
 </div>
 
 <!--
@@ -147,7 +147,7 @@ Harness Engineering은 AI 결과가 팀의 빌드·테스트·리뷰·운영 기
 # 영역별 적용 예시
 
 <div class="role-grid">
-  <div><h3>운영/문서</h3><p>운영 공지<br>감사 흔적<br>변경 증거</p></div>
+  <div><h3>문서</h3><p>Markdown lint<br>Link check<br>Frontmatter schema</p></div>
   <div><h3>FE</h3><p>UI smoke<br>접근성<br>화면 regression test</p></div>
   <div><h3>BE</h3><p>API contract<br>migration<br>compatibility</p></div>
   <div><h3>System Engineer</h3><p>빌드 정책<br>권한/감사<br>AI용 CI 피드백</p></div>
@@ -157,9 +157,14 @@ Harness Engineering은 AI 결과가 팀의 빌드·테스트·리뷰·운영 기
 각자 자기 업무에서 사람이 반복 확인하는 항목 하나를 자동화 후보로 잡는 것이 시작점입니다.
 </div>
 
+<p class="note">
+※ 하네스는 자동 검증뿐 아니라, 훅·설정·시스템 프롬프트·MCP 등으로 AI 동작 전반을 제어/커스터마이즈하는 모든 장치를 포괄합니다.
+</p>
+
 <!--
 2:50-3:35
-비개발자와 운영/문서 관점부터 짚는다. 승인 기준, 운영 공지, 감사 흔적, 변경 증거도 하네스의 대상이라고 말한다.
+문서 영역부터 짚는다. Markdown lint, 깨진 링크 검사, frontmatter 스키마 검증처럼 문서도 자동 하네스로 검증할 수 있다고 말한다.
+하네스는 자동 검증에만 국한되지 않는다 — 훅·설정·MCP 등으로 AI 동작 전반을 설계하는 행위 전체를 가리킨다는 점을 마무리에서 짚어준다.
 -->
 
 ---
@@ -206,7 +211,12 @@ Harness Engineering은 AI 결과가 팀의 빌드·테스트·리뷰·운영 기
         <span class="mock-title">Service Status</span>
         <span class="mock-pill">All systems normal</span>
       </div>
-      <div class="mock-services"><span></span><span></span><span></span><span></span></div>
+      <div class="mock-services">
+        <div class="mock-service-card"><b>Web Frontend</b><span>42ms latency</span><em><i class="dot ok"></i>operational</em></div>
+        <div class="mock-service-card"><b>API Gateway</b><span>58ms latency</span><em><i class="dot ok"></i>operational</em></div>
+        <div class="mock-service-card"><b>Background Worker</b><span>91ms latency</span><em><i class="dot ok"></i>operational</em></div>
+        <div class="mock-service-card"><b>Auth Service</b><span>33ms latency</span><em><i class="dot ok"></i>operational</em></div>
+      </div>
     </div>
     <p class="mock-caption">현재 — 점검 안내 없음</p>
   </div>
@@ -215,13 +225,18 @@ Harness Engineering은 AI 결과가 팀의 빌드·테스트·리뷰·운영 기
       <div class="mock-header">
         <span class="mock-eyebrow">Internal Platform</span>
         <span class="mock-title">Service Status</span>
-        <span class="mock-pill">All systems normal</span>
+        <span class="mock-pill warn">Scheduled maintenance</span>
       </div>
       <div class="mock-banner">
         <b>Scheduled maintenance</b>
         <span>API Gateway · 2026-05-20 19:00-20:00 KST</span>
       </div>
-      <div class="mock-services"><span></span><span></span><span></span><span></span></div>
+      <div class="mock-services">
+        <div class="mock-service-card"><b>Web Frontend</b><span>42ms latency</span><em><i class="dot ok"></i>operational</em></div>
+        <div class="mock-service-card"><b>API Gateway</b><span>58ms latency</span><em><i class="dot warn"></i>maintenance</em></div>
+        <div class="mock-service-card"><b>Background Worker</b><span>91ms latency</span><em><i class="dot ok"></i>operational</em></div>
+        <div class="mock-service-card"><b>Auth Service</b><span>33ms latency</span><em><i class="dot ok"></i>operational</em></div>
+      </div>
     </div>
     <p class="mock-caption">목표 — 첫 화면에 점검 배너</p>
   </div>
@@ -272,7 +287,7 @@ Harness Engineering은 AI 결과가 팀의 빌드·테스트·리뷰·운영 기
 </div>
 
 <div class="claim">
-한 요청, 네 곳의 변경 — 하네스가 정합성을 검증합니다.
+한 요청, 네 곳의 변경 — 하네스가 정합성(Consistency)을 검증합니다.
 </div>
 
 <!--
@@ -315,8 +330,8 @@ report check passed
 ```
 
 <!--
-5:35-6:10
-현장 실행으로 설명하지 않는다. 이미 수행된 최종 검증 결과로 설명한다.
+5:55-6:25
+표 다음에 영역별 검증이 한 번에 도는 결과를 본다. 이미 수행된 최종 검증 결과로 설명한다.
 -->
 
 ---
@@ -328,28 +343,62 @@ report check passed
 </div>
 
 <!--
-6:10-6:55
+6:25-7:05
 결과 리포트는 사람이 리뷰할 때 필요한 요청, harness 결과, 화면, 운영 공지를 한 장으로 묶는다.
+-->
+
+---
+
+# 하네스 스크립트 상세 내용
+
+<div class="claim">
+방금 본 <code>passed</code> 9줄이 사실은 9개의 작은 스크립트입니다.
+</div>
+
+```js
+// scripts/check-docs.mjs (발췌)
+const config = JSON.parse(await readFile("../status.config.json"));
+if (!config.maintenance?.enabled) { process.exit(0); }
+
+const notice    = await readFile("../docs/ops-notice.md", "utf8");
+const changelog = await readFile("../CHANGELOG.md",       "utf8");
+
+const expectedDate    = config.maintenance.start.slice(0, 10);
+const expectedService = config.maintenance.serviceName;
+
+assert.ok(notice.includes(expectedDate),       "ops notice에 점검 일자 누락");
+assert.ok(notice.includes(expectedService),    "ops notice에 서비스명 누락");
+assert.ok(changelog.includes(expectedDate),    "CHANGELOG에 점검 일자 누락");
+assert.ok(changelog.includes(expectedService), "CHANGELOG에 서비스명 누락");
+```
+
+<div class="note-box">
+이 한 파일이 보장하는 것: <b>config의 점검 정보와 ops-notice.md·CHANGELOG.md가 같은 이야기를 한다.</b><br>
+AI가 화면만 바꾸고 운영 공지를 빼먹으면 <code>docs check</code>가 fail하고, AI는 통과시키기 위해 스스로 코드를 다시 고칩니다.
+</div>
+
+<!--
+7:05-7:35
+결과 리포트 다음에 "그래서 그 체크가 뭐냐"로 넘어간다. 정규식이나 길이가 아니라, 단순히 두 문서가 config과 같은 단어를 포함하는지를 본다. 30줄짜리 스크립트면 충분하다, 벗어나면 AI가 다시 통과시키려 코드를 고친다 — 두 가지를 강조한다.
 -->
 
 ---
 
 # 모델이 좋아지면 하네스는?
 
-<div class="evolution">
-  <div class="layer thick">
-    <h3>지금</h3>
-    <p>장황한 프롬프트<br>사람 체크리스트<br>반복 설명</p>
-  </div>
-  <div class="arrow">→</div>
-  <div class="layer thin">
-    <h3>이후</h3>
-    <p>테스트와 정책<br>hooks와 skills<br>로그·증거</p>
-  </div>
+<div class="claim">
+단순해지는 게 아니라, 모델에 맞게 재설계됩니다.
+</div>
+
+<div class="role-grid">
+  <div><h3>목표</h3><p>무엇을 만들 것인가</p></div>
+  <div><h3>제약 조건</h3><p>지켜야 할 한계·규칙</p></div>
+  <div><h3>완료 기준</h3><p>끝났다고 말할 신호</p></div>
+  <div><h3>검증 체계</h3><p>자동으로 정합성을 본다</p></div>
 </div>
 
 <div class="claim">
-하네스는 한 번 만들고 끝이 아닙니다. 모델이 바뀌면 같이 바뀝니다.
+모델만 교체가 아니라, 활용 방식 자체를 함께 조정합니다.
 </div>
 
 <!--
@@ -365,20 +414,24 @@ report check passed
   <p class="lead-quote">"Vibe Coding이 바닥을 올린다면, Agentic Engineering은 천장을 높인다."<cite>— Andrej Karpathy</cite></p>
   <div class="info-card accent ceiling-note">
     천장은 저절로 올라가지 않습니다. AI가 더 많이 만들수록 검증·운영 부담도 같이 늘어나기 때문입니다.
-    Harness Engineering은 그 부담을 사람 손이 아닌 자동 검증이 떠안게 만들어, Agentic Engineering의 천장에 실제로 닿게 합니다.
+    Harness Engineering은 그 부담을 사람이 아닌 AI가 수행하게 만들어, Agentic Engineering의 천장을 더 높일 수 있습니다.
   </div>
   <div class="info-card">
     <h3>AI가 더 많이 구현할수록</h3>
     <p>사람은 코드 작성자보다 문제 정의자, 기준 설계자, 예외 판단자에 가까워집니다.</p>
   </div>
   <div class="info-card">
-    <h3>사람에게 남는 책임</h3>
+    <h3>사람이 해야 할 일</h3>
     <p>무엇을 만들지, 어떤 기준을 지킬지, 어떤 예외를 허용할지 결정합니다.</p>
   </div>
   <div class="final-message">
     이번 주에는 같은 질문을 3번 이상 반복한 항목 하나를 자동화 후보로 적어보세요.
   </div>
 </div>
+
+<p class="note">
+※ Agentic Engineering: AI 에이전트가 개발·운영 업무를 스스로 수행하도록 시스템과 검증 흐름을 설계하는 분야.
+</p>
 
 <!--
 7:45-9:20

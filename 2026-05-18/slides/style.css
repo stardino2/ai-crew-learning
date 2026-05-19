@@ -109,6 +109,14 @@
   background: var(--canvas);
 }
 
+.note {
+  font-size: 0.7em;
+  color: #888;
+  margin-top: 0.6em;
+  font-style: italic;
+  line-height: 1.5;
+}
+
 .prompt {
   font-family: "Cascadia Code", "D2Coding", monospace;
   line-height: 1.55;
@@ -655,4 +663,138 @@ td {
   padding: 12px 14px;
   border-bottom: 1px solid var(--hairline);
   text-align: left;
+}
+
+.mock-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 0.6rem;
+}
+
+.page-mock {
+  padding: 18px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+  background: var(--pearl);
+  box-shadow: var(--product-shadow);
+  display: grid;
+  gap: 12px;
+}
+
+.mock-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mock-eyebrow {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.mock-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.mock-pill {
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 4px 10px;
+  border-radius: var(--pill);
+  background: #e6f4ea;
+  color: #1b5e20;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.mock-pill.warn {
+  background: #fff1d6;
+  color: #6b4f00;
+}
+
+.mock-banner {
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #fff8e1;
+  border: 1px solid #f0c36d;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mock-banner b {
+  font-size: 14px;
+  color: #6b4f00;
+}
+
+.mock-banner span {
+  font-size: 13px;
+  color: #6b4f00;
+}
+
+.mock-services {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.mock-service-card {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--canvas);
+  border: 1px solid var(--hairline);
+  display: grid;
+  gap: 3px;
+}
+
+.mock-service-card b {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.mock-service-card span {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.2;
+}
+
+.mock-service-card em {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1b5e20;
+}
+
+.mock-service-card .dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #1b5e20;
+}
+
+.mock-service-card .dot.warn {
+  background: #b15a00;
+}
+
+.mock-service-card em:has(.dot.warn) {
+  color: #6b4f00;
+}
+
+.mock-caption {
+  margin: 10px 0 0;
+  font-size: 18px;
+  color: var(--muted);
+  text-align: center;
 }
