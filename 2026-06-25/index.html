@@ -17,17 +17,19 @@
   <a href="04-playbook.html">④ 플레이북</a>
   <a href="05-prompting.html">⑤ 프롬프트</a>
   <a href="06-safety.html" class="safety">⚠ 안전</a>
+  <a href="08-agents.html">📄 AGENTS.md</a>
+  <a href="09-plugins.html">🧩 플러그인</a>
 </nav>
 
 <div class="wrap">
 <header class="hero">
   <h1>부서원 AI 실전 가이드</h1>
-  <p>추상론은 뺐습니다. 오늘 바로 복붙해서 쓰는 것만 담았습니다. 대상은 웹 개발자 / 서버·시스템 운영 엔지니어입니다.</p>
+  <p>추상론은 뺐습니다. 오늘 바로 복붙해서 쓰는 것만 담았습니다. 대상은 웹 개발자 / 서버·시스템 엔지니어 / 문서 작업자입니다.</p>
   <div class="badges">
     <span class="badge">토큰 절약 우선</span>
     <span class="badge">Claude · Codex · Gemini</span>
     <span class="badge">중립 비교</span>
-    <span class="badge">복붙 템플릿</span>
+    <span class="badge">복붙 템플릿(복사 버튼)</span>
   </div>
 </header>
 
@@ -37,50 +39,77 @@
 
 <section>
   <h2>문서 지도</h2>
-  <p class="lead">용도별로 나눠 두었습니다. 읽을 목적이 생겼을 때 해당 문서로 가세요.</p>
+  <p class="lead">색은 <b>수준</b>, 태그는 <b>역할</b>입니다. 본인 수준·역할에 맞는 문서부터 보세요.</p>
+  <div class="legend">
+    <span class="key"><span class="dot basic"></span> 초보 · 필수</span>
+    <span class="key"><span class="dot mid"></span> 중급</span>
+    <span class="key"><span class="dot adv"></span> 심화 · 선택</span>
+    <span class="key">🏷 태그 = 역할(웹 / 시스템 / 문서 / 전원)</span>
+  </div>
 
   <div class="grid2">
-    <a class="doccard" href="07-getting-started.html">
+    <a class="doccard lvl-basic" href="07-getting-started.html">
+      <span class="lvlbadge basic">초보 · 필수</span>
       <div class="n">⚙ START</div>
       <h3>시작하기 · 앱 설치</h3>
-      <p>Claude Code·Codex CLI 설치·로그인·첫 세션 + 데스크톱 앱. 처음이면 여기부터.</p>
-      <div class="who">👥 처음 까는 분 · 설치 전</div>
+      <p>Claude Code·Codex CLI 설치·로그인·첫 세션 + 데스크톱 앱(CLI 대체로도 사용). 처음이면 여기부터.</p>
+      <div class="roletags"><span class="roletag">전원</span></div>
     </a>
-    <a class="doccard" href="01-cheatsheet.html">
+    <a class="doccard lvl-basic" href="01-cheatsheet.html">
+      <span class="lvlbadge basic">초보 · 필수</span>
       <div class="n">① CHEATSHEET</div>
       <h3>빠른시작 치트시트</h3>
       <p>토큰 절약 6규칙(접이식 예시 포함) · 복붙 템플릿 6개 · 좋은 프롬프트 공식.</p>
-      <div class="who">👥 전원 필수 · 입사 첫날</div>
+      <div class="roletags"><span class="roletag">전원</span></div>
     </a>
-    <a class="doccard" href="02-model-select.html">
+    <a class="doccard lvl-mid" href="02-model-select.html">
+      <span class="lvlbadge mid">중급</span>
       <div class="n">② MODEL</div>
       <h3>모델 선택·조합</h3>
       <p>Claude·Codex·Gemini 3-way 비교 · 라우팅 · 제한 토큰에서 멀티모델 조합.</p>
-      <div class="who">👥 작업 시작 전</div>
+      <div class="roletags"><span class="roletag">전원</span></div>
     </a>
-    <a class="doccard" href="03-tools.html">
+    <a class="doccard lvl-mid" href="03-tools.html">
+      <span class="lvlbadge mid">중급</span>
       <div class="n">③ TOOLS</div>
       <h3>도구 사용법</h3>
-      <p>Claude 7계단 · Codex·Gemini 핵심 · 컨텍스트 관리 심화 · 스킬 쓰기+만들기.</p>
-      <div class="who">👥 도구 익힐 때</div>
+      <p>Claude 7계단 · Codex·Gemini 핵심 · 컨텍스트 관리 심화 · 스킬 쓰는 법.</p>
+      <div class="roletags"><span class="roletag">전원</span></div>
     </a>
-    <a class="doccard" href="04-playbook.html">
+    <a class="doccard lvl-mid" href="04-playbook.html">
+      <span class="lvlbadge mid">중급</span>
       <div class="n">④ PLAYBOOK</div>
       <h3>역할별 플레이북</h3>
-      <p>웹 개발자 / 운영 엔지니어 상황별 워크플로우 + 복붙 프롬프트.</p>
-      <div class="who">👥 실무 중</div>
+      <p>웹 개발 / 서버 운영 / 문서 작업 상황별 워크플로우 + 복붙 프롬프트.</p>
+      <div class="roletags"><span class="roletag web">웹</span><span class="roletag sys">시스템</span><span class="roletag doc">문서</span></div>
     </a>
-    <a class="doccard" href="05-prompting.html">
+    <a class="doccard lvl-mid" href="05-prompting.html">
+      <span class="lvlbadge mid">중급</span>
       <div class="n">⑤ PROMPTING</div>
       <h3>프롬프트 기법</h3>
       <p>메타프롬프트 · AI에게 역질문시켜 구체화 · 좋은/나쁜 예시 · 안티패턴.</p>
-      <div class="who">👥 품질 안 나올 때</div>
+      <div class="roletags"><span class="roletag">전원</span></div>
     </a>
-    <a class="doccard" href="06-safety.html">
+    <a class="doccard lvl-basic" href="06-safety.html">
+      <span class="lvlbadge basic">필수</span>
       <div class="n">⚠ SAFETY</div>
       <h3>안전수칙 · 환경 전제</h3>
       <p>시크릿 금지 · 파괴적 작업 승인 · prod 보호 · 정책 우선. 모든 문서가 여기를 참조합니다.</p>
-      <div class="who">👥 전원 · 항상</div>
+      <div class="roletags"><span class="roletag">전원</span></div>
+    </a>
+    <a class="doccard lvl-adv" href="08-agents.html">
+      <span class="lvlbadge adv">심화 · 선택</span>
+      <div class="n">📄 AGENTS.md</div>
+      <h3>AGENTS.md 만들기</h3>
+      <p>프로젝트 규칙을 파일로 박제 · CLAUDE/GEMINI가 참조 · 용도별 분할로 토큰 절약.</p>
+      <div class="roletags"><span class="roletag">전원</span></div>
+    </a>
+    <a class="doccard lvl-adv" href="09-plugins.html">
+      <span class="lvlbadge adv">심화 · 선택</span>
+      <div class="n">🧩 PLUGINS</div>
+      <h3>플러그인 사용</h3>
+      <p>superpowers · gstack · caveman 설치·사용·예시(펼치기). 표준 워크플로우 묶음.</p>
+      <div class="roletags"><span class="roletag">전원</span></div>
     </a>
   </div>
 </section>
@@ -91,5 +120,6 @@
 
 <footer>부서원 AI 실전 가이드 · 작성 2026-06-25 · 정책 변경 시 갱신</footer>
 </div>
+<script src="app.js"></script>
 </body>
 </html>

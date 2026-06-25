@@ -17,12 +17,14 @@
   <a href="04-playbook.html" class="active">④ 플레이북</a>
   <a href="05-prompting.html">⑤ 프롬프트</a>
   <a href="06-safety.html" class="safety">⚠ 안전</a>
+  <a href="08-agents.html">📄 AGENTS.md</a>
+  <a href="09-plugins.html">🧩 플러그인</a>
 </nav>
 
 <div class="wrap">
 <header class="hero">
   <h1>④ 역할별 플레이북</h1>
-  <p>상황별 행동 순서와 그대로 쓰는 프롬프트를 담았습니다. 안전 철칙은 <a href="06-safety.html">⚠ 안전수칙</a>을 참조하세요.</p>
+  <p>웹 개발 · 서버 운영 · 문서 작업별로 상황 순서와 그대로 쓰는 프롬프트를 담았습니다. 안전 철칙은 <a href="06-safety.html">⚠ 안전수칙</a>을 참조하세요.</p>
 </header>
 
 <!-- 웹 -->
@@ -92,7 +94,55 @@
 [증상] &lt;...&gt; [범위] &lt;...&gt; [최근 변경] &lt;...&gt;</code></pre></div>
 </section>
 
+<!-- 문서 -->
+<section>
+  <h2><span class="num">C</span>문서 작업 (기획·기술문서·회의록)</h2>
+  <div class="callout c-info">
+    💡 <b>핵심 두 가지.</b> ⓐ 청중을 먼저 못박기(누가 읽나 → 용어·깊이 결정), ⓑ AI엔 <b>초안</b>을 맡기고 사람이 <b>사실·수치만 검증</b>. 그럴듯한 허위(없는 수치·기능)를 가장 조심.
+  </div>
+
+  <h3>회의록·로그 → 요약·액션아이템</h3>
+  <div class="promptbox"><span class="lbl">복붙</span>
+  <pre><code>아래 회의 기록을 정리해줘.
+- 결정사항 / 미결 / 액션아이템(담당·기한) 3블록
+- 액션아이템은 표로
+- 추측 금지, 기록에 없는 건 "미정"으로
+
+[기록] &lt;붙여넣기&gt;</code></pre></div>
+
+  <h3>릴리스 노트·변경 안내</h3>
+  <div class="promptbox"><span class="lbl">복붙</span>
+  <pre><code>아래 커밋/변경목록을 사용자용 릴리스 노트로.
+- 청중: &lt;비개발 사용자/사내 운영자&gt;
+- 분류: 새 기능 / 개선 / 버그수정
+- 각 항목 한 줄, 기술용어는 풀어서
+
+[변경] &lt;붙여넣기&gt;</code></pre></div>
+
+  <h3>기술문서·README 초안</h3>
+  <div class="promptbox"><span class="lbl">복붙</span>
+  <pre><code>이 모듈의 README 초안 작성.
+- 구성: 한 줄 소개 / 설치 / 사용 예시 / 주의
+- 코드 예시는 실제 함수 시그니처 기준
+- 장황하지 않게, 빈칸은 &lt;TODO&gt;로 표시
+
+[코드·맥락] &lt;붙여넣기 또는 @경로&gt;</code></pre></div>
+
+  <h3>다듬기 — 문체·길이·표화</h3>
+  <ul>
+    <li>긴 글은 "핵심 3줄 + 상세"로 재구성 요청. "절반 길이로, 의미 유지"가 잘 먹힙니다.</li>
+    <li>비교·옵션은 <b>표로</b>, 절차는 <b>번호 목록</b>으로 형식을 지정하세요.</li>
+  </ul>
+  <div class="promptbox"><span class="lbl">복붙</span>
+  <pre><code>이 문단을 &lt;사내 공지/경영진 보고&gt; 톤으로 다시 써줘.
+- 길이 절반, 핵심 결론 먼저
+- 모호어("적당히","곧") 제거, 수치·날짜는 그대로
+
+[원문] &lt;붙여넣기&gt;</code></pre></div>
+</section>
+
 <footer>④ 플레이북 · <a href="03-tools.html">← 도구사용법</a> · 다음 → <a href="05-prompting.html">⑤ 프롬프트</a></footer>
 </div>
+<script src="app.js"></script>
 </body>
 </html>

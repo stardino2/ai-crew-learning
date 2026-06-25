@@ -17,6 +17,8 @@
   <a href="04-playbook.html">④ 플레이북</a>
   <a href="05-prompting.html">⑤ 프롬프트</a>
   <a href="06-safety.html" class="safety">⚠ 안전</a>
+  <a href="08-agents.html">📄 AGENTS.md</a>
+  <a href="09-plugins.html">🧩 플러그인</a>
 </nav>
 
 <div class="wrap">
@@ -38,7 +40,7 @@
         <details class="ex"><summary>예시</summary><div class="body">❌ "이 파일 전체 봐줘" (1500줄)<br>✅ "login() 함수만" (40줄)</div></details>
       </li>
       <li><span class="tag t-do">DO</span><b>탐색은 위임.</b> "이 기능 어디서 처리돼?"는 탐색 서브에이전트에 → <b>결론만</b> 회수. 파일 덤프 안 들임.
-        <details class="ex"><summary>예시</summary><div class="body">❌ 관련 파일 5개 다 붙여넣고 질문<br>✅ "결제 로직 어디서 처리돼?" 위임 → 위치(file:line)만 회수</div></details>
+        <details class="ex"><summary>예시</summary><div class="body">❌ 관련 파일 5개 다 붙여넣고 질문<br>✅ "결제 로직 어디서 처리돼?" 위임 → 위치(file:line)만 회수<br><b>호출:</b> 그냥 자연어로 "탐색은 서브에이전트한테 맡겨 결론만 줘"라고 하면 됩니다. 자세히는 <a href="03-tools.html">③ 도구사용법</a>.</div></details>
       </li>
       <li><span class="tag t-do">DO</span><b>모델 등급 분리.</b> 오타·포맷은 싸고 빠른 모델, 설계·멀티파일 리팩터만 비싼 모델.
         <details class="ex"><summary>예시</summary><div class="body">오타 수정·코드 정렬 → 싸고 빠른 모델<br>아키텍처 변경·멀티파일 리팩터 → 비싼 모델</div></details>
@@ -113,5 +115,6 @@ README용 사용 예시. 장황하지 않게.
 
 <footer>① 빠른시작 · <a href="index.html">← 문서지도</a> · 다음 → <a href="02-model-select.html">② 모델선택</a></footer>
 </div>
+<script src="app.js"></script>
 </body>
 </html>

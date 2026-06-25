@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>📄 AGENTS.md 만들기</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="topbar">
+  <a class="brand" href="index.html">AI 가이드</a>
+  <a href="07-getting-started.html">⚙ 시작하기</a>
+  <a href="01-cheatsheet.html">① 빠른시작</a>
+  <a href="02-model-select.html">② 모델선택</a>
+  <a href="03-tools.html">③ 도구사용법</a>
+  <a href="04-playbook.html">④ 플레이북</a>
+  <a href="05-prompting.html">⑤ 프롬프트</a>
+  <a href="06-safety.html" class="safety">⚠ 안전</a>
+  <a href="08-agents.html" class="active">📄 AGENTS.md</a>
+  <a href="09-plugins.html">🧩 플러그인</a>
+</nav>
+
+<div class="wrap">
+<header class="hero">
+  <h1>📄 AGENTS.md 만들기</h1>
+  <p>매 세션 같은 설명을 반복하지 않으려면, 프로젝트 규칙을 파일에 박제하고 도구가 자동으로 읽게 만듭니다. 단일 소스로 관리하는 법을 다룹니다.</p>
+  <div class="badges">
+    <span class="badge">규칙 박제</span>
+    <span class="badge">단일 소스</span>
+    <span class="badge">용도별 분할</span>
+    <span class="badge">토큰 절약</span>
+  </div>
+</header>
+
+<div class="callout c-warn">
+  ⚠ 도구가 어떤 파일명을 읽는지는 <b>버전마다 다릅니다.</b> 개념(규칙을 한 곳에 두고 도구가 그걸 보게 한다)만 가져가고, 실제 파일명·동작은 사내 안내/공식 문서로 확인하세요.
+</div>
+
+<section>
+  <h2><span class="num">A</span>AGENTS.md를 만든다</h2>
+  <div class="card">
+    <p><code>AGENTS.md</code>는 여러 AI 코딩 도구가 읽는 <b>공통 관례 파일</b>(plain markdown)입니다. 프로젝트 루트에 두고, "사람이 새 팀원에게 처음 알려줄 것"을 적습니다. Karpathy식 핵심: <b>빌드·테스트·실행 명령 + 코드 스타일 + 하지 말 것</b>.</p>
+    <pre><code># AGENTS.md
+
+## 빌드·실행
+- 설치: npm ci
+- 테스트: npm test
+- 빌드: npm run build
+- 로컬 실행: npm run dev
+
+## 코드 스타일
+- 기존 컴포넌트 패턴을 따른다
+- 새 의존성 추가 전 먼저 물어본다
+
+## 하지 말 것
+- prod 배포 명령은 생성만, 실행은 사람이
+- 시크릿·고객정보는 코드/로그에 넣지 않는다</code></pre>
+    <div class="callout c-tip">
+      <b>왜 AGENTS.md인가.</b> 도구마다 다른 파일(CLAUDE.md·GEMINI.md)에 같은 내용을 복붙하면 갱신이 어긋납니다. 규칙은 AGENTS.md 한 곳에 두고 나머지는 그걸 가리키게 → <b>단일 소스</b>.
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">B</span>CLAUDE.md / GEMINI.md가 AGENTS.md를 보게 만든다</h2>
+  <div class="card">
+    <p>Claude Code는 <code>CLAUDE.md</code>, Gemini는 <code>GEMINI.md</code>를 세션마다 자동으로 읽습니다. 이 파일을 <b>얇게</b> 두고 AGENTS.md를 가리키게 하면 중복이 사라집니다.</p>
+    <pre><code># CLAUDE.md
+먼저 @AGENTS.md 를 읽고 그 규칙을 따른다.
+(Claude 전용 보충만 아래에)
+- 응답은 간결하게, 결론부터.</code></pre>
+    <pre><code># GEMINI.md
+프로젝트 규칙은 AGENTS.md 를 기준으로 한다.</code></pre>
+    <p class="lead"><code>@파일</code> 참조는 "그 파일을 지금 읽어라"는 뜻 → <a href="01-cheatsheet.html">① 빠른시작</a>의 경로 참조와 같은 원리.</p>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">C</span>용도별로 쪼개서 "필요할 때만" 읽게 한다</h2>
+  <div class="card">
+    <p>AGENTS.md가 비대해지면 매 세션 통째로 읽혀 토큰을 먹습니다. 루트는 <b>짧은 목차+포인터</b>로 두고, 세부는 별도 파일로 분할 → 도구가 해당 작업 때만 그 파일을 읽습니다.</p>
+    <pre><code>AGENTS.md            ← 짧게. 아래로 안내만
+docs/agents/
+  testing.md         ← 테스트 작성 규칙
+  deploy.md          ← 배포 절차
+  style.md           ← 코드 스타일 상세</code></pre>
+    <pre><code># AGENTS.md (루트, 얇게)
+- 빌드/테스트: docs/agents/testing.md 참조
+- 배포: docs/agents/deploy.md 참조
+- 스타일: docs/agents/style.md 참조</code></pre>
+    <div class="callout c-info">
+      💡 효과는 컨텍스트 관리와 동일: <b>지금 필요한 것만 로드</b> → 토큰 절약(<a href="03-tools.html">③ 도구사용법</a> 참조). 배포 안 하는 세션은 deploy.md를 안 읽습니다.
+    </div>
+  </div>
+</section>
+
+<footer>📄 AGENTS.md · <a href="03-tools.html">← 도구사용법</a> · 다음 → <a href="09-plugins.html">🧩 플러그인</a></footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

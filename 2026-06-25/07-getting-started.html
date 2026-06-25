@@ -17,6 +17,8 @@
   <a href="04-playbook.html">④ 플레이북</a>
   <a href="05-prompting.html">⑤ 프롬프트</a>
   <a href="06-safety.html" class="safety">⚠ 안전</a>
+  <a href="08-agents.html">📄 AGENTS.md</a>
+  <a href="09-plugins.html">🧩 플러그인</a>
 </nav>
 
 <div class="wrap">
@@ -123,24 +125,29 @@ codex</code></pre>
 
 <!-- Desktop -->
 <section>
-  <h2><span class="num">C</span>데스크톱 앱 (보조)</h2>
-  <p class="lead">Claude / ChatGPT 데스크톱 앱은 코딩 에이전트가 아니라 <b>대화·문서·이미지 분석</b> 용도의 보조 도구입니다. 코드 작업은 위 CLI를, 빠른 질문·스크린샷 분석은 데스크톱 앱을 쓰면 편합니다.</p>
+  <h2><span class="num">C</span>데스크톱 앱 (CLI 대체로도 사용)</h2>
+  <p class="lead">요즘 데스크톱 앱은 단순 채팅창이 아닙니다. Claude 데스크톱 앱은 <b>같은 코딩 에이전트를 GUI로 구동</b>해 터미널 대신 쓰는 사람도 많습니다. 터미널이 편하면 CLI, 창·탭·이미지가 편하면 데스크톱 — <b>표면 차이일 뿐 능력은 거의 같습니다.</b></p>
   <div class="grid2">
     <div class="card">
       <h3>설치·로그인</h3>
       <ul>
         <li>공식 사이트(또는 사내 배포)에서 설치 파일을 받아 설치합니다.</li>
-        <li>조직 계정/SSO로 로그인합니다. 개인 계정에 <b>업무 데이터 입력 금지</b>(→ 안전).</li>
+        <li>조직 계정/SSO로 로그인합니다. 개인 계정에 <b>업무 데이터 입력 금지</b>(→ <a href="06-safety.html">안전</a>).</li>
+        <li>프로젝트 폴더를 열면 CLI와 동일하게 파일 참조·에이전트 작업이 됩니다.</li>
       </ul>
     </div>
     <div class="card">
-      <h3>잘 맞는 작업</h3>
+      <h3>데스크톱이 특히 편한 때</h3>
       <ul>
-        <li>에러 화면·다이어그램 <b>스크린샷 붙여 분석</b>.</li>
-        <li>긴 스펙·로그 <b>요약</b> (대용량은 Gemini 활용 → <a href="02-model-select.html">②</a>).</li>
-        <li>코드 자동 수정·실행이 필요하면 데스크톱 말고 <b>CLI</b>로.</li>
+        <li>에러 화면·다이어그램 <b>스크린샷을 끌어다 붙여</b> 분석.</li>
+        <li>여러 세션을 <b>창·탭</b>으로 나눠 동시에 굴리기.</li>
+        <li>작업 단위 끊을 때 <span class="kbd">/clear</span> 대신 <b>새 세션</b>을 열어도 됨.</li>
+        <li>긴 스펙·로그 요약(대용량은 Gemini 활용 → <a href="02-model-select.html">②</a>).</li>
       </ul>
     </div>
+  </div>
+  <div class="callout c-info">
+    💡 <b>CLI vs 데스크톱은 취향·상황 문제.</b> 자동화·스크립트·원격 서버 작업은 CLI가, 이미지·다중 세션·GUI 선호는 데스크톱이 유리합니다. 승인·보안 정책은 <b>양쪽 동일</b>하게 적용됩니다.
   </div>
 </section>
 
@@ -150,5 +157,6 @@ codex</code></pre>
 
 <footer>⚙ 시작하기 · <a href="index.html">← 문서지도</a> · 다음 → <a href="01-cheatsheet.html">① 빠른시작</a></footer>
 </div>
+<script src="app.js"></script>
 </body>
 </html>

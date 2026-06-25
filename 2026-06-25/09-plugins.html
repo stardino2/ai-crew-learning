@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>🧩 플러그인 사용</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="topbar">
+  <a class="brand" href="index.html">AI 가이드</a>
+  <a href="07-getting-started.html">⚙ 시작하기</a>
+  <a href="01-cheatsheet.html">① 빠른시작</a>
+  <a href="02-model-select.html">② 모델선택</a>
+  <a href="03-tools.html">③ 도구사용법</a>
+  <a href="04-playbook.html">④ 플레이북</a>
+  <a href="05-prompting.html">⑤ 프롬프트</a>
+  <a href="06-safety.html" class="safety">⚠ 안전</a>
+  <a href="08-agents.html">📄 AGENTS.md</a>
+  <a href="09-plugins.html" class="active">🧩 플러그인</a>
+</nav>
+
+<div class="wrap">
+<header class="hero">
+  <h1>🧩 플러그인 사용</h1>
+  <p>스킬·워크플로우를 묶어 배포하는 패키지입니다. 설치하면 표준 작업 흐름을 슬래시 명령으로 부를 수 있습니다. 각 항목의 <b>설치·사용·예시</b>는 펼쳐서 보세요.</p>
+  <div class="badges">
+    <span class="badge">superpowers</span>
+    <span class="badge">gstack</span>
+    <span class="badge">caveman</span>
+    <span class="badge">설치 전 정책 확인</span>
+  </div>
+</header>
+
+<div class="callout c-warn">
+  ⚠ 설치 명령·마켓플레이스·허용 플러그인은 <b>버전·조직마다 다릅니다.</b> 아래는 일반 절차이며, <b>사내 배포 방식이 있으면 그쪽을 따르세요.</b> 외부 플러그인이 코드·데이터에 접근하는 범위를 보고 들이세요(→ <a href="06-safety.html">⚠ 안전</a>).
+</div>
+
+<section>
+  <h2><span class="num">A</span>공통 — 설치·호출 방식</h2>
+  <div class="card">
+    <ul>
+      <li><b>설치</b> — Claude Code는 마켓플레이스를 등록한 뒤 플러그인을 설치합니다(<span class="kbd">/plugin</span> 패널). 정확한 절차·허용 마켓플레이스는 사내 안내 우선.</li>
+      <li><b>호출</b> — 설치되면 그 안의 스킬을 <span class="kbd">/스킬이름</span> 으로 부르거나, 상황에 맞을 때 자동 제안됩니다(→ <a href="03-tools.html">③ 도구사용법</a> B).</li>
+      <li><b>없는 건 지어내지 말 것</b> — 설치된 목록에 있는 것만 호출.</li>
+    </ul>
+    <details class="ex"><summary>플러그인 설치 일반 절차 펼치기</summary><div class="body">
+      <pre><code># 1) Claude Code 안에서 마켓플레이스 패널 열기
+/plugin
+
+# 2) 마켓플레이스 추가 → 원하는 플러그인 설치 → 재시작
+# 사내 배포가 있으면 그 마켓플레이스/절차를 따른다.
+# 설치 후 사용 가능한 스킬은 자동 목록에 뜬다.</code></pre>
+    </div></details>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">B</span>superpowers — 규율 있는 작업 흐름</h2>
+  <div class="card">
+    <p>막 짜지 않게 <b>절차</b>를 강제하는 스킬 묶음 — 브레인스토밍·TDD·체계적 디버깅·계획 작성 등. "바로 코딩 말고 설계·테스트부터"가 필요할 때.</p>
+    <details class="ex"><summary>설치</summary><div class="body">
+      <pre><code># /plugin 패널에서 superpowers 마켓플레이스 추가 후 설치.
+# 공식 저장소(오픈소스) 기준이며 사내 배포가 있으면 그쪽 우선.</code></pre>
+    </div></details>
+    <details class="ex"><summary>사용법</summary><div class="body">
+      설치되면 상황에 맞는 스킬이 자동 제안되거나 슬래시로 호출됩니다. 기능 만들기 전 <b>브레인스토밍</b>, 구현 전 <b>테스트 먼저(TDD)</b>, 버그엔 <b>체계적 디버깅</b> 흐름이 끼어듭니다.
+    </div></details>
+    <details class="ex"><summary>사용 예시</summary><div class="body">
+      <pre><code>[나] 결제 환불 기능 추가하고 싶어.
+[AI] (브레인스토밍 스킬 작동) 먼저 요구를 좁힐게요 —
+     1) 부분 환불 허용? 2) 한도·기한? 3) 승인 주체?
+     ... 합의 후 → 테스트부터 작성(TDD) → 구현</code></pre>
+    </div></details>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">C</span>gstack — QA·리뷰·배포 워크플로우</h2>
+  <div class="card">
+    <p>브라우저 QA·코드 리뷰·배포(ship)·계획 리뷰를 묶은 워크플로우. 웹 기능 테스트와 PR 전 점검을 표준화합니다.</p>
+    <details class="ex"><summary>설치</summary><div class="body">
+      <pre><code># /plugin 패널에서 gstack 마켓플레이스 추가 후 설치.
+# 사내 배포가 있으면 그 절차를 따른다.</code></pre>
+    </div></details>
+    <details class="ex"><summary>사용법</summary><div class="body">
+      슬래시로 워크플로우를 호출합니다. 대표 명령: <span class="kbd">/qa</span>(사이트 테스트·버그 수정), <span class="kbd">/review</span>(머지 전 diff 리뷰), <span class="kbd">/ship</span>(테스트→리뷰→PR), <span class="kbd">/plan-eng-review</span>(구현 전 계획 리뷰). 정확한 명령은 설치본 목록을 확인하세요.
+    </div></details>
+    <details class="ex"><summary>사용 예시</summary><div class="body">
+      <pre><code>[나] /plan-eng-review
+[AI] (계획 리뷰 스킬) 스코프부터 확인 → 아키텍처·
+     테스트·엣지케이스 짚고, 결정마다 추천+이유 제시.
+
+[나] /qa
+[AI] (QA 스킬) 사이트 훑어 버그 찾고 → 고치고 →
+     재검증 → 전/후 상태 보고.</code></pre>
+    </div></details>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">D</span>caveman — 응답 압축 모드</h2>
+  <div class="card">
+    <p>응답에서 군더더기(관사·인사·헤지)를 깎아 <b>토큰을 줄이는</b> 커뮤니케이션 모드. 기술 내용·정확도는 유지. 길게 설명할 필요 없는 반복 작업에 유용합니다.</p>
+    <details class="ex"><summary>설치</summary><div class="body">
+      <pre><code># /plugin 패널에서 caveman 마켓플레이스 추가 후 설치.</code></pre>
+    </div></details>
+    <details class="ex"><summary>사용법</summary><div class="body">
+      토글형입니다. <span class="kbd">/caveman</span> 으로 켜고 강도(lite/full/ultra)를 고르거나, CLAUDE.md/AGENTS.md에 "응답은 간결하게, 결론부터" 규칙을 넣어 상시 적용할 수도 있습니다. 코드·커밋·보안 설명은 자동으로 정상 문장 유지.
+    </div></details>
+    <details class="ex"><summary>사용 예시</summary><div class="body">
+      <pre><code>[일반] "인증 미들웨어에 버그가 있습니다. 토큰 만료
+        검사가 < 대신 <= 를 써야 할 것 같은데..."
+[caveman] "Bug 인증 미들웨어. 토큰 만료 검사 < → <=. 수정:"</code></pre>
+    </div></details>
+  </div>
+</section>
+
+<footer>🧩 플러그인 · <a href="08-agents.html">← AGENTS.md</a> · <a href="index.html">문서지도</a></footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
