@@ -121,6 +121,11 @@ pre.tree code{color:#cdd6f4}
 .pre-wrap:hover .copy-btn{opacity:1}
 .copy-btn:hover{color:var(--ink);border-color:var(--accent)}
 @media(max-width:760px){.copy-btn{opacity:.85}}
+/* 좁은 화면: 코드블록 가로 잘림 방지 — 줄바꿈 허용 */
+@media(max-width:760px){
+  pre code{white-space:pre-wrap;overflow-wrap:break-word}
+  pre{padding-top:30px}
+}
 
 /* index 분류: 수준 색(상단 띠) + 레벨 배지 + 역할 태그 */
 .doccard{border-top:3px solid var(--line)}
