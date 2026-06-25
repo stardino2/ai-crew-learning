@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex">
 <title>🧩 플러그인 사용</title>
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
 <nav class="topbar">
@@ -41,6 +41,7 @@
   <h2><span class="num">A</span>공통 — 설치·호출 방식</h2>
   <div class="card">
     <ul>
+      <li><span class="tag t-do">DO</span><b>필요한 것만 선별 설치.</b> 많이 깔수록 스킬 설명이 매 세션 컨텍스트에 쌓여 <b>토큰↑</b>, 자동 제안도 노이즈가 됩니다. 실제 쓰는 것만 고르세요(토큰 절약 → <a href="01-cheatsheet.html">①</a>).</li>
       <li><b>설치</b> — Claude Code는 마켓플레이스를 등록한 뒤 플러그인을 설치합니다(<span class="kbd">/plugin</span> 패널). 정확한 절차·허용 마켓플레이스는 사내 안내 우선.</li>
       <li><b>GitHub에서 바로</b> — 공개 GitHub 레포를 마켓플레이스로 등록해 설치할 수 있습니다. 명령으로도, <b>자연어 프롬프트로도</b> 가능(아래).</li>
       <li><b>호출</b> — 설치되면 그 안의 스킬을 <span class="kbd">/스킬이름</span> 으로 부르거나, 상황에 맞을 때 자동 제안됩니다(→ <a href="03-tools.html">③ 도구사용법</a> B).</li>
@@ -135,6 +136,36 @@
 [caveman] "Bug 인증 미들웨어. 토큰 만료 검사 &lt; → &lt;=. 수정:"</code></pre>
     </div></details>
   </div>
+</section>
+
+<section>
+  <h2><span class="num">E</span>역할별 추천 스킬 모음</h2>
+  <p class="lead">superpowers·gstack에서 <b>역할에 자주 맞는 것만</b> 골랐습니다. 다 깔지 말고 여기서 시작하세요(§A 선별 설치).</p>
+  <div class="callout c-warn">⚠ 스킬 이름은 <b>설치본·버전마다 다를 수 있습니다.</b> <span class="kbd">/help</span> 또는 <span class="kbd">/plugin</span>으로 실제 목록을 확인 후 호출하세요(없는 건 지어내지 말 것).</div>
+  <table>
+    <tr><th>역할</th><th>superpowers</th><th>gstack</th></tr>
+    <tr>
+      <td class="k">웹 개발자</td>
+      <td><code>brainstorming</code> · <code>test-driven-development</code> · <code>systematic-debugging</code></td>
+      <td><code>browse</code> · <code>qa</code> · <code>review</code></td>
+    </tr>
+    <tr>
+      <td class="k">서버·운영 엔지니어</td>
+      <td><code>systematic-debugging</code> · <code>writing-plans</code> · <code>verification-before-completion</code></td>
+      <td><code>review</code> · <code>ship</code> · <code>retro</code></td>
+    </tr>
+    <tr>
+      <td class="k">문서 작업자</td>
+      <td><code>brainstorming</code> · <code>writing-plans</code> · <code>verification-before-completion</code></td>
+      <td>해당 적음 — PR 낼 때만 <code>review</code></td>
+    </tr>
+    <tr>
+      <td class="k">전원 공통</td>
+      <td><code>brainstorming</code>(만들기 전) · <code>verification-before-completion</code>(끝났다 말하기 전)</td>
+      <td><code>review</code>(머지 전)</td>
+    </tr>
+  </table>
+  <p class="lead">호출은 슬래시: 예 <span class="kbd">/qa</span>, <span class="kbd">/review</span>. 자동 제안되는 것도 있습니다(→ <a href="03-tools.html">③</a> B).</p>
 </section>
 
 <footer>🧩 플러그인 · <a href="08-agents.html">← AGENTS.md</a> · <a href="index.html">문서지도</a></footer>
