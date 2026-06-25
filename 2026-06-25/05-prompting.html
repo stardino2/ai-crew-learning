@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>⑤ 프롬프트 기법</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="topbar">
+  <a class="brand" href="index.html">AI 가이드</a>
+  <a href="07-getting-started.html">⚙ 시작하기</a>
+  <a href="01-cheatsheet.html">① 빠른시작</a>
+  <a href="02-model-select.html">② 모델선택</a>
+  <a href="03-tools.html">③ 도구사용법</a>
+  <a href="04-playbook.html">④ 플레이북</a>
+  <a href="05-prompting.html" class="active">⑤ 프롬프트</a>
+  <a href="06-safety.html" class="safety">⚠ 안전</a>
+</nav>
+
+<div class="wrap">
+<header class="hero">
+  <h1>⑤ 프롬프트 기법</h1>
+  <p>품질이 안 나올 때 여기를 보세요. 핵심은 두 가지입니다 — 프롬프트를 AI가 대신 써주게 하거나(메타프롬프트), 막히면 AI가 나에게 거꾸로 물어보게 하는 것입니다.</p>
+</header>
+
+<section>
+  <h2><span class="num">A</span>메타프롬프트 — 프롬프트 만드는 프롬프트 ⭐</h2>
+  <p class="lead">거친 요청을 던지면 AI가 고품질 프롬프트로 다시 써준다. 이거 하나가 평균 프롬프트 품질을 끌어올림.</p>
+  <div class="promptbox"><span class="lbl">복붙</span>
+  <pre><code>너는 프롬프트 엔지니어다. 아래 내 거친 요청을
+실행 가능한 고품질 프롬프트로 다시 써줘.
+
+규칙:
+- [목표] [맥락·제약] [원하는 출력형식] 3요소로 구조화
+- 모호한 부분은 추측 말고 나에게 되물을 질문 2~3개 먼저
+- 군더더기 빼고 토큰 효율적으로
+
+[내 거친 요청]
+&lt;여기 한 줄로&gt;</code></pre></div>
+  <div class="callout c-tip">
+    <b>흐름.</b> 메타프롬프트 → AI가 되묻는 질문에 답변 → 완성된 프롬프트 받기 → 그걸로 실제 작업. 한 번 만든 좋은 프롬프트는 재사용하세요.
+  </div>
+  <div class="card">
+    <h3>실제 대화 예시</h3>
+    <pre><code>[나]  너는 프롬프트 엔지니어다. 아래 거친 요청을 고품질
+      프롬프트로 다시 써줘. 모호하면 먼저 2~3개 되물어.
+      [요청] 우리 페이지 성능 좀 개선하고 싶어.
+
+[AI]  좋습니다. 먼저 확인할게요.
+      1) 어떤 지표가 문제인가요? (LCP·FCP·번들크기 등)
+      2) 스택은? (React/Vue/순수 JS, 빌드 도구)
+      3) 원하는 출력은? (체크리스트 / 코드 diff / 보고서)
+
+[나]  LCP가 느려. React+webpack. 코드 diff로.
+
+[AI]  (완성 프롬프트)
+      "React+webpack 앱의 LCP를 개선하려 한다. 측정값 4.2s.
+       원인 후보를 영향 큰 순으로 짚고, 각 수정을 diff로,
+       번들 변화 예상치 포함. 큰 구조변경은 먼저 물어볼 것."</code></pre>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">B</span>막히면 거꾸로 — AI에게 역질문시키기 ⭐</h2>
+  <p class="lead">"뭐라고 물어야 할지조차 모르겠다" 싶을 때 씁니다. 프롬프트를 내가 다 쓰지 말고, AI가 나에게 되물으며 같이 구체화하게 만드세요.</p>
+  <div class="promptbox"><span class="lbl">복붙</span>
+  <pre><code>나는 &lt;하고 싶은 일&gt;을 하려는데 어떻게 요청해야 할지
+잘 모르겠어. 바로 답하지 말고, 내 의도·제약·원하는
+결과를 좁히는 질문을 한 번에 2~3개씩 나에게 먼저 물어봐.
+내가 답하면 그걸 반영해 다음 질문을 해줘. 충분해지면
+그때 완성된 프롬프트(또는 결과)를 만들어줘.
+
+[지금 아는 것] &lt;대충 아는 만큼만&gt;</code></pre></div>
+  <div class="callout c-tip">
+    <b>언제 쓰나.</b> 요구가 흐릿할 때 · 도메인이 낯설 때 · 뭘 빠뜨렸는지 모를 때. AI의 역질문이 빠진 맥락을 끌어냅니다.<br>
+    <b>메타프롬프트(A)와 차이.</b> A는 "거친 요청 → 좋은 프롬프트로 재작성"이고, B는 "요청 자체가 막혔을 때 → 대화로 같이 발굴"입니다. 막히면 B로 윤곽을 잡고, 잡히면 A로 다듬으세요.
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">C</span>좋은 프롬프트 공식</h2>
+  <div class="callout c-info">
+    <code>[목표] + [맥락·제약] + [원하는 출력 형식]</code>
+  </div>
+  <table>
+    <tr><th>나쁨 ✗</th><th>좋음 ✓</th></tr>
+    <tr><td>버그 고쳐줘</td><td>이 함수가 빈 배열에서 터진다. 원인 짚고 최소 수정만, diff로.</td></tr>
+    <tr><td>로그 분석해줘</td><td>이 로그에서 5xx 에러를 빈도순으로 묶고, 근본원인 top3을 근거와 함께.</td></tr>
+    <tr><td>테스트 짜줘</td><td>이 함수 테스트. 정상+경계값+실패 케이스, jest로, 각 케이스 이름 명확히.</td></tr>
+    <tr><td>리팩터해줘</td><td>동작 유지하며 가독성만 개선. 바뀐 부분·이유 한 줄씩, 큰 구조변경은 먼저 물어봐.</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2><span class="num">D</span>안티패턴 — 이러면 토큰만 태운다</h2>
+  <div class="card">
+    <ul>
+      <li><span class="tag t-dont">NO</span><b>"안 돼요"만 던지기.</b> 에러·재현·기대결과 없으면 AI가 추측만 반복.</li>
+      <li><span class="tag t-dont">NO</span><b>통째로 붙여넣기.</b> 관련 부분만. 전체 첨부는 토큰 폭탄.</li>
+      <li><span class="tag t-dont">NO</span><b>바로 "고쳐"라고 시키기.</b> 원인 진단 먼저 → 잘못된 수정 반복 방지.</li>
+      <li><span class="tag t-dont">NO</span><b>모호한 지시.</b> "잘", "적당히", "알아서" → 결과 산으로. 구체적 기준 줘라.</li>
+      <li><span class="tag t-dont">NO</span><b>한 프롬프트에 5가지 요구.</b> 쪼개라. 한 번에 하나.</li>
+      <li><span class="tag t-dont">NO</span><b>출력 형식 안 정하기.</b> "표로/diff로/체크리스트로" 명시하면 재작업 줄어 토큰 절약.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>⑤ 프롬프트 · <a href="04-playbook.html">← 플레이북</a> · <a href="index.html">문서지도 →</a></footer>
+</div>
+</body>
+</html>

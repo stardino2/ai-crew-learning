@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>① 빠른시작 치트시트</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="topbar">
+  <a class="brand" href="index.html">AI 가이드</a>
+  <a href="07-getting-started.html">⚙ 시작하기</a>
+  <a href="01-cheatsheet.html" class="active">① 빠른시작</a>
+  <a href="02-model-select.html">② 모델선택</a>
+  <a href="03-tools.html">③ 도구사용법</a>
+  <a href="04-playbook.html">④ 플레이북</a>
+  <a href="05-prompting.html">⑤ 프롬프트</a>
+  <a href="06-safety.html" class="safety">⚠ 안전</a>
+</nav>
+
+<div class="wrap">
+<header class="hero">
+  <h1>① 빠른시작 치트시트</h1>
+  <p>전원 필수입니다. 이 문서 하나로 일상 작업 80%가 커버됩니다. 안전수칙은 <a href="06-safety.html">⚠ 안전</a>에서 별도로 확인하세요.</p>
+</header>
+
+<!-- 토큰 -->
+<section>
+  <h2><span class="num">A</span>토큰 절약 6규칙 <span class="pill">— 토큰 부족 = 비용. 1순위</span></h2>
+  <p class="lead">각 규칙의 <b>예시</b>를 누르면 펼쳐집니다.</p>
+  <div class="card">
+    <ul>
+      <li><span class="tag t-do">DO</span><b>한 세션 = 한 작업.</b> 끝나면 <span class="kbd">/clear</span>. 대화가 길수록 과거 전체를 매번 재전송 → 토큰 폭증.
+        <details class="ex"><summary>예시</summary><div class="body">버그 수정 끝 → <span class="kbd">/clear</span> → 다음 기능 시작. 안 끊으면 이전 대화 전체가 매 질문마다 다시 전송됩니다.</div></details>
+      </li>
+      <li><span class="tag t-dont">NO</span><b>파일 통째로 붙이지 마라.</b> "이 파일 전체" 대신 <code>"login() 함수만"</code> 범위 좁히기.
+        <details class="ex"><summary>예시</summary><div class="body">❌ "이 파일 전체 봐줘" (1500줄)<br>✅ "login() 함수만" (40줄)</div></details>
+      </li>
+      <li><span class="tag t-do">DO</span><b>탐색은 위임.</b> "이 기능 어디서 처리돼?"는 탐색 서브에이전트에 → <b>결론만</b> 회수. 파일 덤프 안 들임.
+        <details class="ex"><summary>예시</summary><div class="body">❌ 관련 파일 5개 다 붙여넣고 질문<br>✅ "결제 로직 어디서 처리돼?" 위임 → 위치(file:line)만 회수</div></details>
+      </li>
+      <li><span class="tag t-do">DO</span><b>모델 등급 분리.</b> 오타·포맷은 싸고 빠른 모델, 설계·멀티파일 리팩터만 비싼 모델.
+        <details class="ex"><summary>예시</summary><div class="body">오타 수정·코드 정렬 → 싸고 빠른 모델<br>아키텍처 변경·멀티파일 리팩터 → 비싼 모델</div></details>
+      </li>
+      <li><span class="tag t-warn">TIP</span><b>캐시 5분 룰.</b> 작업을 끊지 말고 연속으로. 오래 비웠다 재개하면 캐시 미스 = 재과금.
+        <details class="ex"><summary>예시</summary><div class="body">연속 작업 = 캐시 적중(저렴). 5분 안에 재개하면 여전히 적중합니다.<br>오래 비웠다 재개 = 캐시 만료 → 컨텍스트를 정상가로 다시 처리(추가 벌금이 아니라 <b>할인이 사라지는 것</b>). 그래도 손해라 끊지 않는 게 이득.</div></details>
+      </li>
+      <li><span class="tag t-dont">NO</span><b>같은 파일 반복 읽기 금지.</b> 방금 보거나 고친 파일을 "확인차" 다시 읽지 마라.
+        <details class="ex"><summary>예시</summary><div class="body">방금 고친 파일을 "잘 됐나" 다시 읽으면 같은 토큰을 두 번 씁니다. 도구가 이미 결과를 알고 있습니다.</div></details>
+      </li>
+    </ul>
+  </div>
+  <div class="callout c-tip">
+    <b>체감해 보세요.</b> 1500줄 파일을 매 질문에 첨부 × 10회 = 15,000줄을 10번 재전송하는 셈입니다. 필요한 40줄만 + <span class="kbd">/clear</span> 하면 같은 작업을 토큰 1/10로 끝냅니다.
+  </div>
+</section>
+
+<!-- 공식 -->
+<section>
+  <h2><span class="num">B</span>좋은 프롬프트 1줄 공식</h2>
+  <div class="callout c-info">
+    <code>[목표] + [맥락·제약] + [원하는 출력 형식]</code><br>
+    예: "버그 고쳐줘"(X) → "이 함수가 빈 배열에서 터진다, 원인 짚고 최소 수정만, diff로"(O)
+  </div>
+  <p class="lead">더 깊은 기법은 <a href="05-prompting.html">⑤ 프롬프트 기법</a>에 있습니다 (메타프롬프트·역질문 포함).</p>
+</section>
+
+<!-- 템플릿 -->
+<section>
+  <h2><span class="num">C</span>복붙 템플릿 6개</h2>
+  <p class="lead"><code>&lt;...&gt;</code> 부분만 바꿔서 사용하세요.</p>
+  <div class="grid2">
+    <div class="card"><h3>① 코드 설명</h3>
+      <p class="when">언제: 처음 보는 코드의 의도를 빠르게 파악할 때</p>
+      <pre><code>이 코드가 뭘 하는지 3줄 요약 +
+주의할 부작용/엣지케이스만 짚어줘.
+
+&lt;코드&gt;</code></pre></div>
+    <div class="card"><h3>② 리팩터</h3>
+      <p class="when">언제: 동작은 유지하고 읽기 쉽게만 만들 때</p>
+      <pre><code>동작 그대로, 가독성만 개선.
+바뀐 부분과 이유를 한 줄씩.
+
+&lt;코드&gt;</code></pre></div>
+    <div class="card"><h3>③ 테스트 작성</h3>
+      <p class="when">언제: 함수에 테스트를 붙일 때</p>
+      <pre><code>이 함수 테스트 작성.
+정상 + 경계값 + 실패 케이스 포함.
+
+&lt;함수&gt;</code></pre></div>
+    <div class="card"><h3>④ 에러 진단</h3>
+      <p class="when">언제: 원인을 모를 때 (고치기 전 진단부터)</p>
+      <pre><code>원인 후보를 가능성 높은 순으로.
+고치기 전 확인할 점부터.
+
+&lt;에러+맥락&gt;</code></pre></div>
+    <div class="card"><h3>⑤ 정규식/쿼리</h3>
+      <p class="when">언제: 정규식·SQL 패턴을 만들 때</p>
+      <pre><code>아래 조건의 &lt;정규식/SQL&gt; 작성 +
+각 부분 주석.
+
+[조건] &lt;...&gt;
+[예시 입력/기대 출력] &lt;...&gt;</code></pre></div>
+    <div class="card"><h3>⑥ 문서/주석화</h3>
+      <p class="when">언제: 코드에 설명·문서를 남길 때</p>
+      <pre><code>핵심만 담은 주석 +
+README용 사용 예시. 장황하지 않게.
+
+&lt;코드&gt;</code></pre></div>
+  </div>
+</section>
+
+<footer>① 빠른시작 · <a href="index.html">← 문서지도</a> · 다음 → <a href="02-model-select.html">② 모델선택</a></footer>
+</div>
+</body>
+</html>

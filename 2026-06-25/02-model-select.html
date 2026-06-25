@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>② 모델 선택·조합</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="topbar">
+  <a class="brand" href="index.html">AI 가이드</a>
+  <a href="07-getting-started.html">⚙ 시작하기</a>
+  <a href="01-cheatsheet.html">① 빠른시작</a>
+  <a href="02-model-select.html" class="active">② 모델선택</a>
+  <a href="03-tools.html">③ 도구사용법</a>
+  <a href="04-playbook.html">④ 플레이북</a>
+  <a href="05-prompting.html">⑤ 프롬프트</a>
+  <a href="06-safety.html" class="safety">⚠ 안전</a>
+</nav>
+
+<div class="wrap">
+<header class="hero">
+  <h1>② 모델 선택·조합</h1>
+  <p>Claude·Codex·Gemini를 중립적으로 비교하고, 제한된 토큰에서 여러 모델을 엮어 최상의 결과를 뽑는 법을 다룹니다.</p>
+</header>
+
+<section>
+  <h2><span class="num">A</span>3-way 비교</h2>
+  <p class="lead">우열이 아니라 <b>작업 성격 매칭</b>의 문제입니다. 본인 업무에 매핑해 보세요.</p>
+  <table>
+    <tr><th>항목</th><th>Claude</th><th>Codex</th><th>Gemini</th></tr>
+    <tr><td class="k">가장 잘하는 것</td>
+      <td>멀티파일 에이전트 작업, 코드베이스 탐색, 도구·MCP, 긴 자율작업, 신중한 추론·작문</td>
+      <td>에디터 통합 인라인 작업 + 멀티파일 에이전트 작업(CLI). 빠른 반복·단일 함수에 특히 민첩</td>
+      <td>초대용량 컨텍스트(큰 문서·로그 통삼킴), 멀티모달(이미지·PDF), 광범위 요약·리서치</td></tr>
+    <tr><td class="k">대표 용도</td>
+      <td>리팩터, 운영 자동화, 장애 분석, 문서화</td>
+      <td>함수 구현, 빠른 스니펫, 에디터 내 리팩터, CLI 멀티파일 작업</td>
+      <td>대용량 로그 압축, 스펙문서 요약, 스크린샷 분석</td></tr>
+    <tr><td class="k">작업 단위</td>
+      <td>넓은 작업("이 시스템 어떻게 동작?")</td>
+      <td>좁은 작업부터 멀티파일까지("이 입력→이 출력"이 강점)</td>
+      <td>대용량 입력 1방 처리</td></tr>
+  </table>
+  <div class="callout c-warn">
+    ⚠ 모델 능력(컨텍스트 크기·멀티모달 범위)은 <b>버전마다 바뀝니다.</b> 표는 "역할 모양"으로만 쓰고, 사내 제공 버전의 실제 스펙은 확인 후 적용하세요.
+  </div>
+  <div class="callout c-info">
+    💡 <b>Codex 오해 주의.</b> 과거엔 "에디터 자동완성"이었지만, 현 Codex CLI는 멀티파일·코드베이스 탐색이 되는 <b>에이전트형 도구</b>입니다(Claude Code와 결이 비슷합니다). 차이는 "능력 한계"가 아니라 <b>통합 방식·작업 성향</b>입니다.
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">B</span>라우팅 1줄</h2>
+  <div class="callout c-info">
+    <b>자율 멀티파일·맥락 길면</b> → Claude &nbsp;|&nbsp; <b>에디터 통합·빠른 반복</b> → Codex &nbsp;|&nbsp; <b>대용량 입력·이미지</b> → Gemini
+  </div>
+  <p class="lead">기준이 애매하면 아래 흐름대로 고르세요.</p>
+  <pre class="tree"><code>이 작업은?
+├─ 여러 파일 동시 수정 · AI가 자율로 진행      → Claude
+├─ 에디터 안에서 빠른 반복 · 한 함수 집중      → Codex
+├─ 5000줄+ 한 덩어리(로그·문서) 입력           → Gemini로 먼저 압축 → 코딩 모델
+└─ 스크린샷 · PDF · 이미지 분석                → Gemini</code></pre>
+  <div class="grid3">
+    <div class="card"><h3>웹 개발자</h3><p>화면·API·DB 여러 파일을 동시에 다룬다면 자율 멀티파일이 강한 쪽이 유리합니다. 단일 모듈 비중이 크면 취향껏 고르세요.</p></div>
+    <div class="card"><h3>운영 엔지니어</h3><p>로그·스크립트·장애 등 시스템 작업 폭이 넓습니다. 자동화 범위가 넓은 쪽을 쓰되, 대용량 로그는 Gemini로 압축하세요.</p></div>
+    <div class="card"><h3>고르는 1줄</h3><p>"자율 멀티파일·긴 맥락"은 Claude쪽, "에디터 밀착·빠른 반복"은 Codex쪽입니다. 둘 다 멀티파일이 되니, 핵심은 작업 성향입니다.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">C</span>제한 토큰에서 멀티모델 조합</h2>
+  <p class="lead">개인은 도구 1개지만, <b>작업을 모델별로 쪼개 릴레이</b>하면 적은 토큰으로 최상의 결과를 냅니다. (팀/페어로 모델을 분담하면 더 강력합니다.)</p>
+
+  <div class="card">
+    <h3>① 싸게 초안 → 비싸게 다듬기</h3>
+    <p>탐색·스캐폴딩·초안은 싼·빠른 모델. <b>어려운 추론·최종 합성만</b> 비싼 모델. 비싼 모델에 raw 작업 시키지 마라.</p>
+  </div>
+  <div class="card">
+    <h3>② 대용량 압축 릴레이 <span class="pill">— 토큰 부족 환경 최강 패턴</span></h3>
+    <p>큰 로그·문서·코드베이스 → <b>긴 컨텍스트 모델(Gemini)로 통째 삼켜 요약</b> → 압축 결과만 코딩 모델(Claude/Codex)에 전달.</p>
+    <pre><code>[1단계 · Gemini] 이 5000줄 로그를 에러 패턴별로 묶고
+                 핵심 200줄로 압축해줘.
+[2단계 · Claude]  이 요약(붙여넣기) 기반으로 수정 코드 작성.</code></pre>
+    <p class="lead">원본 raw를 코딩 모델 컨텍스트에 안 넣는 게 핵심. 토큰 대폭 절약.</p>
+  </div>
+  <div class="card">
+    <h3>③ 교차검증 (적대적)</h3>
+    <p>A가 생성 → <b>B에게 "이거 버그·허점 찾아봐"</b>. 싼 비용에 오류 잡음. 자기가 만든 걸 자기가 검토하는 것보다 강함.</p>
+  </div>
+  <div class="card">
+    <h3>④ 라우팅 + 모델 간 압축 전달</h3>
+    <p>모든 작업에 모든 모델 돌리면 = 낭비. 작업별 1개만. 모델 사이엔 <b>항상 증류된 요약</b>만 넘겨라 — 덤프 금지.</p>
+  </div>
+</section>
+
+<footer>② 모델선택 · <a href="01-cheatsheet.html">← 빠른시작</a> · 다음 → <a href="03-tools.html">③ 도구사용법</a></footer>
+</div>
+</body>
+</html>

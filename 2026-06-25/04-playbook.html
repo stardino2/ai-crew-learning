@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>④ 역할별 플레이북</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="topbar">
+  <a class="brand" href="index.html">AI 가이드</a>
+  <a href="07-getting-started.html">⚙ 시작하기</a>
+  <a href="01-cheatsheet.html">① 빠른시작</a>
+  <a href="02-model-select.html">② 모델선택</a>
+  <a href="03-tools.html">③ 도구사용법</a>
+  <a href="04-playbook.html" class="active">④ 플레이북</a>
+  <a href="05-prompting.html">⑤ 프롬프트</a>
+  <a href="06-safety.html" class="safety">⚠ 안전</a>
+</nav>
+
+<div class="wrap">
+<header class="hero">
+  <h1>④ 역할별 플레이북</h1>
+  <p>상황별 행동 순서와 그대로 쓰는 프롬프트를 담았습니다. 안전 철칙은 <a href="06-safety.html">⚠ 안전수칙</a>을 참조하세요.</p>
+</header>
+
+<!-- 웹 -->
+<section>
+  <h2><span class="num">A</span>웹 개발자</h2>
+
+  <h3>버그 수정</h3>
+  <ul>
+    <li>증상·에러로그·재현 경로를 <b>먼저</b> 붙여주세요. "안 돼요"만 던지면 토큰만 씁니다.</li>
+    <li>바로 고치라고 하지 말고 <b>원인부터</b> 짚게 하세요. 잘못된 수정 반복이 토큰 낭비 1위입니다.</li>
+  </ul>
+  <div class="promptbox"><span class="lbl">복붙</span>
+  <pre><code>다음 에러의 원인을 먼저 진단해줘. 바로 코드 고치지 말고
+의심 위치 2~3곳을 file:line 으로 짚어줘.
+
+[에러] &lt;붙여넣기&gt;
+[재현] 1) ... 2) ...</code></pre></div>
+
+  <h3>기능 추가</h3>
+  <ul>
+    <li>기존 패턴을 따르게 하세요: "이 프로젝트 기존 컴포넌트와 같은 스타일로".</li>
+    <li>큰 기능은 <b>작은 단계로 쪼개세요</b>. 한 방에 시키면 폭주합니다.</li>
+  </ul>
+  <div class="promptbox"><span class="lbl">복붙</span>
+  <pre><code>&lt;기능&gt; 추가하려 해. 먼저 변경 계획만 세워줘
+(건드릴 파일·순서). 승인하면 단계별로 진행.
+기존 코드 스타일·패턴 따라줘.</code></pre></div>
+
+  <h3>코드 리뷰 (머지 전)</h3>
+  <div class="promptbox"><span class="lbl">복붙</span>
+  <pre><code>이 diff를 리뷰해줘. 버그·보안·엣지케이스 위주.
+칭찬 말고 문제만. 각 항목 한 줄: 위치 / 문제 / 고칠 방법.</code></pre></div>
+</section>
+
+<!-- 운영 -->
+<section>
+  <h2><span class="num">B</span>서버·운영 엔지니어</h2>
+  <div class="callout c-danger">
+    <span class="tag t-dont">철칙</span><b>명령 "생성"과 "실행"을 분리하세요.</b> AI는 스크립트·명령을 <b>만들게만</b> 하고, 실행은 사람이 검토 후 직접 합니다. 특히 prod에서요. (자동승인이 사내 차단이라 구조적으로도 강제됩니다.)
+  </div>
+
+  <h3>로그 분석 <span class="pill">— 대용량은 Gemini로 압축 후 분석(②참조)</span></h3>
+  <div class="promptbox"><span class="lbl">복붙</span>
+  <pre><code>다음 로그에서 에러 패턴을 빈도순으로 묶고,
+의심되는 근본원인 3개를 근거와 함께 추정해줘.
+
+[로그] &lt;시크릿·내부IP 가린 뒤 붙여넣기&gt;</code></pre></div>
+
+  <h3>셸 / IaC 스크립트 작성</h3>
+  <ul>
+    <li>의도·제약을 명시하세요: "Ubuntu 22.04, 재실행 안전(멱등), 권한 최소".</li>
+    <li>받은 스크립트는 <b>dry-run / 테스트 환경에서 먼저</b> 돌리세요. prod 바로 금지.</li>
+  </ul>
+  <div class="promptbox"><span class="lbl">복붙</span>
+  <pre><code>아래 작업을 하는 &lt;bash/Terraform&gt; 스크립트 작성.
+- 환경: &lt;OS/버전&gt;  - 재실행 안전(멱등)
+- 위험 단계는 주석으로 경고
+- 먼저 dry-run 옵션 포함</code></pre></div>
+
+  <h3>장애 1차 분석</h3>
+  <div class="promptbox"><span class="lbl">복붙</span>
+  <pre><code>아래 증상으로 장애 1차 분류를 도와줘.
+점검 항목을 우선순위 체크리스트로, 각 항목에
+확인 명령어(읽기 전용)도. 변경/재시작 명령은
+별도 표시 — 내가 직접 판단해 실행한다.
+
+[증상] &lt;...&gt; [범위] &lt;...&gt; [최근 변경] &lt;...&gt;</code></pre></div>
+</section>
+
+<footer>④ 플레이북 · <a href="03-tools.html">← 도구사용법</a> · 다음 → <a href="05-prompting.html">⑤ 프롬프트</a></footer>
+</div>
+</body>
+</html>

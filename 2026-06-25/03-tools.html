@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>③ 도구 사용법</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="topbar">
+  <a class="brand" href="index.html">AI 가이드</a>
+  <a href="07-getting-started.html">⚙ 시작하기</a>
+  <a href="01-cheatsheet.html">① 빠른시작</a>
+  <a href="02-model-select.html">② 모델선택</a>
+  <a href="03-tools.html" class="active">③ 도구사용법</a>
+  <a href="04-playbook.html">④ 플레이북</a>
+  <a href="05-prompting.html">⑤ 프롬프트</a>
+  <a href="06-safety.html" class="safety">⚠ 안전</a>
+</nav>
+
+<div class="wrap">
+<header class="hero">
+  <h1>③ 도구 사용법</h1>
+  <p>기본기에서 고급으로 가는 계단식 구성입니다. 처음엔 1~3계단만 익히세요. 스킬 만들기는 맨 끝 부록에 있습니다.</p>
+</header>
+
+<section>
+  <h2><span class="num">A</span>Claude 7계단</h2>
+  <p class="lead">위에서부터 보세요. 1~3계단이 90%의 효과를 냅니다. 익은 뒤 아래로 내려가면 됩니다.</p>
+  <ol class="ladder">
+    <li><b>컨텍스트 제어</b> — <span class="kbd">/clear</span>로 작업 단위 끊기. 프로젝트 루트의 <code>CLAUDE.md</code>(없으면 새로 만드는 텍스트 파일)에 프로젝트 규칙·자주 쓰는 명령을 적어두면, 매 세션 자동으로 읽혀 같은 설명을 반복하지 않아도 됨. <span class="tag t-do">토큰 직결</span></li>
+    <li><b>파일 참조</b> — <code>@경로/파일</code> 로 콕 집기. 통째 붙여넣기 대신.</li>
+    <li><b>플랜 모드</b> — 큰 작업은 코드 짜기 전에 계획부터 받기. 폭주·헛수정 방지.</li>
+    <li><b>효율적 승인</b> — 매 작업 승인창 뜸(자동 차단). 자주 쓰는 <b>읽기 전용 명령은 allowlist 등록</b>해 반복 승인 줄이고, 위험 명령은 즉시 거부. <span class="tag t-warn">자동승인은 사내 차단 — 기대 말 것</span></li>
+    <li><b>서브에이전트</b> — "이거 어디서 처리돼?" 같은 탐색을 위임 → 결론만 회수, 메인 컨텍스트 안 더럽힘.</li>
+    <li><b>슬래시 커맨드 · MCP</b> — 내장 명령(<span class="kbd">/review</span> 등)과 외부 연동(MCP)으로 워크플로우 확장.</li>
+    <li><b>스킬</b> — 반복 작업을 재사용 패키지로. 쓰는 법은 아래 B, 만드는 법은 부록.</li>
+  </ol>
+</section>
+
+<section>
+  <h2><span class="num">B</span>스킬 — 쓰는 법</h2>
+  <div class="card">
+    <p>스킬 = "이 작업은 이렇게 해" 묶음 지침. 설치돼 있으면 상황에 맞을 때 자동 제안되거나 <span class="kbd">/스킬이름</span> 으로 호출.</p>
+    <ul>
+      <li>설치된 스킬 목록 확인 → 내 작업에 맞는 게 있나 먼저 본다.</li>
+      <li>호출은 슬래시. 예: 코드리뷰 스킬 있으면 <span class="kbd">/code-review</span>.</li>
+      <li><b>없는 걸 지어내지 마라.</b> 목록에 있는 것만 호출.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">C</span>Codex 핵심 3</h2>
+  <div class="grid3">
+    <div class="card"><h3>두 가지 표면</h3><p>에디터 통합(인라인 제안 수락/수정)과 CLI 에이전트(멀티파일·코드베이스 탐색) 둘 다 됩니다. 작업에 맞는 표면을 고르세요.</p></div>
+    <div class="card"><h3>명확한 범위가 강점</h3><p>"이 함수만, 이 입력→이 출력"처럼 명확할수록 빠르고 정확합니다. 멀티파일도 되지만 진가는 빠른 반복입니다.</p></div>
+    <div class="card"><h3>승인 모드</h3><p>변경 적용 전 확인합니다. 자동 적용은 사내 차단이라 수동 검토가 기본입니다.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">D</span>Gemini 핵심 3</h2>
+  <div class="grid3">
+    <div class="card"><h3>대용량 입력</h3><p>긴 문서·로그·여러 파일 한 번에. 압축·요약에 활용 → ②의 릴레이 패턴.</p></div>
+    <div class="card"><h3>멀티모달</h3><p>스크린샷·다이어그램·PDF 첨부해 분석. 에러 화면 그대로 던지기.</p></div>
+    <div class="card"><h3>요약·리서치</h3><p>방대한 자료 훑어 핵심 추리기. 그 결과를 코딩 모델에 넘김.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">E</span>컨텍스트 관리 심화</h2>
+  <div class="card">
+    <ul>
+      <li><b>메모리 파일에 빼두기.</b> 컨텍스트에 사실 쌓지 말고 <code>CLAUDE.md</code>/노트에 적어 참조 → <span class="kbd">/clear</span> 해도 안 날아감.</li>
+      <li><b>요약-후-계속.</b> 길어지면 "지금까지 상태를 10줄 요약" → <span class="kbd">/clear</span> → 요약 붙여 재개.</li>
+      <li><b>경로 참조 &gt; 붙여넣기.</b> 파일을 통째로 주지 말고 경로만 주면, 도구가 필요한 부분만 자동으로 읽습니다.</li>
+      <li><b>탐색은 서브에이전트 격리.</b> 메인 대화 깨끗하게 유지.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">F</span>[고급 부록] 스킬 만들기</h2>
+  <p class="lead">초보는 건너뛰어도 됩니다. 같은 작업을 팀이 반복할 때 가치가 큽니다.</p>
+  <div class="card">
+    <h3>언제 만들 가치 있나</h3>
+    <ul>
+      <li>같은 절차를 매번 길게 설명하고 있다 → 스킬로 박제.</li>
+      <li>팀원마다 품질 들쭉날쭉한 작업(배포 전 점검 등) → 표준 스킬로 통일.</li>
+    </ul>
+    <h3>구조 (최소형)</h3>
+    <p>스킬 = 폴더 1개 + <code>SKILL.md</code>. 맨 위 frontmatter에 이름·설명, 아래 본문에 지침.</p>
+    <pre><code>my-skill/
+  SKILL.md</code></pre>
+    <pre><code>---
+name: deploy-check
+description: 배포 전 점검. "배포 전", "릴리스 전 확인" 할 때 사용.
+---
+
+# 배포 전 점검
+
+순서대로 확인:
+1. 테스트 전부 통과? `npm test`
+2. 시크릿이 코드에 박혔나 검색
+3. 마이그레이션 롤백 가능?
+4. 결과를 체크리스트로 보고</code></pre>
+    <div class="callout c-tip">
+      <b>핵심.</b> <code>description</code>를 잘 써야 적절한 순간에 자동 제안된다. "언제 쓰는지"를 구체적으로. 본문은 추상론 말고 <b>실제 명령·순서</b>.
+    </div>
+    <div class="callout c-warn">
+      ⚠ 사내 배포·공유 방식은 조직 설정 따름. 만든 스킬 공유 전 보안·정책 확인.
+    </div>
+  </div>
+</section>
+
+<footer>③ 도구사용법 · <a href="02-model-select.html">← 모델선택</a> · 다음 → <a href="04-playbook.html">④ 플레이북</a></footer>
+</div>
+</body>
+</html>
