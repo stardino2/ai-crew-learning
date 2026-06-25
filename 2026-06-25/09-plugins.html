@@ -42,6 +42,7 @@
   <div class="card">
     <ul>
       <li><b>설치</b> — Claude Code는 마켓플레이스를 등록한 뒤 플러그인을 설치합니다(<span class="kbd">/plugin</span> 패널). 정확한 절차·허용 마켓플레이스는 사내 안내 우선.</li>
+      <li><b>GitHub에서 바로</b> — 공개 GitHub 레포를 마켓플레이스로 등록해 설치할 수 있습니다. 명령으로도, <b>자연어 프롬프트로도</b> 가능(아래).</li>
       <li><b>호출</b> — 설치되면 그 안의 스킬을 <span class="kbd">/스킬이름</span> 으로 부르거나, 상황에 맞을 때 자동 제안됩니다(→ <a href="03-tools.html">③ 도구사용법</a> B).</li>
       <li><b>없는 건 지어내지 말 것</b> — 설치된 목록에 있는 것만 호출.</li>
     </ul>
@@ -52,6 +53,25 @@
 # 2) 마켓플레이스 추가 → 원하는 플러그인 설치 → 재시작
 # 사내 배포가 있으면 그 마켓플레이스/절차를 따른다.
 # 설치 후 사용 가능한 스킬은 자동 목록에 뜬다.</code></pre>
+    </div></details>
+    <details class="ex"><summary>GitHub 레포에서 설치 (명령)</summary><div class="body">
+      <pre><code># 1) GitHub 레포를 마켓플레이스로 등록
+/plugin marketplace add owner/repo
+#   또는 전체 URL:
+/plugin marketplace add https://github.com/owner/repo
+
+# 2) 그 마켓플레이스에서 플러그인 설치
+/plugin install 플러그인이름@repo
+
+# 3) 갱신: /plugin marketplace update repo</code></pre>
+      공개 레포만 됩니다. 사내 배포·허용 마켓플레이스 정책이 있으면 그쪽을 따르세요.
+    </div></details>
+    <details class="ex"><summary>프롬프트로 설치 요청</summary><div class="body">
+      슬래시 명령을 외우지 않아도, 자연어로 시키면 Claude가 위 <span class="kbd">/plugin marketplace add</span> 절차를 대신 밟아줍니다. (최종 설치·활성화는 확인창이 뜰 수 있습니다.)
+      <pre><code>아래 GitHub 레포를 플러그인 마켓플레이스로 등록하고
+거기 있는 &lt;플러그인이름&gt; 설치해줘.
+레포: https://github.com/owner/repo
+설치 후 사용 가능한 스킬 목록도 보여줘.</code></pre>
     </div></details>
   </div>
 </section>

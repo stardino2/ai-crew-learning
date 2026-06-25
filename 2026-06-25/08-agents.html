@@ -60,6 +60,83 @@
       <b>왜 AGENTS.md인가.</b> 도구마다 다른 파일(CLAUDE.md·GEMINI.md)에 같은 내용을 복붙하면 갱신이 어긋납니다. 규칙은 AGENTS.md 한 곳에 두고 나머지는 그걸 가리키게 → <b>단일 소스</b>.
     </div>
   </div>
+
+  <div class="card">
+    <h3>추천 시드 — Karpathy식 "LLM 코딩 4원칙"</h3>
+    <p>뭘 적을지 막막하면, Andrej Karpathy의 LLM 코딩 실패 관찰을 정리한 공개 템플릿으로 시작하세요. 출처: <a href="https://github.com/forrestchang/andrej-karpathy-skills">forrestchang/andrej-karpathy-skills</a> (CLAUDE.md). 그대로 <code>AGENTS.md</code>로 저장하고 프로젝트 규칙을 덧붙이면 됩니다.</p>
+    <ul>
+      <li><b>1. 짜기 전에 생각</b> — 추측·혼란 숨기지 말 것. 가정 명시, 모호하면 질문.</li>
+      <li><b>2. 단순함 우선</b> — 요청 푸는 최소 코드만. 투기적 기능·추상화 금지.</li>
+      <li><b>3. 외과적 변경</b> — 건드릴 것만 건드리고, 내가 만든 흔적만 치움.</li>
+      <li><b>4. 목표 기반 실행</b> — 검증 가능한 성공 기준 먼저, 통과까지 반복.</li>
+    </ul>
+    <details class="ex"><summary>원문 전체 (복붙용)</summary><div class="body">
+    <pre><code># CLAUDE.md
+
+Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
+
+**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
+
+## 1. Think Before Coding
+
+**Don't assume. Don't hide confusion. Surface tradeoffs.**
+
+Before implementing:
+- State your assumptions explicitly. If uncertain, ask.
+- If multiple interpretations exist, present them - don't pick silently.
+- If a simpler approach exists, say so. Push back when warranted.
+- If something is unclear, stop. Name what's confusing. Ask.
+
+## 2. Simplicity First
+
+**Minimum code that solves the problem. Nothing speculative.**
+
+- No features beyond what was asked.
+- No abstractions for single-use code.
+- No "flexibility" or "configurability" that wasn't requested.
+- No error handling for impossible scenarios.
+- If you write 200 lines and it could be 50, rewrite it.
+
+Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
+
+## 3. Surgical Changes
+
+**Touch only what you must. Clean up only your own mess.**
+
+When editing existing code:
+- Don't "improve" adjacent code, comments, or formatting.
+- Don't refactor things that aren't broken.
+- Match existing style, even if you'd do it differently.
+- If you notice unrelated dead code, mention it - don't delete it.
+
+When your changes create orphans:
+- Remove imports/variables/functions that YOUR changes made unused.
+- Don't remove pre-existing dead code unless asked.
+
+The test: Every changed line should trace directly to the user's request.
+
+## 4. Goal-Driven Execution
+
+**Define success criteria. Loop until verified.**
+
+Transform tasks into verifiable goals:
+- "Add validation" -&gt; "Write tests for invalid inputs, then make them pass"
+- "Fix the bug" -&gt; "Write a test that reproduces it, then make it pass"
+- "Refactor X" -&gt; "Ensure tests pass before and after"
+
+For multi-step tasks, state a brief plan:
+1. [Step] -&gt; verify: [check]
+2. [Step] -&gt; verify: [check]
+3. [Step] -&gt; verify: [check]
+
+Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
+
+---
+
+**These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.</code></pre>
+    </div></details>
+    <div class="callout c-warn">⚠ 외부 공개 템플릿입니다. 사내 정책·보안 규칙과 충돌하지 않는지 확인 후 적용하세요(→ <a href="06-safety.html">⚠ 안전</a>).</div>
+  </div>
 </section>
 
 <section>
