@@ -98,7 +98,7 @@ details.ex code{font-size:12.5px}
 
 .promptbox{position:relative}
 .promptbox .lbl{position:absolute;top:-9px;left:14px;background:var(--accent);
-  color:#06101f;font-size:11px;font-weight:700;padding:1px 8px;border-radius:5px}
+  color:#06101f;font-size:11px;font-weight:700;padding:1px 8px;border-radius:5px;z-index:3}
 
 /* index cards */
 .doccard{display:block;text-decoration:none;color:inherit;background:var(--panel);
