@@ -60,6 +60,8 @@ Kev-0.8B가 실제 메일 제목과 에이전트 라우팅 문제를 얼마나 �
 
 ## 참고
 
+평가 집계·실행 설정·합성 라우팅 100문항과 문항별 결과·평가 코드·파일 해시는 [근거 자료 및 재현 안내](evidence/README.md)에서 확인할 수 있다. 실제 메일 원문은 공개하지 않았다.
+
 - Kev 공식 소스: https://github.com/jaredpalmer/kev
 - Kev 모델 카드: https://huggingface.co/jaredpalmer/kev-0.8b
 

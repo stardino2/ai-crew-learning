@@ -1,0 +1,135 @@
+{
+  "metadata": {
+    "model": "kev-latest",
+    "model_run": "jaredpalmer/kev-0.8b@v1.0",
+    "device": "cpu",
+    "evaluation_time_utc": "2026-10-30T12:37:07.982823+00:00",
+    "majority_baseline": 0.25,
+    "scope_note": "Kev-0.8B official model card lists tool-call routing as out of scope; this is a diagnostic synthetic benchmark.",
+    "provisional_gold_note": "합성 데이터셋의 정답은 사전 정의된 잠정(provisional) 기준이며 인간 검수를 거치지 않은 진단용 레이블입니다.",
+    "confidence_note": "Release fitted temperature was applied; calibration on this routing dataset was not verified. Probabilities do not guarantee correctness.",
+    "latency_measurement_note": "HTTP 왕복 측정 시간(단위: 초), 모델 내부 추론 시간과 구별되며 성공 요청과 실패 요청을 분리 집계함."
+  },
+  "overall": {
+    "total_count": 100,
+    "success_count": 100,
+    "failure_count": 0,
+    "correct_count": 90,
+    "overall_accuracy": 0.9,
+    "success_accuracy": 0.9,
+    "majority_baseline": 0.25,
+    "macro_f1": 0.8958,
+    "latency_p50_seconds_success": 0.9617,
+    "latency_p95_seconds_success": 1.0409,
+    "latency_p50_seconds_failure": null,
+    "latency_p95_seconds_failure": null
+  },
+  "by_split": {
+    "dev": {
+      "total": 50,
+      "success": 50,
+      "failure": 0,
+      "correct": 44,
+      "overall_accuracy": 0.88,
+      "success_accuracy": 0.88
+    },
+    "test": {
+      "total": 50,
+      "success": 50,
+      "failure": 0,
+      "correct": 46,
+      "overall_accuracy": 0.92,
+      "success_accuracy": 0.92
+    }
+  },
+  "by_language": {
+    "en": {
+      "total": 50,
+      "success": 50,
+      "failure": 0,
+      "correct": 47,
+      "overall_accuracy": 0.94,
+      "success_accuracy": 0.94
+    },
+    "ko": {
+      "total": 50,
+      "success": 50,
+      "failure": 0,
+      "correct": 43,
+      "overall_accuracy": 0.86,
+      "success_accuracy": 0.86
+    }
+  },
+  "by_category": {
+    "clarify": {
+      "name_ko": "명확화요청 (clarify)",
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "support": 25,
+      "tp": 25,
+      "fp": 0,
+      "fn": 0
+    },
+    "direct_answer": {
+      "name_ko": "직접응답 (direct_answer)",
+      "precision": 0.7143,
+      "recall": 1.0,
+      "f1_score": 0.8333,
+      "support": 25,
+      "tp": 25,
+      "fp": 10,
+      "fn": 0
+    },
+    "refuse": {
+      "name_ko": "요청거절 (refuse)",
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "support": 25,
+      "tp": 25,
+      "fp": 0,
+      "fn": 0
+    },
+    "tool_call": {
+      "name_ko": "도구호출 (tool_call)",
+      "precision": 1.0,
+      "recall": 0.6,
+      "f1_score": 0.75,
+      "support": 25,
+      "tp": 15,
+      "fp": 0,
+      "fn": 10
+    }
+  },
+  "confusion_matrix": {
+    "clarify": {
+      "clarify": 25,
+      "direct_answer": 0,
+      "refuse": 0,
+      "tool_call": 0,
+      "error": 0
+    },
+    "direct_answer": {
+      "clarify": 0,
+      "direct_answer": 25,
+      "refuse": 0,
+      "tool_call": 0,
+      "error": 0
+    },
+    "refuse": {
+      "clarify": 0,
+      "direct_answer": 0,
+      "refuse": 25,
+      "tool_call": 0,
+      "error": 0
+    },
+    "tool_call": {
+      "clarify": 0,
+      "direct_answer": 10,
+      "refuse": 0,
+      "tool_call": 15,
+      "error": 0
+    }
+  }
+}

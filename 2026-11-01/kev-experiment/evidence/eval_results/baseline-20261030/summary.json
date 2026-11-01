@@ -1,0 +1,165 @@
+{
+  "metadata": {
+    "model": "unknown",
+    "device": "unknown",
+    "evaluation_time_utc": "2026-10-30T07:44:59.654084+00:00",
+    "provisional_gold_note": "미검수 정답은 provisional 결과이며 실사용 정확도 확정 불가",
+    "latency_measurement_note": "실제 클라이언트 HTTP 왕복 측정 시간(단위: 초), 모델 내부 추론 시간과 구별됨"
+  },
+  "overall": {
+    "total_count": 100,
+    "success_count": 100,
+    "failure_count": 0,
+    "correct_count": 34,
+    "overall_accuracy": 0.34,
+    "success_accuracy": 0.34,
+    "latency_p50_seconds": 0.5236,
+    "latency_p95_seconds": 0.5707
+  },
+  "by_split": {
+    "dev": {
+      "total": 50,
+      "success": 50,
+      "failure": 0,
+      "correct": 16,
+      "overall_accuracy": 0.32,
+      "success_accuracy": 0.32
+    },
+    "test": {
+      "total": 50,
+      "success": 50,
+      "failure": 0,
+      "correct": 18,
+      "overall_accuracy": 0.36,
+      "success_accuracy": 0.36
+    }
+  },
+  "by_language": {
+    "en": {
+      "total": 22,
+      "success": 22,
+      "failure": 0,
+      "correct": 0,
+      "overall_accuracy": 0.0,
+      "success_accuracy": 0.0
+    },
+    "ko": {
+      "total": 31,
+      "success": 31,
+      "failure": 0,
+      "correct": 23,
+      "overall_accuracy": 0.7419,
+      "success_accuracy": 0.7419
+    },
+    "mixed": {
+      "total": 46,
+      "success": 46,
+      "failure": 0,
+      "correct": 11,
+      "overall_accuracy": 0.2391,
+      "success_accuracy": 0.2391
+    },
+    "other": {
+      "total": 1,
+      "success": 1,
+      "failure": 0,
+      "correct": 0,
+      "overall_accuracy": 0.0,
+      "success_accuracy": 0.0
+    }
+  },
+  "by_category": {
+    "notice": {
+      "name_ko": "공지",
+      "precision": 0.871,
+      "recall": 0.3971,
+      "f1_score": 0.5455,
+      "support": 68,
+      "tp": 27,
+      "fp": 4,
+      "fn": 41
+    },
+    "promotion": {
+      "name_ko": "홍보",
+      "precision": 0.75,
+      "recall": 0.12,
+      "f1_score": 0.2069,
+      "support": 25,
+      "tp": 3,
+      "fp": 1,
+      "fn": 22
+    },
+    "request": {
+      "name_ko": "요청",
+      "precision": 0.2143,
+      "recall": 0.6,
+      "f1_score": 0.3158,
+      "support": 5,
+      "tp": 3,
+      "fp": 11,
+      "fn": 2
+    },
+    "schedule": {
+      "name_ko": "일정",
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "support": 0,
+      "tp": 0,
+      "fp": 1,
+      "fn": 0
+    },
+    "unclear": {
+      "name_ko": "불명확",
+      "precision": 0.02,
+      "recall": 0.5,
+      "f1_score": 0.0385,
+      "support": 2,
+      "tp": 1,
+      "fp": 49,
+      "fn": 1
+    }
+  },
+  "confusion_matrix": {
+    "notice": {
+      "notice": 27,
+      "promotion": 1,
+      "request": 10,
+      "schedule": 0,
+      "unclear": 30,
+      "error": 0
+    },
+    "promotion": {
+      "notice": 3,
+      "promotion": 3,
+      "request": 1,
+      "schedule": 1,
+      "unclear": 17,
+      "error": 0
+    },
+    "request": {
+      "notice": 0,
+      "promotion": 0,
+      "request": 3,
+      "schedule": 0,
+      "unclear": 2,
+      "error": 0
+    },
+    "schedule": {
+      "notice": 0,
+      "promotion": 0,
+      "request": 0,
+      "schedule": 0,
+      "unclear": 0,
+      "error": 0
+    },
+    "unclear": {
+      "notice": 1,
+      "promotion": 0,
+      "request": 0,
+      "schedule": 0,
+      "unclear": 1,
+      "error": 0
+    }
+  }
+}

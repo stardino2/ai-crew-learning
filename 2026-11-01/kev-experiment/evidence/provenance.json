@@ -1,0 +1,89 @@
+{
+  "note": "Source and published byte hashes may differ due to UTF-8/LF normalization. Explicit changes are listed per file. No new inference was run for this publication.",
+  "files": [
+    {
+      "path": "evidence/eval_results/baseline-20261030/summary.json",
+      "source_sha256": "8178b9cf8a0b74f2cd59d1aa623fcfec689fb0432f92b02248e79a345ae3fdeb",
+      "published_sha256": "8178b9cf8a0b74f2cd59d1aa623fcfec689fb0432f92b02248e79a345ae3fdeb",
+      "changes": []
+    },
+    {
+      "path": "evidence/eval_results/baseline-20261030/run-manifest.json",
+      "source_sha256": "bd403b303be4a17ad210fd614b31560b8e6adf620aa2933a3e4311d12b2c78a7",
+      "published_sha256": "bd403b303be4a17ad210fd614b31560b8e6adf620aa2933a3e4311d12b2c78a7",
+      "changes": []
+    },
+    {
+      "path": "evidence/eval_results/routing-baseline-20261030/summary.json",
+      "source_sha256": "2f8a68d7b55e6ec654c8ec5035d020feca234ba46813a0ee8ab58a50e045f652",
+      "published_sha256": "d10b02de040b5557614074b42aeadceb876adec1a468f01ea6c7c4e774585ddf",
+      "changes": [
+        "Corrected original uncalibrated-softmax wording using verified run temperature; metrics unchanged"
+      ]
+    },
+    {
+      "path": "evidence/eval_results/routing-baseline-20261030/run-manifest.json",
+      "source_sha256": "2f98d679555f0e0577d8481002a8602bbeba17a268cc6ff1aa9aa65391cd8f6a",
+      "published_sha256": "248b2e4bd066bad757dc1bdedcc8fbaaad8af2b6d535c990488c807725fc7f00",
+      "changes": [
+        "Removed local absolute prefix: data_path",
+        "Removed local absolute prefix: protocol_path",
+        "Removed local absolute prefix: code_path"
+      ]
+    },
+    {
+      "path": "evidence/eval_results/routing-baseline-20261030/results.json",
+      "source_sha256": "50e1c9321db32eb52ecdca4a34efcae3857d47c5dafa1fabed7ff245cf8d678e",
+      "published_sha256": "50e1c9321db32eb52ecdca4a34efcae3857d47c5dafa1fabed7ff245cf8d678e",
+      "changes": []
+    },
+    {
+      "path": "evidence/data/routing_eval.json",
+      "source_sha256": "bae98c76f1050adfbd4072f97b28b58ad831ffb7b1f896f91c2defe3cd2fe026",
+      "published_sha256": "bae98c76f1050adfbd4072f97b28b58ad831ffb7b1f896f91c2defe3cd2fe026",
+      "changes": []
+    },
+    {
+      "path": "evidence/tasks/routing-protocol.json",
+      "source_sha256": "1cc8091732bc881661d052dd2112a3914ee3ee3ecdbac587d621f2e3bee54e9f",
+      "published_sha256": "1cc8091732bc881661d052dd2112a3914ee3ee3ecdbac587d621f2e3bee54e9f",
+      "changes": []
+    },
+    {
+      "path": "evidence/routing_test.py",
+      "source_sha256": "37992853c97d48ceb627623bcc8c5a62547f70eae0127400bf150e052017d906",
+      "published_sha256": "37992853c97d48ceb627623bcc8c5a62547f70eae0127400bf150e052017d906",
+      "changes": []
+    },
+    {
+      "path": "evidence/test_routing_test.py",
+      "source_sha256": "e1846d36c567457ace52d8137efe6ba6de4e51adaad85f58b4358b8bac5b7368",
+      "published_sha256": "e1846d36c567457ace52d8137efe6ba6de4e51adaad85f58b4358b8bac5b7368",
+      "changes": []
+    },
+    {
+      "path": "evidence/kev_test.py",
+      "source_sha256": "749dfcc17a0ccde1173069c5963d7a26db4778cb6e43af99ba8563b469468d33",
+      "published_sha256": "749dfcc17a0ccde1173069c5963d7a26db4778cb6e43af99ba8563b469468d33",
+      "changes": []
+    },
+    {
+      "path": "evidence/test_kev_test.py",
+      "source_sha256": "2ba59e743ea0bcd7ac075ba90f0b82acfe946cee546a7073fd7998e15aa00209",
+      "published_sha256": "2ba59e743ea0bcd7ac075ba90f0b82acfe946cee546a7073fd7998e15aa00209",
+      "changes": []
+    },
+    {
+      "path": "evidence/mail_demo.py",
+      "source_sha256": "050cadef20171faeb22b17aa4712d3c80e98dda209fac4e418fc9aeee2374a76",
+      "published_sha256": "050cadef20171faeb22b17aa4712d3c80e98dda209fac4e418fc9aeee2374a76",
+      "changes": []
+    },
+    {
+      "path": "evidence/dummy_mails.json",
+      "source_sha256": "d77c59c075bc43fa196e19d1843203bb8a6e241d22004b7c97cc01ce46b4025c",
+      "published_sha256": "d77c59c075bc43fa196e19d1843203bb8a6e241d22004b7c97cc01ce46b4025c",
+      "changes": []
+    }
+  ]
+}
